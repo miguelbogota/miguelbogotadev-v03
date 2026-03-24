@@ -1,0 +1,18 @@
+{
+  "version": "0.2",
+  "allowCompoundWords": true,
+  "dictionaryDefinitions": [],
+  "dictionaries": [],
+  "ignoreWords": [],
+  "import": [],
+  "ignorePaths": [
+    "node_modules",
+    ".vscode",
+    ".git/objects",
+    "package.json",
+    "*-lock.yaml",
+    "*.snap",
+    "public"
+  ],
+  "words": ["miguelbogotadev"]
+}

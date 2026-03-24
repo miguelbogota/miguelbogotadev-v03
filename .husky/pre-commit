@@ -1,0 +1,4 @@
+git diff --cached --name-only | npm run lint:spelling stdin
+npm run test:lint-staged
+npm run test:unit
+npm run build
