@@ -5,7 +5,7 @@
   --dark: #4b4b4b;
   --black: #000000;
   --scale-1: #f6f6f6;
-  --scale-2: #d8d8d8;
+  --scale-2: #dedede;
   --scale-3: #bbbbbb;
   --scale-4: #7f7f7f;
   --scale-5: #5a5a5a;
@@ -13,7 +13,7 @@
   --scale-7: #212121;
 
   // Semantic colors
-  --primary: #ffb300;
+  --primary: #daa520;
   --secondary: #455a64;
   --info: #1976d2;
   --success: #388e3c;
@@ -45,7 +45,7 @@ html[data-theme='light'] {
   --text-inverted: var(--scale-2);
   --background-main: var(--white);
   --background-sheet: var(--scale-1);
-  --hover: var(--scale-2);
+  --background-border: var(--scale-2);
 }
 
 html[data-theme='dark'] {
@@ -55,7 +55,7 @@ html[data-theme='dark'] {
   --text-inverted: var(--scale-6);
   --background-main: var(--black);
   --background-sheet: var(--scale-7);
-  --hover: var(--scale-6);
+  --background-border: var(--scale-6);
 }
 
 html[data-theme='system'] {
@@ -66,7 +66,7 @@ html[data-theme='system'] {
     --text-inverted: var(--scale-2);
     --background-main: var(--white);
     --background-sheet: var(--scale-1);
-    --hover: var(--scale-2);
+    --background-border: var(--scale-2);
   }
 
   @media (prefers-color-scheme: dark) {
@@ -76,6 +76,6 @@ html[data-theme='system'] {
     --text-inverted: var(--scale-6);
     --background-main: var(--black);
     --background-sheet: var(--scale-7);
-    --hover: var(--scale-6);
+    --background-border: var(--scale-6);
   }
 }
