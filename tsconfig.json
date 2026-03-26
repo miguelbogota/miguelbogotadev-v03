@@ -7,7 +7,7 @@
     "prettier.config.mjs",
     "vite.config.ts"
   ],
-
+  "exclude": ["node_modules", ".output"],
   "compilerOptions": {
     "target": "ES2022",
     "jsx": "react-jsx",
