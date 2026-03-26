@@ -1,13 +1,24 @@
 import { HeadContent, Scripts, createRootRouteWithContext } from '@tanstack/react-router';
 
-import appCss from '../styles/base.scss?url';
+import appCss from '../styles/index.scss?url';
 import { getContent } from '@/actions/get-content';
 import { getProjects } from '@/actions/get-projects';
 import type { RouterContext } from '@/types/router-context';
+import { ThemePicker } from '@/components/theme-picker';
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   head: () => ({
-    links: [{ rel: 'stylesheet', href: appCss }],
+    links: [
+      { rel: 'icon', href: '/favicon.ico' },
+      { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: '' },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap',
+      },
+      { rel: 'stylesheet', href: 'https://cdn.boxicons.com/3.0.8/fonts/basic/boxicons.min.css' },
+      { rel: 'stylesheet', href: appCss },
+    ],
     meta: [
       { charSet: 'utf-8' },
       { title: 'Miguel Bogota' },
@@ -35,11 +46,12 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning data-theme="system">
       <head>
         <HeadContent />
       </head>
       <body>
+        <ThemePicker />
         {children}
         <Scripts />
       </body>

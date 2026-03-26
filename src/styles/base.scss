@@ -1,1 +1,6 @@
 // Base styles
+html {
+  font-family: Barlow, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: var(--background-main);
+  color: var(--text-primary);
+}
