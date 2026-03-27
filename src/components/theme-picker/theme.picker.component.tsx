@@ -1,15 +1,16 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 import clsx from 'clsx';
 import _ from 'lodash';
 import './theme.picker.styles.scss';
+import { createServerFn } from '@tanstack/react-start';
+import { setCookie } from '@tanstack/react-start/server';
+import { type ThemeType } from './theme-type.type';
+import { useThemePicker } from './theme-picker.context';
 
-/**
- * Represents the available theme options.
- * - `light`: Light mode
- * - `dark`: Dark mode
- * - `system`: Use system preference
- */
-export type ThemeType = 'light' | 'dark' | 'system';
+/** Function to store the theme as a cookie. */
+const saveTheme = createServerFn({ method: 'POST' })
+  .inputValidator((data: { theme: ThemeType }) => data)
+  .handler(({ data: { theme } }) => setCookie('theme', theme));
 
 /**
  * Array of all available theme options.
@@ -40,28 +41,18 @@ const THEME_ICONS: Record<ThemeType, string> = {
  * - Shows visual indicator for the currently selected theme
  */
 export function ThemePicker() {
-  const [currentTheme, setCurrentTheme] = useState<ThemeType>('system');
+  const { currentTheme, setCurrentTheme } = useThemePicker();
   const [isOpen, setIsOpen] = useState(false);
-
-  /**
-   * Initialize theme from DOM on component mount.
-   * Reads the `data-theme` attribute from the document root, defaulting to 'system'.
-   */
-  useEffect(() => {
-    const savedTheme = document.documentElement.getAttribute('data-theme') || 'system';
-    setCurrentTheme(savedTheme as ThemeType);
-  }, []);
 
   /**
    * Handle theme selection.
    * Updates the DOM attribute and closes the dropdown.
-   *
-   * @param theme - The theme to set
    */
   const handleThemeChange = (theme: ThemeType) => {
     document.documentElement.setAttribute('data-theme', theme);
     setCurrentTheme(theme);
     setIsOpen(false);
+    saveTheme({ data: { theme } });
   };
 
   return (
@@ -70,22 +61,21 @@ export function ThemePicker() {
       onMouseLeave={() => setIsOpen(false)}
       onMouseEnter={() => setIsOpen(true)}
     >
-      <button className="theme-picker-trigger" aria-label="Theme selector">
+      <button onClick={() => setIsOpen((prev) => !prev)} aria-label="Theme selector">
         <i className={clsx('bx', THEME_ICONS[currentTheme], { hovered: isOpen })} />
       </button>
 
       {isOpen && (
-        <div className="theme-picker-dropdown">
-          <ul className="theme-picker-list">
+        <div className="dropdown">
+          <ul>
             {THEMES.map((theme, index) => (
               <Fragment key={theme}>
-                {index === 2 && <li className="theme-picker-divider" />}
+                {index === 2 && <li className="divider" />}
                 <li>
                   <button
                     role="option"
                     aria-pressed={currentTheme === theme ? 'true' : 'false'}
                     onClick={() => handleThemeChange(theme)}
-                    className="theme-picker-option"
                   >
                     <i className={`bx ${THEME_ICONS[theme]}`} />
                     <span>{_.capitalize(theme)}</span>

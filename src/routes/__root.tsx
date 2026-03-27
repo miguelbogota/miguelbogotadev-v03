@@ -4,7 +4,12 @@ import appCss from '../styles/index.scss?url';
 import { getContent } from '@/actions/get-content';
 import { getProjects } from '@/actions/get-projects';
 import type { RouterContext } from '@/types/router-context';
+import { getCookies } from '@tanstack/react-start/server';
 import { useEffect } from 'react';
+import { ThemePickerProvider, type ThemeType } from '@/components/theme-picker';
+import { createServerOnlyFn } from '@tanstack/react-start';
+
+const getServerCookies = createServerOnlyFn(() => getCookies());
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   head: () => ({
@@ -34,6 +39,13 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       projects,
     };
   },
+  loader: () => {
+    const cookies = getServerCookies();
+
+    return {
+      theme: (cookies['theme'] ?? 'system') as ThemeType,
+    };
+  },
   notFoundComponent: () => <p>Page not found.</p>,
   errorComponent: ({ error }) => (
     <div>
@@ -45,6 +57,8 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const { theme } = Route.useLoaderData();
+
   /**
    * Fixes the issue where the buttons are not clickable on mobile devices by adding a
    * touchstart listener that triggers a click event.
@@ -65,12 +79,12 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <html lang="en" suppressHydrationWarning data-theme="system">
+    <html lang="en" suppressHydrationWarning data-theme={theme}>
       <head>
         <HeadContent />
       </head>
       <body>
-        {children}
+        <ThemePickerProvider theme={theme}>{children}</ThemePickerProvider>
         <Scripts />
       </body>
     </html>
