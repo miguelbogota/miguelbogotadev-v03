@@ -1,0 +1,9 @@
+.container {
+  --width: calc(100% - 40px);
+  --max-width: 1200px;
+
+  display: block;
+  margin: 0 auto;
+  width: var(--width);
+  max-width: var(--max-width);
+}

@@ -4,7 +4,7 @@ import appCss from '../styles/index.scss?url';
 import { getContent } from '@/actions/get-content';
 import { getProjects } from '@/actions/get-projects';
 import type { RouterContext } from '@/types/router-context';
-import { ThemePicker } from '@/components/theme-picker';
+import { useEffect } from 'react';
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   head: () => ({
@@ -45,13 +45,31 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  /**
+   * Fixes the issue where the buttons are not clickable on mobile devices by adding a
+   * touchstart listener that triggers a click event.
+   */
+  useEffect(() => {
+    function handleTouchStart(this: Document, event: TouchEvent) {
+      const target = event.target as HTMLElement;
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        try {
+          event.preventDefault();
+          target.click();
+        } catch (er) {}
+      }
+    }
+
+    document.addEventListener('touchstart', handleTouchStart, { passive: false });
+    return () => document.removeEventListener('touchstart', handleTouchStart);
+  }, []);
+
   return (
     <html lang="en" suppressHydrationWarning data-theme="system">
       <head>
         <HeadContent />
       </head>
       <body>
-        <ThemePicker />
         {children}
         <Scripts />
       </body>
