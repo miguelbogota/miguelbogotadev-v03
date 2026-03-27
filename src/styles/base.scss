@@ -3,4 +3,11 @@ html {
   font-family: Barlow, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   background: var(--background-main);
   color: var(--text-primary);
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--navigation-height);
+}
+
+main {
+  // Ensure main content is below the fixed navigation.
+  padding-top: var(--navigation-height);
 }
