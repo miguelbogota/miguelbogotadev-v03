@@ -20,6 +20,11 @@ This document defines how AI agents (and developers) should operate within this 
 - Prefer:
   - Unit tests for logic
   - Integration tests for flows
+  - Always use `it` for test cases and start the description with "should".
+  - Use `describe` for grouping related tests.
+  - Use Vitest global API (globals: true)
+  - Do not import `describe`, `it`, `expect`, etc. — they are available globally
+  - Keep tests clean and focused by avoiding unnecessary imports
 
 - Avoid testing implementation details.
 
