@@ -1,3 +1,4 @@
+import { Container } from '@/components/container';
 import { createFileRoute, notFound } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/project/$projectId')({
@@ -20,13 +21,13 @@ function RouteComponent() {
   const { project, content } = Route.useLoaderData();
 
   return (
-    <div>
+    <Container>
       hello
       {JSON.stringify(content)}
       <div>Hello "/project/{project.id}"!</div>
       <h2>{project.displayName}</h2>
       <p>{project.description}</p>
       <p>{project.startedAt}</p>
-    </div>
+    </Container>
   );
 }
