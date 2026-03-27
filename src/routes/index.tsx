@@ -1,4 +1,5 @@
 import { Container } from '@/components/container';
+import { Footer } from '@/components/footer';
 import { Navigation } from '@/components/navigation';
 import { createFileRoute, Link } from '@tanstack/react-router';
 
@@ -46,6 +47,7 @@ function App() {
           </section>
         </Container>
       </main>
+      <Footer text={content.footer} />
     </>
   );
 }

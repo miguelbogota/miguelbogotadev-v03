@@ -12,6 +12,7 @@ let cachedContent: Content | null = {
     href: 'https://youtu.be',
     label: 'RESUME',
   },
+  footer: 'Designed & Built by Miguel Bogota',
 };
 
 /**
