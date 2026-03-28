@@ -1,6 +1,8 @@
 import { Container } from '@/components/container';
 import { Footer } from '@/components/footer';
 import { Navigation } from '@/components/navigation';
+import { Profile } from '@/sections/profile';
+import { Social } from '@/sections/social';
 import { createFileRoute, Link } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/')({
@@ -13,17 +15,11 @@ function App() {
 
   return (
     <>
-      <Navigation
-        logoName={content.logoName}
-        links={content.links}
-        externalLink={content.externalLink}
-      />
+      <Navigation {...content.navigation} />
 
       <main>
         <Container>
-          <section id="profile" style={{ minHeight: '100vh' }}>
-            <h2>Profile</h2>
-          </section>
+          <Profile {...content.profile} />
 
           <section id="works" style={{ minHeight: '100vh' }}>
             <h2>Works</h2>
@@ -42,12 +38,11 @@ function App() {
             </div>
           </section>
 
-          <section id="social" style={{ minHeight: '100vh' }}>
-            <h2>Social</h2>
-          </section>
+          <Social {...content.social} />
         </Container>
       </main>
-      <Footer text={content.footer} />
+
+      <Footer {...content.footer} />
     </>
   );
 }

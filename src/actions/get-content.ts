@@ -2,17 +2,69 @@ import type { Content } from '@/types/content';
 import { API_URL } from './constants';
 
 let cachedContent: Content | null = {
-  logoName: 'MIGUEL BOGOTA',
-  links: [
-    { id: 'profile', label: 'PROFILE' },
-    { id: 'works', label: 'WORK' },
-    { id: 'social', label: 'SOCIAL' },
-  ],
-  externalLink: {
-    href: 'https://youtu.be',
-    label: 'RESUME',
+  navigation: {
+    logoName: 'MIGUEL BOGOTA',
+    links: [
+      { id: 'profile', label: 'PROFILE' },
+      { id: 'works', label: 'WORK' },
+      { id: 'social', label: 'SOCIAL' },
+    ],
+    externalLink: {
+      href: 'https://youtu.be',
+      label: 'RESUME',
+    },
   },
-  footer: 'Designed & Built by Miguel Bogota',
+
+  profile: {
+    overline: "Hi, I'm Miguel Bogota",
+    image: {
+      url: '/profile.png',
+      alt: "Miguel Bogota's profile picture",
+    },
+    title: 'Senior Software Engineer\nBuilding AI-Enhanced Systems\nAnd Product Design',
+    description:
+      "Senior software engineer building scalable, high-impact products with a sharp focus on performance, design, and clean architecture. I enjoy turning complex ideas into intuitive experiences, and I'm currently exploring how AI can power smarter, more adaptive applications (and still a fan of cats 🐱).",
+  },
+
+  work: {
+    title: 'Work',
+    description:
+      "I care deeply about the code I write and the effect my work has on the product I'm building. You will see below some of the work I'm most proud of.",
+    loadMore: 'Load More',
+    noMoreRecords: 'Thank you',
+  },
+
+  social: {
+    title: 'Find me Around the Web',
+    description:
+      "Let's build something great together. Whether it's a new idea or an existing product, I'd be happy to help bring it to life with a focus on quality, performance, and user experience. Feel free to reach out via email or connect with me on social media—I'd love to hear about what you're working on.",
+    links: [
+      {
+        label: 'Email link',
+        icon: 'bxf bx-envelope',
+        link: 'mailto:contact@miguelbogota.dev',
+      },
+      {
+        label: 'GitHub profile link',
+        icon: 'bxl bx-github',
+        link: 'https://github.com/miguelbogota',
+      },
+      {
+        label: 'LinkedIn profile link',
+        icon: 'bxl bx-linkedin-square',
+        link: 'https://linkedin.com/in/miguelbogota',
+      },
+      {
+        label: 'Instagram profile link',
+        icon: 'bxl bx-instagram-alt',
+        link: 'https://instagram.com/migue_bogota',
+      },
+    ],
+  },
+
+  footer: {
+    text: 'Designed & Built by Miguel Bogota',
+  },
 };
 
 /**

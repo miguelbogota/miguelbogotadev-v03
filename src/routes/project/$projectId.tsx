@@ -29,7 +29,7 @@ function RouteComponent() {
       <h2>{project.displayName}</h2>
       <p>{project.description}</p>
       <p style={{ marginBottom: 'var(--space-6)' }}>{project.startedAt}</p>
-      <Footer text={content.footer} />
+      <Footer {...content.footer} />
     </Container>
   );
 }
