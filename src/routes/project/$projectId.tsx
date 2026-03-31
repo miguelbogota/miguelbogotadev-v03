@@ -27,9 +27,9 @@ function RouteComponent() {
       {JSON.stringify(content)}
       <div>Hello "/project/{project.id}"!</div>
       <h2>{project.displayName}</h2>
-      <p>{project.description}</p>
+      <p>{project.summary}</p>
       <p style={{ marginBottom: 'var(--space-6)' }}>{project.startedAt}</p>
-      <Footer text={content.footer} />
+      <Footer {...content.footer} />
     </Container>
   );
 }

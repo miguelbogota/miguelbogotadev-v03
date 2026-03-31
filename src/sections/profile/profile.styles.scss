@@ -1,0 +1,46 @@
+// Profile section styles
+#profile {
+  align-items: center;
+
+  @media (width <= 750px) {
+    align-items: flex-start;
+  }
+
+  .profile-container {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    grid-template-rows: 1fr;
+    padding-top: var(--space-0);
+    padding-bottom: var(--space-8);
+
+    .information {
+      & > img {
+        border-radius: 50%;
+        margin-bottom: var(--space-3);
+        width: 180px;
+      }
+    }
+
+    .pet {
+      // Empty for now...
+    }
+
+    @media (width <= 750px) {
+      margin-bottom: 0;
+      grid-template-columns: 1fr;
+      padding-top: var(--space-6);
+      padding-bottom: var(--space-4);
+
+      // TODO(@miguelbogota) Toggle between these two options once the pet is added.
+      grid-template-rows: 1fr;
+
+      // grid-template-rows: 1fr 1fr;
+
+      .information {
+        & > img {
+          width: 120px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+// Social section styles
+#social {
+  align-items: center;
+
+  .social-container {
+    width: 100%;
+
+    .content {
+      width: var(--content-width);
+      margin: 0 auto;
+
+      .social-networks {
+        margin: 0 0 var(--space-2);
+        color: var(--text-primary);
+
+        .social-link {
+          padding: 4px;
+          margin: 0 6px;
+          font-size: 2.4rem;
+        }
+      }
+    }
+  }
+}
