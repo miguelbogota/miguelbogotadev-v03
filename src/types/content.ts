@@ -21,8 +21,23 @@ export interface Content {
   work: {
     title: string;
     description: string;
-    // loadMore: string;
-    // noMoreRecords: string;
+    noResults: string;
+    searchBar: {
+      label: string;
+      placeholder: string;
+    };
+    card: {
+      aria: {
+        leadingLabel: string;
+        trailingLabel: string;
+      };
+      viewDetails: string;
+    };
+    pagination: {
+      previous: string;
+      goToPage: string;
+      next: string;
+    };
   };
   social: {
     title: string;

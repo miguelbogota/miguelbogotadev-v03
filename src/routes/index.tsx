@@ -21,9 +21,7 @@ function App() {
       <main>
         <Container>
           <Profile {...content.profile} />
-
-          <Work content={content.work} projects={projects} />
-
+          <Work {...content.work} projects={projects} />
           <Social {...content.social} />
         </Container>
       </main>

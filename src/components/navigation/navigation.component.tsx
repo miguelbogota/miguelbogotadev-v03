@@ -45,6 +45,7 @@ export function Navigation(props: NavigationProps) {
    */
   const handleNameClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
+    window.history.replaceState(null, '', window.location.href.split('#')[0]);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -68,6 +69,18 @@ export function Navigation(props: NavigationProps) {
                   className={clsx({ active: activeSection === link.id })}
                   ref={(el) => {
                     if (el) linksRef.current[link.id] = el;
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    // For some reason the hash breaks the page if we are already on the same page
+                    if (window.location.hash === `#${link.id}`) return;
+
+                    window.history.replaceState(null, '', `#${link.id}`);
+                    // Scroll to the section
+                    const element = document.getElementById(link.id);
+                    if (element) {
+                      element.scrollIntoView({ behavior: 'smooth' });
+                    }
                   }}
                 >
                   {link.label}

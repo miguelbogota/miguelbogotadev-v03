@@ -1,26 +1,37 @@
 import './work-project-card.styles.scss';
 
+import { Link } from '@tanstack/react-router';
 import type { Project } from '@/types/project';
+import type { Content } from '@/types/content';
 
-export interface WorkProjectCardProps {
+/**
+ * Props for the WorkProjectCard component.
+ */
+export type WorkProjectCardProps = Content['work']['card'] & {
   project: Project;
-}
+};
 
+/**
+ * Work project card component.
+ * Displays project information with image, details, and link to project page.
+ * Features 65/40 image-to-content layout with hover effects.
+ */
 export function WorkProjectCard(props: WorkProjectCardProps) {
-  const { project } = props;
+  const { project, aria, viewDetails } = props;
   const { id, displayName, summary, industry, startedAt, images } = project;
   const year = startedAt.split('-')[0] ?? '';
-  const heroImage = images.at(0);
+  const heroImage = images[0];
 
   return (
-    <a
-      href={`/project/${id}`}
-      className="work-project-card-link"
-      aria-label={`View details for ${displayName} project - ${industry}, ${year}`}
+    <Link
+      to="/project/$projectId"
+      params={{ projectId: id }}
+      className="work-project-card"
+      aria-label={`${aria.leadingLabel} ${displayName} ${aria.trailingLabel} ${industry}, ${year}`}
     >
-      <article className="work-project-card">
+      <article>
         <div className="media" aria-hidden={!heroImage}>
-          {heroImage ? <img src={heroImage.src} alt={heroImage.alt} loading="lazy" /> : null}
+          <img src={heroImage.src} alt={heroImage.alt} loading="lazy" />
         </div>
 
         <div className="content">
@@ -29,11 +40,11 @@ export function WorkProjectCard(props: WorkProjectCardProps) {
           <h3>{displayName}</h3>
           <p className="overline">{summary}</p>
 
-          <span className="cta" aria-hidden="true">
-            VIEW DETAILS
+          <span className="action" aria-hidden="true">
+            {viewDetails}
           </span>
         </div>
       </article>
-    </a>
+    </Link>
   );
 }

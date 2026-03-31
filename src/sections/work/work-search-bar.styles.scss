@@ -1,3 +1,4 @@
+// Work search bar styles
 .work-search-bar {
   display: grid;
   gap: var(--space-2);
@@ -21,17 +22,9 @@
     height: 44px;
     line-height: 44px;
     appearance: none;
-  }
 
-  input::-webkit-search-decoration {
-    display: none;
-  }
-
-  input::-webkit-search-cancel-button {
-    display: none;
-  }
-
-  input:focus-visible {
-    border-color: color-mix(in srgb, var(--primary) 60%, var(--background-border));
+    &::placeholder {
+      color: var(--text-disabled);
+    }
   }
 }

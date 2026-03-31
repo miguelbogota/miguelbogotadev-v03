@@ -72,7 +72,7 @@ describe('sections / Work / filterWorkProjects', () => {
         startedAt: '2024-01-01',
         isCurrent: false,
         isArchived: false,
-        displayName: 'Kinetic Resonance',
+        displayName: 'Digital Kinetic Resonance',
         summary: 'Fluid dynamics translated into static',
         role: 'Artist',
         companyName: 'Independent',
@@ -82,9 +82,25 @@ describe('sections / Work / filterWorkProjects', () => {
         solution: { title: 'x', description: 'x' },
         images: [],
       },
+      {
+        id: 'b',
+        startedAt: '2023-01-01',
+        isCurrent: false,
+        isArchived: false,
+        displayName: 'Monolith System',
+        summary: 'Brutalist dashboard design',
+        role: 'Product Engineer',
+        companyName: 'Independent',
+        industry: 'Interface',
+        tags: ['Interface'],
+        challenge: { title: 'x', description: 'x' },
+        solution: { title: 'x', description: 'x' },
+        images: [],
+      },
     ];
 
-    expect(filterWorkProjects(projects, 'digital   2024')).toHaveLength(1);
+    // Should find project with both "digital" AND "2024"
+    expect(filterWorkProjects(projects, 'digital 2024')).toHaveLength(1);
   });
 
   it('should return empty when there are no matches', () => {

@@ -1,33 +1,42 @@
 import type { Project } from '@/types/project';
 
-function normalizeSearchText(text: string) {
-  return text.toLowerCase().trim().replace(/\s+/g, ' ');
-}
+/**
+ * Filters work projects based on search query.
+ * Searches across all project fields (name, industry, tags, summary, role, company, etc.).
+ * Supports multi-token queries - ALL tokens must match at least one field each for the project to be included.
+ */
+export function filterWorkProjects(projects: Project[], query: string): Project[] {
+  if (!query.trim()) {
+    return projects;
+  }
 
-function getWorkProjectSearchText(project: Project) {
-  const parts = [
-    project.displayName,
-    project.summary,
-    project.tags.join(' '),
-    project.role,
-    project.companyName,
-    project.industry,
-    project.startedAt,
-    project.links?.website,
-    project.links?.github,
-  ];
-
-  return normalizeSearchText(parts.filter(Boolean).join(' '));
-}
-
-export function filterWorkProjects(projects: Project[], query: string) {
-  const normalizedQuery = normalizeSearchText(query);
-  if (!normalizedQuery) return projects;
-
-  const tokens = normalizedQuery.split(' ').filter(Boolean);
+  // Split query into individual tokens and normalize each
+  const tokens = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
 
   return projects.filter((project) => {
-    const haystack = getWorkProjectSearchText(project);
-    return tokens.every((token) => haystack.includes(token));
+    // Check if ALL tokens match AT LEAST ONE field each
+    return tokens.every((token) => {
+      const matchesDisplayName = project.displayName.toLowerCase().includes(token);
+      const matchesIndustry = project.industry.toLowerCase().includes(token);
+      const matchesTags = project.tags.some((tag) => tag.toLowerCase().includes(token));
+      const matchesSummary = project.summary.toLowerCase().includes(token);
+      const matchesRole = project.role.toLowerCase().includes(token);
+      const matchesCompanyName = project.companyName.toLowerCase().includes(token);
+      const matchesChallenge = project.challenge.description.toLowerCase().includes(token);
+      const matchesSolution = project.solution.description.toLowerCase().includes(token);
+      const matchesYear = project.startedAt.includes(token);
+
+      return (
+        matchesDisplayName ||
+        matchesIndustry ||
+        matchesTags ||
+        matchesSummary ||
+        matchesRole ||
+        matchesCompanyName ||
+        matchesChallenge ||
+        matchesSolution ||
+        matchesYear
+      );
+    });
   });
 }

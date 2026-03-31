@@ -6,7 +6,7 @@ let cachedContent: Content | null = {
     logoName: 'MIGUEL BOGOTA',
     links: [
       { id: 'profile', label: 'PROFILE' },
-      { id: 'works', label: 'WORK' },
+      { id: 'work', label: 'WORK' },
       { id: 'social', label: 'SOCIAL' },
     ],
     externalLink: {
@@ -29,9 +29,24 @@ let cachedContent: Content | null = {
   work: {
     title: 'Work',
     description:
-      "I care deeply about the code I write and the effect my work has on the product I'm building. You will see below some of the work I'm most proud of.",
-    loadMore: 'Load More',
-    noMoreRecords: 'Thank you',
+      'I build software with intention—focused on quality, performance, and meaningful product impact. I care about the details and how each decision shapes the final experience. Below are some of the projects that represent my best work.',
+    noResults: 'No results found.',
+    searchBar: {
+      label: 'Search works',
+      placeholder: 'Search projects…',
+    },
+    card: {
+      aria: {
+        leadingLabel: 'View details for',
+        trailingLabel: 'project -',
+      },
+      viewDetails: 'VIEW DETAILS',
+    },
+    pagination: {
+      previous: 'Go to previous page',
+      goToPage: 'Go to page',
+      next: 'Go to next page',
+    },
   },
 
   social: {
