@@ -80,7 +80,7 @@ nav {
   & > .container > .links {
     position: relative;
 
-    @media (width <= 768px) {
+    @media (width <= 750px) {
       display: none;
     }
 

@@ -1,0 +1,133 @@
+.work-project-card {
+  display: grid;
+  grid-template-columns: 60fr 40fr;
+  gap: var(--space-4);
+  align-items: stretch;
+  overflow: hidden;
+
+  &:hover {
+    background: color-mix(in srgb, var(--background-sheet) 40%, transparent 40%);
+  }
+
+  .media {
+    position: relative;
+    min-height: 400px;
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--background-sheet) 70%, var(--background-border)),
+      color-mix(in srgb, var(--background-sheet) 40%, var(--background-border))
+    );
+    overflow: hidden;
+  }
+
+  .media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .content {
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .meta {
+    display: flex;
+    gap: var(--space-1);
+    margin-bottom: var(--space-2);
+    font-size: 0.75rem;
+    letter-spacing: 0.08rem;
+    text-transform: uppercase;
+  }
+
+  h3 {
+    margin: 0 0 var(--space-2);
+    font-size: clamp(1.4rem, 2.6vw, 2.2rem);
+    line-height: 1.1;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.02rem;
+  }
+
+  .overline {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: 0.02rem;
+  }
+}
+
+.work-project-card:hover .media img {
+  transform: scale(1.05);
+}
+
+.work-project-card:hover .cta {
+  text-decoration: underline;
+  color: var(--primary);
+}
+
+.work-project-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: var(--space-2);
+  }
+}
+
+/* Alternate image side per card (to match the screenshot rhythm). */
+.work-grid > .work-project-card-link:nth-child(even) .work-project-card {
+  grid-template-columns: 40fr 60fr;
+}
+
+.work-grid > .work-project-card-link:nth-child(even) .media {
+  order: 2;
+}
+
+.work-grid > .work-project-card-link:nth-child(even) .content {
+  order: 1;
+}
+
+@media (width <= 750px) {
+  .work-project-card {
+    // Override the even/odd pattern on mobile
+    grid-template-columns: 1fr !important;
+    gap: var(--space-2);
+
+    .content {
+      padding: var(--space-2);
+
+      .overline {
+        margin-bottom: var(--space-2);
+      }
+    }
+  }
+
+  .work-grid > .work-project-card-link:nth-child(even) .media,
+  .work-grid > .work-project-card-link:nth-child(even) .content {
+    order: unset;
+  }
+}

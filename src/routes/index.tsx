@@ -3,7 +3,8 @@ import { Footer } from '@/components/footer';
 import { Navigation } from '@/components/navigation';
 import { Profile } from '@/sections/profile';
 import { Social } from '@/sections/social';
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { Work } from '@/sections/work';
+import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/')({
   component: App,
@@ -21,22 +22,7 @@ function App() {
         <Container>
           <Profile {...content.profile} />
 
-          <section id="works" style={{ minHeight: '100vh' }}>
-            <h2>Works</h2>
-            <div>
-              {projects.map((project) => (
-                <div key={project.id}>
-                  <h2>{project.displayName}</h2>
-                  <p>{project.description}</p>
-                  <p>{project.startedAt}</p>
-
-                  <Link to="/project/$projectId" params={{ projectId: project.id }}>
-                    View Project
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </section>
+          <Work content={content.work} projects={projects} />
 
           <Social {...content.social} />
         </Container>

@@ -21,8 +21,8 @@ export interface Content {
   work: {
     title: string;
     description: string;
-    loadMore: string;
-    noMoreRecords: string;
+    // loadMore: string;
+    // noMoreRecords: string;
   };
   social: {
     title: string;
