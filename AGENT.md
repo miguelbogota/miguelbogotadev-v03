@@ -8,29 +8,69 @@ This document defines how AI agents (and developers) should operate within this 
 
 ## ⚙️ Core Principles
 
-### 1. Test-Driven Development (TDD) — ALWAYS
+### 1. Tech Stack
 
-- Every feature or fix must follow:
-  1. **Write a failing test**
-  2. **Implement the minimal code to pass**
-  3. **Refactor safely**
+- Framework: TanStack Start (with TanStack Router and React 19)
+- Language: TypeScript
+- Build Tool: Vite
+- Styling: SCSS
+- Testing: Vitest
+- Hosting: Firebase (for production deployment)
 
-- Never write production code without a corresponding test.
+### 2. Development Workflow
 
-- Prefer:
-  - Unit tests for logic
-  - Integration tests for flows
-  - Always use `it` for test cases and start the description with "should".
-  - Use `describe` for grouping related tests.
-  - Use Vitest global API (globals: true)
-  - Do not import `describe`, `it`, `expect`, etc. — they are available globally
-  - Keep tests clean and focused by avoiding unnecessary imports
+- Use `dev` for local development
+- Use `build` for production build
+- Use `lint` for linting
+- Use `format` for formatting
+- Use `test:unit` for unit tests
 
-- Avoid testing implementation details.
+### 3. Folder & File Discipline
 
----
+- Respect existing structure
+- Do not introduce new patterns without strong justification
 
-### 2. Use Existing Design Tokens & Styles
+Example:
+
+```
+/components
+  /button
+    index.ts
+    button.component.tsx
+    button.test.tsx
+    button.styles.scss
+
+    // Other files
+    {name}.type.ts for type definitions
+    {name}.hooks.ts for custom hooks
+    {name}.utils.ts for utility functions
+    {name}.helpers.ts for helper functions
+
+    // Common files
+    constants.ts for constants
+    config.ts for configuration
+    translations.ts for translations
+
+    // Any other kind of file
+    {any-other-file-fn-name}.{type}.ts
+```
+
+### 4. Keep Components Clean & Reusable
+
+- Follow:
+  - Single Responsibility Principle
+  - Composition over inheritance
+
+- Components must be:
+  - Small
+  - Testable
+  - Reusable
+
+- Avoid:
+  - Massive components (>400 lines)
+  - Mixed concerns (UI + business logic tightly coupled)
+
+### 5. Use Existing Design Tokens & Styles
 
 - Always use variables from:
 
@@ -62,9 +102,28 @@ color: #3498db;
 margin: 16px;
 ```
 
----
+### 6. Styling Rules
 
-### 3. Avoid Unnecessary Dependencies
+- Prefer:
+  - SCSS scoped styles for components
+  - Do not use BEM but rather semantic class names
+
+- Always:
+  - Use variables from `_variables.scss`
+  - Avoid global overrides unless absolutely necessary
+
+- No inline styles unless dynamic and justified
+
+### 7. Consistent Code Style
+
+- Use existing linting and formatting rules
+- Prefer:
+  - Type safety (TypeScript strict mode)
+  - Explicit naming
+  - Early returns over nested conditions
+  - Prefer interfaces over types but use types for unions and primitives
+
+### 8. Avoid Unnecessary Dependencies
 
 - Before installing any package:
   - Ask: **Can this be implemented with existing tools or native APIs?**
@@ -79,77 +138,33 @@ margin: 16px;
   - Duplicate libraries (e.g., multiple date libraries)
   - Heavy libraries for trivial tasks
 
----
+### 9. Test-Driven Development (TDD) — ALWAYS
 
-### 4. Keep Components Clean & Reusable
+- Every feature or fix must follow:
+  1. **Write a failing test**
+  2. **Implement the minimal code to pass**
+  3. **Refactor safely**
 
-- Follow:
-  - Single Responsibility Principle
-  - Composition over inheritance
-
-- Components must be:
-  - Small
-  - Testable
-  - Reusable
-
-- Avoid:
-  - Massive components (>400 lines)
-  - Mixed concerns (UI + business logic tightly coupled)
-
----
-
-### 5. Consistent Code Style
-
-- Use existing linting and formatting rules
-- Prefer:
-  - Type safety (TypeScript strict mode)
-  - Explicit naming
-  - Early returns over nested conditions
-  - Prefer interfaces over types but use types for unions and primitives
-
----
-
-### 6. Folder & File Discipline
-
-- Respect existing structure
-- Do not introduce new patterns without strong justification
-
-Example:
-
-```
-/components
-  /button
-    index.ts
-    button.component.tsx
-    button.test.tsx
-    button.styles.scss
-```
-
----
-
-### 7. Styling Rules
+- Never write production code without a corresponding test.
 
 - Prefer:
-  - SCSS scoped styles for components
-  - Do not use BEM but rather semantic class names
+  - Unit tests for logic
+  - Integration tests for flows
+  - Always use `it` for test cases and start the description with "should".
+  - Use `describe` for grouping related tests.
+  - Use Vitest global API (globals: true)
+  - Do not import `describe`, `it`, `expect`, etc. — they are available globally
+  - Keep tests clean and focused by avoiding unnecessary imports
 
-- Always:
-  - Use variables from `_variables.scss`
-  - Avoid global overrides unless absolutely necessary
+- Avoid testing implementation details.
 
-- No inline styles unless dynamic and justified
-
----
-
-### 8. Performance Awareness
+### 10. Performance Awareness
 
 - Avoid unnecessary re-renders
 - Memoize where appropriate
 - Lazy load when beneficial
 
----
-
-### 9. Accessibility (A11y)
+### 11. Accessibility (A11y)
 
 - Always include:
   - Semantic HTML
@@ -157,9 +172,7 @@ Example:
 
 - Ensure keyboard navigation works
 
----
-
-### 10. Documentation
+### 12. Documentation
 
 - Every non-trivial component or function should:
   - Explain **why**, not just **what**
