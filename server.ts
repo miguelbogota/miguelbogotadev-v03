@@ -8,7 +8,6 @@ import { getCookieTheme } from './src/utils/get-cookie-theme';
 const config: ResponseInit = {
   headers: {
     'Content-Type': 'text/html',
-    'Cache-Control': 'no-store',
   },
 };
 

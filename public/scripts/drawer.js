@@ -32,14 +32,11 @@ function openDialog(href) {
 
   // Push URL without reload
   window.history.pushState(null, null, href);
-
   dialog.showModal();
 }
 
 function closeDialog() {
   if (!dialog || !dialog.open) return;
-
-  dialog.close();
 
   // Go back in history ONLY if we pushed state
   if (currentHref) {
@@ -62,9 +59,24 @@ document.addEventListener('click', (e) => {
 });
 
 // Handle back/forward navigation
-window.addEventListener('popstate', (event) => {
+window.addEventListener('popstate', () => {
   if (dialog && dialog.open) {
     dialog.close();
     currentHref = null;
+    return;
+  }
+
+  window.location.href = window.location.href;
+});
+
+// Stores scroll position to restore when going back
+window.addEventListener('scroll', () => {
+  window.sessionStorage.setItem('scrollPosition', window.scrollY);
+});
+
+window.addEventListener('load', () => {
+  const scrollPosition = window.sessionStorage.getItem('scrollPosition');
+  if (scrollPosition) {
+    window.scrollTo(0, parseInt(scrollPosition));
   }
 });
