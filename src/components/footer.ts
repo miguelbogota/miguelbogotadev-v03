@@ -1,4 +1,4 @@
-import type { Content } from '../../types/content';
+import type { Content } from '../types/content';
 
 /** Props for the footer. */
 export type FooterProps = Content['footer'];

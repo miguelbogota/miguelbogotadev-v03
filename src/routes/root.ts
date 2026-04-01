@@ -1,16 +1,19 @@
 import { type Content } from '../types/content';
+import type { Project } from '../types/project';
 import { type ThemeType } from '../types/theme';
 import { initNavigationScrollIndicator } from '../components/navigation';
+import { initPaginationAndSearchbar } from '../sections/work';
 
 /** Base Route Props */
 export type BaseProps = {
   children: string;
   content: Content;
+  projects: Project[];
   theme: ThemeType;
 };
 
 /** Base Route */
-export const RootRoute = ({ children, content, theme }: BaseProps) => /*html*/ `
+export const RootRoute = ({ children, content, projects, theme }: BaseProps) => /*html*/ `
 <html lang="en" data-theme="${theme}">
   <head>
     <!-- Meta -->
@@ -49,6 +52,9 @@ export const RootRoute = ({ children, content, theme }: BaseProps) => /*html*/ `
     <link rel="stylesheet" href="/styles/base.css" />
 
     <!-- Sections -->
+    <link rel="stylesheet" href="/styles/sections/profile.css" />
+    <link rel="stylesheet" href="/styles/sections/work.css" />
+    <link rel="stylesheet" href="/styles/sections/social.css" />
 
     <!-- Components -->
     <link rel="stylesheet" href="/styles/components/navigation.css" />
@@ -59,6 +65,14 @@ export const RootRoute = ({ children, content, theme }: BaseProps) => /*html*/ `
   </body>
 
   <!-- Scripts -->
+  <script>
+    var projects = ${JSON.stringify(projects)};
+  </script>
   <script src="/scripts/navigation-scroll-indicator.js"></script>
   ${initNavigationScrollIndicator(content.navigation)}
+
+  ${initPaginationAndSearchbar({ ...content.work, projects })}
+  <script src="/scripts/search-and-pagination.js"></script>
+
+  <script src="/scripts/drawer.js"></script>
 </html>`;

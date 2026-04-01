@@ -5,6 +5,9 @@ import { RootRoute } from './root';
 
 import { Navigation } from '../components/navigation';
 import { Footer } from '../components/footer';
+import { ProfileSection } from '../sections/profile';
+import { SocialSection } from '../sections/social';
+import { WorkSection } from '../sections/work';
 
 /** Home Route Props */
 export type HomeProps = {
@@ -18,37 +21,14 @@ export const HomeRoute = ({ content, projects, theme }: HomeProps) =>
   RootRoute({
     theme,
     content,
+    projects,
     children: /*html */ `
       ${Navigation(content.navigation)}
 
       <main class="container">
-          <section id="profile" style="min-height: 100vh">
-            <h2>Profile</h2>
-          </section>
-
-          <section id="work" style="min-height: 100vh">
-            <h2>Works</h2>
-            <div>
-              ${projects
-                .map(
-                  (project) => /*html */ `
-                <div >
-                  <h2>${project.displayName}</h2>
-                  <p>${project.summary}</p>
-                  <p>${project.startedAt}</p>
-
-                  <a href="/project/${project.id}">
-                    View Project
-                  </a>
-                </div>`,
-                )
-                .join('')}
-            </div>
-          </section>
-
-          <section id="social" style="min-height: 100vh">
-            <h2>Social</h2>
-          </section>
+        ${ProfileSection(content.profile)}
+        ${WorkSection({ ...content.work, projects })}
+        ${SocialSection(content.social)}
       </main>
       
       ${Footer(content.footer)}

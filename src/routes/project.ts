@@ -7,13 +7,19 @@ import { RootRoute } from './root';
 export type ProjectProps = {
   content: Content;
   project: Project;
+  projects: Project[];
   theme: ThemeType;
 };
 
 /** Project Route */
-export const ProjectRoute = ({ content, project, theme }: ProjectProps) =>
+export const ProjectRoute = ({ content, project, projects, theme }: ProjectProps) =>
   RootRoute({
     theme,
     content,
-    children: /*html*/ `<div>Home</div>`,
+    projects,
+    children: /*html*/ `<div>
+      <h1>${project.displayName}</h1>
+      <p>${project.summary}</p>
+      <img src="${project.images[0]?.src || ''}" alt="${project.images[0]?.alt || project.displayName}" />
+    </div>`,
   });

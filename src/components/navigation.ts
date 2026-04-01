@@ -1,6 +1,5 @@
 import clsx from 'clsx';
-import type { Content } from '../../types/content';
-import { createLogoName } from './create-logo';
+import type { Content } from '../types/content';
 
 /** Navigation Component Props */
 export type NavigationProps = Content['navigation'];
@@ -19,6 +18,17 @@ export type NavigationProps = Content['navigation'];
  * - No center links visible
  */
 export function Navigation({ logoName, links, externalLink }: NavigationProps) {
+  /**
+   * With the given logo name, this function returns a list of span elements, where the first
+   * letter of each word is wrapped in a span and the rest of the word is wrapped in another span.
+   * This allows for styling the first letter and give a shrinking effect.
+   */
+  const createLogoName = (logoName: string) =>
+    logoName
+      .split(' ')
+      .map((word) => /*html */ `<span>${word.charAt(0)}</span><span>${word.slice(1)}</span>`)
+      .join(' ');
+
   return /*html*/ `
   <nav role="navigation">
     <div class="container">
