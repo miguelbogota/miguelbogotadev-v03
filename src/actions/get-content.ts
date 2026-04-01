@@ -1,4 +1,4 @@
-import type { Content } from '@/types/content';
+import { type Content } from '../types/content';
 import { API_URL } from './constants';
 
 let cachedContent: Content | null = {

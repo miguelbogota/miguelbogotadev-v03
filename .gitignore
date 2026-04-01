@@ -17,4 +17,3 @@ dist-ssr
 .output
 .vinxi
 __unconfig*
-src/routeTree.gen.ts
