@@ -14,11 +14,9 @@ export function useDrawerRouting() {
     const handlePopState = () => {
       if (isDrawerOpen) {
         setIsDrawerOpen(false);
-        console.log('Drawer closed');
         return;
       }
 
-      console.log('Drawer not open, navigating to:', window.location.href);
       window.location.href = window.location.href;
     };
 
