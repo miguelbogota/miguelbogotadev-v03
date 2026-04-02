@@ -1,3 +1,5 @@
+import { ProjectInfo } from '@/components/project-info';
+
 /** Project details route props. */
 export type ProjectDetailsRouteProps = {
   project: Project;
@@ -5,5 +7,5 @@ export type ProjectDetailsRouteProps = {
 
 /** Project details route component. */
 export function ProjectDetailsRoute({ project }: ProjectDetailsRouteProps) {
-  return <div>Project Details: {project?.id}</div>;
+  return <ProjectInfo project={project} backButton={<a href="/">Back</a>} />;
 }

@@ -5,10 +5,20 @@ import { useAppState } from '@/state';
  * @returns A function that navigates to a given URL.
  */
 export function useDrawerNavigation() {
-  const { setIsDrawerOpen } = useAppState();
+  const { setIsDrawerOpen, setCurrentProjectId } = useAppState();
 
   return (url: string) => {
-    setIsDrawerOpen(true);
     window.history.pushState({}, '', url);
+
+    if (url.includes('/project/')) {
+      setIsDrawerOpen(true);
+      const projectId = url.split('/').pop();
+      if (projectId) {
+        setCurrentProjectId(projectId);
+      }
+    } else {
+      setIsDrawerOpen(false);
+      setCurrentProjectId(null);
+    }
   };
 }
