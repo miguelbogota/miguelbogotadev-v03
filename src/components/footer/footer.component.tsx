@@ -1,13 +1,13 @@
+import { useAppState } from '@/state';
 import './footer.styles.scss';
 
-/** Props for the footer. */
-export interface FooterProps {
-  text: string;
-}
-
 /** Footer component with some basic text. */
-export function Footer(props: FooterProps) {
-  const { text } = props;
+export function Footer() {
+  const {
+    content: {
+      footer: { text },
+    },
+  } = useAppState();
 
   return <footer>{text}</footer>;
 }

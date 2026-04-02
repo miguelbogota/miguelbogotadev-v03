@@ -43,25 +43,6 @@
     z-index: calc(var(--theme-picker-z-index) - 5);
     min-width: 150px;
 
-    // Avoids closing so easily when hovering over to the dropdown
-    &::before {
-      content: '';
-      position: absolute;
-      top: -50px;
-      right: 0;
-      width: 35%;
-      height: 50px;
-    }
-
-    &::after {
-      content: '';
-      position: absolute;
-      top: -15px;
-      left: 0;
-      width: 65%;
-      height: 15px;
-    }
-
     & > ul {
       list-style: none;
       padding: 0.3rem 0;

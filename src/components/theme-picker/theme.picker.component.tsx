@@ -1,6 +1,6 @@
 import './theme.picker.styles.scss';
 
-import { Fragment, useState } from 'react';
+import { Fragment, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { cookies } from '@/utils/cookies';
 import { useAppState } from '@/state';
@@ -13,6 +13,7 @@ import { useAppState } from '@/state';
  *
  * Features:
  * - Hover to show/hide theme options
+ * - Smooth transition when showing/hiding
  * - Click to select a theme
  * - Persists selection to the DOM
  * - Shows visual indicator for the currently selected theme
@@ -28,6 +29,7 @@ export function ThemePicker() {
     },
   } = useAppState();
   const [isOpen, setIsOpen] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const currentThemeIcon = themePicker.options
     .filter((option) => option !== 'divider')
@@ -47,8 +49,13 @@ export function ThemePicker() {
   return (
     <div
       className="theme-picker"
-      onMouseLeave={() => setIsOpen(false)}
-      onMouseEnter={() => setIsOpen(true)}
+      onMouseLeave={() => {
+        timeoutRef.current = setTimeout(() => setIsOpen(false), 200);
+      }}
+      onMouseEnter={() => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        setIsOpen(true);
+      }}
     >
       <button onClick={() => setIsOpen((prev) => !prev)} aria-label={themePicker.ariaLabel}>
         <i className={clsx('bx', currentThemeIcon, { hovered: isOpen })} />

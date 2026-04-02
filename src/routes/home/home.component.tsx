@@ -1,5 +1,11 @@
 import { Container } from '@/components/container';
 import { Navigation } from '@/components/navigation';
+import { Footer } from '@/components/footer';
+import { Drawer } from '@/components/drawer';
+
+import { ProfileSection } from '@/sections/profile';
+import { WorkSection } from '@/sections/work';
+import { SocialSection } from '@/sections/social';
 
 /** Home route component. */
 export function HomeRoute() {
@@ -7,7 +13,15 @@ export function HomeRoute() {
     <>
       <Navigation />
 
-      <Container as="main">Hello World</Container>
+      <Container as="main">
+        <ProfileSection />
+        <WorkSection />
+        <SocialSection />
+      </Container>
+
+      <Footer />
+
+      <Drawer />
     </>
   );
 }

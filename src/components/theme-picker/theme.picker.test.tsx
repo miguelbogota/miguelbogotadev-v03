@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@/testing';
+import { render, screen, fireEvent, act } from '@/testing';
 import { ThemePicker } from './theme.picker.component';
 
 describe('components / ThemePicker', () => {
@@ -31,12 +31,15 @@ describe('components / ThemePicker', () => {
     expect(screen.getByRole('option', { name: /system/i })).toBeTruthy();
   });
 
-  it('should hide dropdown menu on mouse leave', () => {
+  it('should hide dropdown menu on mouse leave after a short delay', () => {
     render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
     fireEvent.mouseEnter(mainButton);
     fireEvent.mouseLeave(mainButton);
+
+    // Wait for the timeout to trigger
+    act(() => vi.runAllTimers());
 
     expect(screen.queryByRole('option', { name: /light/i })).toBeFalsy();
   });

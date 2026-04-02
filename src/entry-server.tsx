@@ -15,6 +15,9 @@ export default {
     const [content, projects] = await Promise.all([getContent(), getProjects()]);
     const theme = getCookieTheme(req.headers.get('cookie'));
 
+    const projectId = req.url.split('/').pop();
+    const project = projects.find((p) => p.id === projectId);
+
     const state = { url: req.url, theme, content, projects };
 
     return new Response(
@@ -23,7 +26,7 @@ export default {
           <head>
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <meta charSet="utf-8" />
-            <title>Miguel Bogota</title>
+            <title>{`Miguel Bogota${project ? ` - ${project.displayName}` : ''}`}</title>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <link rel="icon" href="/favicon.ico" />
 

@@ -9,6 +9,10 @@ export type VirtualStateContext = {
   currentTheme: ThemeType;
   /** Function to set the current theme of the application. */
   setCurrentTheme: (theme: ThemeType) => void;
+  /** Whether the drawer is open. */
+  isDrawerOpen: boolean;
+  /** Function to set whether the drawer is open. */
+  setIsDrawerOpen: (isOpen: boolean) => void;
 };
 
 /** State context interface. */
@@ -26,6 +30,7 @@ export type StateProviderProps = PropsWithChildren<{
 /** Provider for sharing state between server and client. */
 export function AppStateProvider({ children, value }: StateProviderProps) {
   const [theme, setTheme] = useState(value.theme);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   return (
     <Context
@@ -33,6 +38,8 @@ export function AppStateProvider({ children, value }: StateProviderProps) {
         ...value,
         currentTheme: theme,
         setCurrentTheme: (theme: ThemeType) => setTheme(theme),
+        isDrawerOpen,
+        setIsDrawerOpen,
       }}
     >
       {children}

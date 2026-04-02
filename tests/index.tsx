@@ -22,3 +22,6 @@ export * from '@testing-library/react';
 
 // Override the original render method
 export { customRender as render };
+
+// Export mock state for tests
+export { mockState } from './mock-state';
