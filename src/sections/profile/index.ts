@@ -1,1 +1,1 @@
-export { Profile, type ProfileProps } from './profile.component';
+export { ProfileSection } from './profile.component';

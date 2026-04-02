@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render } from '@/testing';
 import { Container } from './container.component';
 
 describe('components / Container', () => {

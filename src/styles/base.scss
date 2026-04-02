@@ -1,7 +1,7 @@
 // Base styles
 html {
   font-family: Barlow, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background: var(--background-main);
+  background-color: var(--background-main);
   color: var(--text-secondary);
   scroll-behavior: smooth;
   scroll-padding-top: var(--navigation-height);

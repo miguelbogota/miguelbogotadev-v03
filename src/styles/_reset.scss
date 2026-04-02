@@ -1,7 +1,3 @@
-/* stylelint-disable selector-not-notation */
-/* stylelint-disable property-no-vendor-prefix */
-/* stylelint-disable property-no-deprecated */
-
 @charset "utf-8";
 
 /***
@@ -25,7 +21,6 @@
 *::after {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
 }
 
 /* Reapply focus styles for interactive elements */
@@ -47,6 +42,12 @@
 a,
 button {
   cursor: revert;
+}
+
+/* Remove search cancel button in Chrome & Safari */
+[type='search']::-webkit-search-decoration,
+[type='search']::-webkit-search-cancel-button {
+  appearance: none;
 }
 
 /* Remove list styles (bullets/numbers) */

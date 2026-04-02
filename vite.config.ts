@@ -1,20 +1,18 @@
 import { defineConfig } from 'vite';
-import { devtools } from '@tanstack/devtools-vite';
-import tsconfigPaths from 'vite-tsconfig-paths';
-
-import { tanstackStart } from '@tanstack/react-start/plugin/vite';
-
-import viteReact from '@vitejs/plugin-react';
 import { nitro } from 'nitro/vite';
+import react from '@vitejs/plugin-react';
 
-const config = defineConfig({
-  plugins: [
-    devtools(),
-    nitro({ rollupConfig: { external: [/^@sentry\//] } }),
-    tsconfigPaths({ projects: ['./tsconfig.json'] }),
-    tanstackStart(),
-    viteReact(),
-  ],
+export default defineConfig({
+  plugins: [nitro(), react()],
+  resolve: {
+    tsconfigPaths: true,
+  },
+  nitro: {
+    minify: true,
+  },
+  environments: {
+    client: {
+      build: { rollupOptions: { input: './src/entry-client.tsx' } },
+    },
+  },
 });
-
-export default config;

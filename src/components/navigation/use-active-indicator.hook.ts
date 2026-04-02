@@ -1,9 +1,7 @@
-import { useScrollSpy } from '@/hooks/use-scroll-spy';
 import { useEffect, useRef, useState } from 'react';
+import { useScrollSpy } from '@/hooks/use-scroll-spy';
 
-/**
- * Hook allows to track the active state for the links underneath line.
- */
+/** Hook allows to track the active state for the links underneath line. */
 export function useActiveIndicator(ids: string[]) {
   const activeSection = useScrollSpy({
     ids,
@@ -17,9 +15,7 @@ export function useActiveIndicator(ids: string[]) {
     Object.fromEntries(ids.map((id) => [id, null])),
   );
 
-  /**
-   * Update indicator position based on active link
-   */
+  // Update indicator position based on active link
   useEffect(() => {
     const activeLink = linksRef.current[activeSection];
 

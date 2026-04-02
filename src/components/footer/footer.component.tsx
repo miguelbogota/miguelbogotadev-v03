@@ -1,17 +1,13 @@
+import { useAppState } from '@/state';
 import './footer.styles.scss';
 
-/**
- * Props for the footer.
- */
-export interface FooterProps {
-  text: string;
-}
-
-/**
- * Footer component with default text "Designed & Built by Miguel Bogota".
- */
-export function Footer(props: FooterProps) {
-  const { text } = props;
+/** Footer component with some basic text. */
+export function Footer() {
+  const {
+    content: {
+      footer: { text },
+    },
+  } = useAppState();
 
   return <footer>{text}</footer>;
 }

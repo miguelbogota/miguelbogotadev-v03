@@ -10,7 +10,7 @@ This document defines how AI agents (and developers) should operate within this 
 
 ### 1. Tech Stack
 
-- Framework: TanStack Start (with TanStack Router and React 19)
+- Framework: Nitro
 - Language: TypeScript
 - Build Tool: Vite
 - Styling: SCSS
@@ -21,9 +21,7 @@ This document defines how AI agents (and developers) should operate within this 
 
 - Use `dev` for local development
 - Use `build` for production build
-- Use `lint` for linting
-- Use `format` for formatting
-- Use `test:unit` for unit tests
+- Use `test` for unit tests
 
 ### 3. Folder & File Discipline
 
@@ -150,6 +148,7 @@ margin: 16px;
 - Prefer:
   - Unit tests for logic
   - Integration tests for flows
+  - Import test utilities from `@/testing`.
   - Always use `it` for test cases and start the description with "should".
   - Use `describe` for grouping related tests.
   - Use Vitest global API (globals: true)

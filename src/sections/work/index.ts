@@ -1,1 +1,1 @@
-export { Work, type WorkProps } from './work.component';
+export { WorkSection } from './work.component';

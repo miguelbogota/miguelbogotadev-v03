@@ -1,11 +1,13 @@
+import { useAppState } from '@/state';
 import './profile.styles.scss';
 
-import type { Content } from '@/types/content';
-
-export type ProfileProps = Content['profile'];
-
-export function Profile(props: ProfileProps) {
-  const { image, overline, title, description } = props;
+/** Section renders the profile information. */
+export function ProfileSection() {
+  const {
+    content: {
+      profile: { image, overline, title, description },
+    },
+  } = useAppState();
 
   return (
     <section id="profile">

@@ -9,23 +9,17 @@ function TestComponent({ ids }: { ids: string[] }) {
 }
 
 /** Mocks the rect to get the bounds of the component and calculate the scroll active section. */
-function createMockRect(start: number, height: number) {
-  return () => {
-    const scroll = window.scrollY;
-
-    return {
-      top: start - scroll,
-      bottom: start + height - scroll,
-      left: 0,
-      right: 0,
-      width: 0,
-      height,
-      x: 0,
-      y: 0,
-      toJSON: () => {},
-    };
-  };
-}
+const createMockRect = (start: number, height: number) => () => ({
+  top: start - window.scrollY,
+  bottom: start + height - window.scrollY,
+  left: 0,
+  right: 0,
+  width: 0,
+  height,
+  x: 0,
+  y: 0,
+  toJSON: () => {},
+});
 
 describe('hook / useScrollSpy', () => {
   beforeEach(() => {

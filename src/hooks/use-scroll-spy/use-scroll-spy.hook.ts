@@ -13,9 +13,7 @@ export type UseScrollSpyOptions<T extends string = string> = {
   offset?: number;
 };
 
-/**
- * Returns the id of the section currently visible in the viewport.
- */
+/** Returns the id of the section currently visible in the viewport. */
 export function useScrollSpy<T extends string = string>(options: UseScrollSpyOptions<T>) {
   const { ids, defaultSection = '', offset = 1 } = options;
 

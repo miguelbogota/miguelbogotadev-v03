@@ -1,1 +1,1 @@
-export { Social, type SocialProps } from './social.component';
+export { SocialSection } from './social.component';

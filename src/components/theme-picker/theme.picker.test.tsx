@@ -1,54 +1,27 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { vi } from 'vitest';
+import { render, screen, fireEvent, act } from '@/testing';
 import { ThemePicker } from './theme.picker.component';
-import { ThemePickerProvider } from './theme-picker.context';
-import { type ThemeType } from './theme-type.type';
-
-const { saveThemeMock } = vi.hoisted(() => {
-  return { saveThemeMock: vi.fn() };
-});
-
-// Mock the server function
-vi.mock('@tanstack/react-start/server', () => ({
-  setCookie: vi.fn(),
-}));
-
-vi.mock('@tanstack/react-start', () => ({
-  createServerFn: vi.fn(() => ({
-    inputValidator: vi.fn(() => ({
-      handler: () => saveThemeMock,
-    })),
-  })),
-}));
 
 describe('components / ThemePicker', () => {
-  const renderWithProvider = (theme: ThemeType = 'system') => {
-    return render(
-      <ThemePickerProvider theme={theme}>
-        <ThemePicker />
-      </ThemePickerProvider>,
-    );
-  };
-
   beforeEach(() => {
     // Reset html data-theme attribute
     document.documentElement.removeAttribute('data-theme');
+    document.cookie = '';
     vi.clearAllMocks();
   });
 
   it('should renders without crashing', () => {
-    renderWithProvider();
+    render(<ThemePicker />);
   });
 
   it('should render a main button with initial icon', () => {
-    renderWithProvider();
+    render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
     expect(mainButton).toBeTruthy();
   });
 
   it('should show dropdown menu on button hover', () => {
-    renderWithProvider();
+    render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
     fireEvent.mouseEnter(mainButton);
@@ -58,18 +31,21 @@ describe('components / ThemePicker', () => {
     expect(screen.getByRole('option', { name: /system/i })).toBeTruthy();
   });
 
-  it('should hide dropdown menu on mouse leave', () => {
-    renderWithProvider();
+  it('should hide dropdown menu on mouse leave after a short delay', () => {
+    render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
     fireEvent.mouseEnter(mainButton);
     fireEvent.mouseLeave(mainButton);
 
+    // Wait for the timeout to trigger
+    act(() => vi.runAllTimers());
+
     expect(screen.queryByRole('option', { name: /light/i })).toBeFalsy();
   });
 
   it('should set data-theme to light when light option is clicked', () => {
-    renderWithProvider();
+    render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
     fireEvent.mouseEnter(mainButton);
@@ -81,7 +57,7 @@ describe('components / ThemePicker', () => {
   });
 
   it('should set data-theme to dark when dark option is clicked', () => {
-    renderWithProvider();
+    render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
     fireEvent.mouseEnter(mainButton);
@@ -93,7 +69,7 @@ describe('components / ThemePicker', () => {
   });
 
   it('should set data-theme to system when system option is clicked', () => {
-    renderWithProvider();
+    render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
     fireEvent.mouseEnter(mainButton);
@@ -105,7 +81,7 @@ describe('components / ThemePicker', () => {
   });
 
   it('should update main button icon when theme changes', () => {
-    renderWithProvider();
+    render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
     fireEvent.mouseEnter(mainButton);
@@ -118,7 +94,7 @@ describe('components / ThemePicker', () => {
   });
 
   it('should mark the current theme option as active', () => {
-    renderWithProvider();
+    render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
     fireEvent.mouseEnter(mainButton);
@@ -133,7 +109,7 @@ describe('components / ThemePicker', () => {
   });
 
   it('should unmark other theme options as inactive', () => {
-    renderWithProvider();
+    render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
     fireEvent.mouseEnter(mainButton);
@@ -148,7 +124,7 @@ describe('components / ThemePicker', () => {
   });
 
   it('should close dropdown after selecting an option', () => {
-    renderWithProvider();
+    render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
     fireEvent.mouseEnter(mainButton);
@@ -159,8 +135,8 @@ describe('components / ThemePicker', () => {
     expect(screen.queryByRole('option', { name: /dark/i })).toBeFalsy();
   });
 
-  it('should call saveTheme server function when theme is changed', () => {
-    renderWithProvider();
+  it('should save the theme as a cookie', () => {
+    render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
     fireEvent.mouseEnter(mainButton);
@@ -168,18 +144,18 @@ describe('components / ThemePicker', () => {
     const darkOption = screen.getByRole('option', { name: /dark/i });
     fireEvent.click(darkOption);
 
-    expect(saveThemeMock).toHaveBeenCalledWith({ data: { theme: 'dark' } });
+    expect(document.cookie).toContain('theme=dark');
   });
 
   it('should render with correct initial theme from provider', () => {
-    renderWithProvider('light');
+    render(<ThemePicker />, { state: { theme: 'light' } });
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
     expect(mainButton.querySelector('.bx-sun')).toBeTruthy();
   });
 
   it('should toggle dropdown when main button is clicked', () => {
-    renderWithProvider();
+    render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
 
@@ -196,7 +172,7 @@ describe('components / ThemePicker', () => {
   });
 
   it('should show divider before system option', () => {
-    renderWithProvider();
+    render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
     fireEvent.mouseEnter(mainButton);

@@ -1,10 +1,13 @@
-import type { Content } from '@/types/content';
+import { useAppState } from '@/state';
 import './social.styles.scss';
 
-export type SocialProps = Content['social'];
-
-export function Social(props: SocialProps) {
-  const { title, description, links } = props;
+/** Section renders the social information. */
+export function SocialSection() {
+  const {
+    content: {
+      social: { title, description, links },
+    },
+  } = useAppState();
 
   return (
     <section id="social">

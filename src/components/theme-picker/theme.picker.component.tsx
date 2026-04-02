@@ -1,32 +1,9 @@
-import { Fragment, useState } from 'react';
-import clsx from 'clsx';
-import _ from 'lodash';
 import './theme.picker.styles.scss';
-import { createServerFn } from '@tanstack/react-start';
-import { setCookie } from '@tanstack/react-start/server';
-import { type ThemeType } from './theme-type.type';
-import { useThemePicker } from './theme-picker.context';
 
-/** Function to store the theme as a cookie. */
-const saveTheme = createServerFn({ method: 'POST' })
-  .inputValidator((data: { theme: ThemeType }) => data)
-  .handler(({ data: { theme } }) => setCookie('theme', theme));
-
-/**
- * Array of all available theme options.
- * Used to populate the theme selector dropdown.
- */
-const THEMES: ThemeType[] = ['light', 'dark', 'system'];
-
-/**
- * Mapping of theme types to their corresponding icon class names.
- * Uses the Boxicons library (bx-*) for icon rendering.
- */
-const THEME_ICONS: Record<ThemeType, string> = {
-  light: 'bx-sun',
-  dark: 'bx-moon',
-  system: 'bx-monitor',
-};
+import { Fragment, useRef, useState } from 'react';
+import clsx from 'clsx';
+import { cookies } from '@/utils/cookies';
+import { useAppState } from '@/state';
 
 /**
  * ThemePicker Component
@@ -36,13 +13,27 @@ const THEME_ICONS: Record<ThemeType, string> = {
  *
  * Features:
  * - Hover to show/hide theme options
+ * - Smooth transition when showing/hiding
  * - Click to select a theme
  * - Persists selection to the DOM
  * - Shows visual indicator for the currently selected theme
  */
 export function ThemePicker() {
-  const { currentTheme, setCurrentTheme } = useThemePicker();
+  const {
+    currentTheme,
+    setCurrentTheme,
+    content: {
+      navigation: {
+        actions: { themePicker },
+      },
+    },
+  } = useAppState();
   const [isOpen, setIsOpen] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const currentThemeIcon = themePicker.options
+    .filter((option) => option !== 'divider')
+    .find((option) => option.value === currentTheme)?.icon;
 
   /**
    * Handle theme selection.
@@ -50,39 +41,48 @@ export function ThemePicker() {
    */
   const handleThemeChange = (theme: ThemeType) => {
     document.documentElement.setAttribute('data-theme', theme);
+    cookies.set('theme', theme);
     setCurrentTheme(theme);
     setIsOpen(false);
-    saveTheme({ data: { theme } });
   };
 
   return (
     <div
       className="theme-picker"
-      onMouseLeave={() => setIsOpen(false)}
-      onMouseEnter={() => setIsOpen(true)}
+      onMouseLeave={() => {
+        timeoutRef.current = setTimeout(() => setIsOpen(false), 200);
+      }}
+      onMouseEnter={() => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        setIsOpen(true);
+      }}
     >
-      <button onClick={() => setIsOpen((prev) => !prev)} aria-label="Theme selector">
-        <i className={clsx('bx', THEME_ICONS[currentTheme], { hovered: isOpen })} />
+      <button onClick={() => setIsOpen((prev) => !prev)} aria-label={themePicker.ariaLabel}>
+        <i className={clsx('bx', currentThemeIcon, { hovered: isOpen })} />
       </button>
 
       {isOpen && (
         <div className="dropdown">
           <ul>
-            {THEMES.map((theme, index) => (
-              <Fragment key={theme}>
-                {index === 2 && <li className="divider" />}
-                <li>
-                  <button
-                    role="option"
-                    aria-pressed={currentTheme === theme ? 'true' : 'false'}
-                    onClick={() => handleThemeChange(theme)}
-                  >
-                    <i className={`bx ${THEME_ICONS[theme]}`} />
-                    <span>{_.capitalize(theme)}</span>
-                  </button>
-                </li>
-              </Fragment>
-            ))}
+            {themePicker.options.map((option, index) =>
+              option === 'divider' ? (
+                <li className="divider" key={`divider-${index}`} />
+              ) : (
+                <Fragment key={option.value}>
+                  <li>
+                    <button
+                      role="option"
+                      aria-pressed={currentTheme === option.value ? 'true' : 'false'}
+                      aria-label={option.ariaLabel}
+                      onClick={() => handleThemeChange(option.value)}
+                    >
+                      <i className={clsx('bx', option.icon)} />
+                      <span>{option.label}</span>
+                    </button>
+                  </li>
+                </Fragment>
+              ),
+            )}
           </ul>
         </div>
       )}

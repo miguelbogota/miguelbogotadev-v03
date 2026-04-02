@@ -1,24 +1,26 @@
-import { ThemePicker } from '../theme-picker';
-import { createLogoName } from './create-logo-name.function';
-import { Container } from '@/components/container';
-import clsx from 'clsx';
 import './navigation.styles.scss';
+
+import { Fragment } from 'react';
+import clsx from 'clsx';
+import { Container } from '@/components/container';
+import { ThemePicker } from '@/components/theme-picker';
 import { useActiveIndicator } from './use-active-indicator.hook';
+import { useAppState } from '@/state';
 
 /**
- * Navigation Component Props
+ * With the given name, this function returns a list of span elements, where the first
+ * letter of each word is wrapped in a span and the rest of the word is wrapped in another span.
+ * This allows for styling the first letter and give a shrinking effect.
+ *
+ * @param name Name to display as the logo.
  */
-export interface NavigationProps {
-  logoName: string;
-  links: {
-    id: string;
-    label: string;
-  }[];
-  externalLink: {
-    href: string;
-    label: string;
-  };
-}
+const createLogoName = (name: string) =>
+  name.split(' ').map((word, index) => (
+    <Fragment key={index}>
+      <span>{word.charAt(0)}</span>
+      <span>{word.slice(1)}</span>
+    </Fragment>
+  ));
 
 /**
  * Navigation Component
@@ -33,8 +35,12 @@ export interface NavigationProps {
  * - Collapsed site name (animated "MB" initials)
  * - No center links visible
  */
-export function Navigation(props: NavigationProps) {
-  const { logoName, links, externalLink } = props;
+export function Navigation() {
+  const {
+    content: {
+      navigation: { name, actions, links },
+    },
+  } = useAppState();
 
   const { activeSection, indicatorStyle, linksRef } = useActiveIndicator(
     links.map((section) => section.id),
@@ -55,7 +61,7 @@ export function Navigation(props: NavigationProps) {
         {/* Logo / Name at the start of the navigation bar. */}
         <h3 className="logo">
           <a href="/" onClick={handleNameClick}>
-            {createLogoName(logoName)}
+            {createLogoName(name)}
           </a>
         </h3>
 
@@ -101,8 +107,8 @@ export function Navigation(props: NavigationProps) {
         {/* Final actions (resume and theme picker) */}
         <div className="actions">
           <div className="actions-content">
-            <a href={externalLink.href} target="_blank" rel="noopener noreferrer">
-              {externalLink.label}
+            <a href={actions.resume.href} target="_blank" rel="noopener noreferrer">
+              {actions.resume.label}
             </a>
             <ThemePicker />
           </div>

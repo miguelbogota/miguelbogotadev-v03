@@ -2,69 +2,29 @@
   "name": "miguelbogotadev-v03",
   "private": true,
   "type": "module",
-  "imports": {
-    "#/*": "./src/*"
-  },
-  "lint-staged": {
-    "*.@(ts|tsx)": [
-      "npm run lint:js",
-      "npm run format"
-    ],
-    "*.@(scss|css)": [
-      "npm run lint:scss",
-      "npm run format"
-    ]
-  },
   "scripts": {
     "prepare": "husky",
-    "dev": "vite dev --port 3000",
-    "build": "vite build",
-    "lint:js": "eslint . --report-unused-disable-directives --max-warnings 0",
-    "lint:scss": "stylelint '**/*.scss'",
-    "lint:spelling": "cspell stdin --no-must-find-files --file-list",
-    "lint": "npm run lint:js && npm run lint:scss",
-    "format": "prettier --write .",
-    "test:unit": "vitest run .",
-    "test:unit-watch": "vitest .",
-    "test:lint-staged": "lint-staged"
-  },
-  "dependencies": {
-    "@tanstack/react-devtools": "latest",
-    "@tanstack/react-router": "latest",
-    "@tanstack/react-router-devtools": "latest",
-    "@tanstack/react-router-ssr-query": "latest",
-    "@tanstack/react-start": "latest",
-    "@tanstack/router-plugin": "^1.132.0",
-    "clsx": "^2.1.1",
-    "lodash": "^4.17.23",
-    "lucide-react": "^0.545.0",
-    "nitro": "npm:nitro-nightly@latest",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "dev": "vite dev",
+    "build": "nitro build",
+    "test": "vitest run ."
   },
   "devDependencies": {
-    "@tanstack/devtools-vite": "latest",
-    "@tanstack/eslint-config": "latest",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@types/lodash": "^4.17.24",
-    "@types/node": "^22.10.2",
-    "@types/react": "^19.2.0",
-    "@types/react-dom": "^19.2.0",
-    "@vitejs/plugin-react": "^5.1.4",
-    "cspell": "^9.7.0",
+    "@types/node": "^25.5.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "clsx": "^2.1.1",
     "husky": "^9.1.7",
-    "jest-extended": "^7.0.0",
-    "jsdom": "^28.1.0",
-    "lint-staged": "^16.4.0",
-    "prettier": "^3.8.1",
-    "sass": "^1.98.0",
-    "stylelint": "^17.5.0",
-    "stylelint-config-standard-scss": "^17.0.0",
-    "typescript": "^5.7.2",
-    "vite": "^7.3.1",
-    "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.0.5"
+    "jsdom": "^29.0.1",
+    "lodash": "^4.17.23",
+    "nitro": "latest",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "sass-embedded": "^1.98.0",
+    "vitest": "^4.1.2"
   }
 }

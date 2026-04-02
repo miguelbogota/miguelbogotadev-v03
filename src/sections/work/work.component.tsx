@@ -1,33 +1,30 @@
 import './work.styles.scss';
 
-import type { Content } from '@/types/content';
 import { useMemo, useState } from 'react';
-import { WorkProjectCard } from './work-project-card.component';
-import { WorkSearchBar } from './work-search-bar.component';
-import { filterWorkProjects } from './work.utils';
-import type { Project } from '@/types/project';
+import { useAppState } from '@/state';
+import { filterProjects } from './filter-projects.function';
+import { SearchBar } from './search-bar.component';
+import { ProjectCard } from './project-card.component';
 
+/** Number of projects to display per page. */
 const PROJECTS_PER_PAGE = 3;
+
+/** ID of the work section for scrolling. */
 const INPUT_ID = 'work-search';
 
-/**
- * Props for the Work component.
- */
-export type WorkProps = Content['work'] & {
-  projects: Project[];
-};
-
-/**
- * Work section with searchable and paginated project cards.
- * Displays projects in groups of 3 with pagination controls.
- */
-export function Work(props: WorkProps) {
-  const { projects, title, description, noResults, pagination, searchBar, card } = props;
+/** Section renders the work information. */
+export function WorkSection() {
+  const {
+    projects,
+    content: {
+      work: { title, description, searchBar, noResults, pagination },
+    },
+  } = useAppState();
 
   const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
-  const filteredProjects = useMemo(() => filterWorkProjects(projects, query), [query]);
+  const filteredProjects = useMemo(() => filterProjects(projects, query), [query]);
   const totalPages = Math.ceil(filteredProjects.length / PROJECTS_PER_PAGE);
 
   // Get projects for current page
@@ -54,29 +51,27 @@ export function Work(props: WorkProps) {
   return (
     <section id="work">
       <div className="work-container">
-        <header>
-          <h2>{title}</h2>
-          <p className="overline">{description}</p>
-        </header>
+        <h2>{title}</h2>
+        <p className="overline">{description}</p>
 
-        <WorkSearchBar {...searchBar} id={INPUT_ID} value={query} onChange={setQuery} />
+        <SearchBar {...searchBar} id={INPUT_ID} value={query} onChange={setQuery} />
 
         {/* Projects */}
         {displayedProjects.length ? (
-          <div className="work-grid">
+          <div className="projects">
             {displayedProjects.map((project) => (
-              <WorkProjectCard {...card} key={project.id} project={project} />
+              <ProjectCard key={project.id} project={project} />
             ))}
           </div>
         ) : (
-          <div className="work-empty">{noResults}</div>
+          <div className="empty">{noResults}</div>
         )}
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="work-pagination">
+          <div className="pagination">
             <button
-              className="work-pagination-arrow"
+              className="pagination-arrow"
               onClick={goToPreviousPage}
               disabled={currentPage === 1}
               aria-label={pagination.previous}
@@ -84,11 +79,11 @@ export function Work(props: WorkProps) {
               ←
             </button>
 
-            <div className="work-pagination-numbers">
+            <div className="pagination-numbers">
               {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
                 <button
                   key={page}
-                  className={`work-pagination-number ${currentPage === page ? 'active' : ''}`}
+                  className={`pagination-number ${currentPage === page ? 'active' : ''}`}
                   onClick={() => goToPage(page)}
                   aria-label={`${pagination.goToPage} ${page}`}
                   aria-current={currentPage === page ? 'page' : undefined}
@@ -99,7 +94,7 @@ export function Work(props: WorkProps) {
             </div>
 
             <button
-              className="work-pagination-arrow"
+              className="pagination-arrow"
               onClick={goToNextPage}
               disabled={currentPage === totalPages}
               aria-label={pagination.next}
