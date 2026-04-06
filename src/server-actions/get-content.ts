@@ -95,6 +95,12 @@ let cachedContent: Content | null = {
     thumbnailLabel: 'View image ',
   },
 
+  notFound: {
+    title: '404',
+    description: "The page you're looking for doesn't exist.",
+    goHomeButton: 'Go Home',
+  },
+
   footer: {
     text: 'Designed & Built by Miguel Bogota',
   },

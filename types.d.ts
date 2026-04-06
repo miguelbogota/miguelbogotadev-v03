@@ -140,6 +140,16 @@ declare type Content = {
     thumbnailLabel: string;
   };
 
+  /** 404 not found page content and labels. */
+  notFound: {
+    /** Main heading displayed on the not found page. */
+    title: string;
+    /** Descriptive message explaining the page wasn't found. */
+    description: string;
+    /** Text displayed on the go home button. */
+    goHomeButton: string;
+  };
+
   /** Footer section content. */
   footer: {
     /** Text displayed in the footer. */
