@@ -26,7 +26,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
   const handleCardClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    console.log('Card clicked:', id);
     navigate(`/project/${id}`);
   };
 

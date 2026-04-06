@@ -19,7 +19,7 @@ section {
 p {
   font-size: clamp(1.1rem, 1.24vw, 1.26rem);
   line-height: clamp(1.55rem, 1.9vw, 1.85rem);
-  margin-bottom: 1.2rem;
+  margin-bottom: var(--space-3);
   font-weight: 200;
   letter-spacing: 0.02rem;
 
@@ -33,7 +33,7 @@ h1 {
   font-size: clamp(1.4rem, 6.5vw, 3.2rem);
   line-height: clamp(1.8rem, 6.7vw, 3.4rem);
   font-weight: 600;
-  margin-bottom: 2rem;
+  margin-bottom: var(--space-4);
   color: var(--text-primary);
   letter-spacing: 0.02rem;
   white-space: nowrap;

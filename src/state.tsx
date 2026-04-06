@@ -5,6 +5,10 @@ export type InitialState = Window['__STATE__'];
 
 /** Virtual state context type. */
 export type VirtualStateContext = {
+  /** Current project ID of the project being viewed in the drawer. */
+  currentProjectId: string | null;
+  /** Function to set the current project ID. */
+  setCurrentProjectId: (projectId: string | null) => void;
   /** Current theme of the application. */
   currentTheme: ThemeType;
   /** Function to set the current theme of the application. */
@@ -30,12 +34,15 @@ export type StateProviderProps = PropsWithChildren<{
 /** Provider for sharing state between server and client. */
 export function AppStateProvider({ children, value }: StateProviderProps) {
   const [theme, setTheme] = useState(value.theme);
+  const [currentProjectId, setCurrentProjectId] = useState<string | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   return (
     <Context
       value={{
         ...value,
+        currentProjectId,
+        setCurrentProjectId,
         currentTheme: theme,
         setCurrentTheme: (theme: ThemeType) => setTheme(theme),
         isDrawerOpen,
