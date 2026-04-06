@@ -34,15 +34,23 @@ export function WorkSection() {
     return filteredProjects.slice(startIndex, endIndex);
   }, [filteredProjects, currentPage, PROJECTS_PER_PAGE]);
 
+  const onSearch = (value: string) => {
+    setQuery(value);
+    setCurrentPage(1);
+  };
+
   const goToPage = (page: number) => {
+    if (page === currentPage) return;
+
     setCurrentPage(page);
     // Scroll to top of work section when changing pages
-    if (page !== currentPage) {
-      const workSection = document.getElementById(INPUT_ID);
-      if (workSection) {
-        workSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }
+    const workSection = document.getElementById(INPUT_ID)!;
+    workSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    setTimeout(() => {
+      const firstProject = document.querySelector('a[href^="/project/"]') as HTMLElement;
+      firstProject?.focus();
+    }, 10);
   };
 
   const goToPreviousPage = () => goToPage(Math.max(1, currentPage - 1));
@@ -54,7 +62,7 @@ export function WorkSection() {
         <h2>{title}</h2>
         <p className="overline">{description}</p>
 
-        <SearchBar {...searchBar} id={INPUT_ID} value={query} onChange={setQuery} />
+        <SearchBar {...searchBar} id={INPUT_ID} value={query} onChange={onSearch} />
 
         {/* Projects */}
         {displayedProjects.length ? (
@@ -85,8 +93,9 @@ export function WorkSection() {
                   key={page}
                   className={`pagination-number ${currentPage === page ? 'active' : ''}`}
                   onClick={() => goToPage(page)}
-                  aria-label={`${pagination.goToPage} ${page}`}
+                  aria-label={`${pagination.goToPage}${page}`}
                   aria-current={currentPage === page ? 'page' : undefined}
+                  disabled={currentPage === page}
                 >
                   {page}
                 </button>

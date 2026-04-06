@@ -26,7 +26,7 @@ export default {
           <head>
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <meta charSet="utf-8" />
-            <title>{`Miguel Bogota${project ? ` - ${project.displayName}` : ''}`}</title>
+            <title>{`${content.title}${project ? ` - ${project.displayName}` : ''}`}</title>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <link rel="icon" href="/favicon.ico" />
 

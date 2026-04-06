@@ -14,7 +14,8 @@ export function filterProjects(projects: Project[], query: string): Project[] {
 
   return projects.filter((project) => {
     // Check if ALL tokens match AT LEAST ONE field each
-    return tokens.every((token) => {
+    return tokens.every((rawToken) => {
+      const token = rawToken.toLocaleLowerCase();
       const matchesId = project.id.toLowerCase().includes(token);
       const matchesDisplayName = project.displayName.toLowerCase().includes(token);
       const matchesIndustry = project.industry.toLowerCase().includes(token);
