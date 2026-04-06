@@ -21,12 +21,12 @@ export function Drawer() {
   useEffect(() => {
     if (!dialogRef.current) return;
 
-    const handleClose = () => {
+    const handleDialogClose = () => {
       navigate('/');
     };
 
-    dialogRef.current.addEventListener('close', handleClose);
-    return () => dialogRef.current?.removeEventListener('close', handleClose);
+    dialogRef.current.addEventListener('close', handleDialogClose);
+    return () => dialogRef.current?.removeEventListener('close', handleDialogClose);
   }, []);
 
   /** HTML Semantic Dialog Management */
@@ -41,14 +41,16 @@ export function Drawer() {
   return (
     <dialog ref={dialogRef} aria-labelledby="drawer-title" closedby="any">
       {currentProject && (
-        <ProjectInfo
-          project={currentProject}
-          backButton={
-            <button onClick={() => setIsDrawerOpen(false)} aria-label="Close drawer">
-              Close
-            </button>
-          }
-        />
+        <div className="drawer__project">
+          <ProjectInfo
+            project={currentProject}
+            closeButton={
+              <button onClick={() => setIsDrawerOpen(false)} aria-label="Close drawer">
+                ×
+              </button>
+            }
+          />
+        </div>
       )}
     </dialog>
   );

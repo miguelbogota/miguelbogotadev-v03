@@ -7,5 +7,15 @@ export type ProjectDetailsRouteProps = {
 
 /** Project details route component. */
 export function ProjectDetailsRoute({ project }: ProjectDetailsRouteProps) {
-  return <ProjectInfo project={project} backButton={<a href="/">Back</a>} />;
+  return (
+    <ProjectInfo
+      project={project}
+      backButton={
+        <a href="/">
+          <span>⬅</span>
+          <span>Back</span>
+        </a>
+      }
+    />
+  );
 }

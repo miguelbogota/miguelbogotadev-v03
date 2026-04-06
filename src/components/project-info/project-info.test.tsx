@@ -19,16 +19,47 @@ describe('ProjectInfo', () => {
     expect(screen.getByText(mockProject.summary)).toBeInTheDocument();
   });
 
-  it('should render project industry and year', () => {
+  it('should render project date and role', () => {
     const mockProject = mockState.projects[0]!;
-    const year = mockProject.startedAt.split('-')[0]!;
 
     render(<ProjectInfo project={mockProject} />);
 
-    expect(screen.getByText(`${mockProject.industry} — ${year}`)).toBeInTheDocument();
+    expect(screen.getByText(mockProject.startedAt)).toBeInTheDocument();
+    expect(screen.getByText(mockProject.role)).toBeInTheDocument();
   });
 
-  it('should render project hero image', () => {
+  it('should render project industry and tags', () => {
+    const mockProject = mockState.projects[0]!;
+
+    render(<ProjectInfo project={mockProject} />);
+
+    expect(screen.getByText(mockProject.industry)).toBeInTheDocument();
+
+    // Check that tags container exists and has content
+    const tagsContainer = document.querySelector('.tags');
+    expect(tagsContainer).toBeInTheDocument();
+    expect(tagsContainer?.textContent).toContain(mockProject.tags[0]);
+  });
+
+  it('should render challenge section', () => {
+    const mockProject = mockState.projects[0]!;
+
+    render(<ProjectInfo project={mockProject} />);
+
+    expect(screen.getByText(mockProject.challenge.title)).toBeInTheDocument();
+    expect(screen.getByText(mockProject.challenge.description)).toBeInTheDocument();
+  });
+
+  it('should render solution section', () => {
+    const mockProject = mockState.projects[0]!;
+
+    render(<ProjectInfo project={mockProject} />);
+
+    expect(screen.getByText(mockProject.solution.title)).toBeInTheDocument();
+    expect(screen.getByText(mockProject.solution.description)).toBeInTheDocument();
+  });
+
+  it('should render project images', () => {
     const mockProject = mockState.projects[0]!;
     const heroImage = mockProject.images[0]!;
 
@@ -37,5 +68,20 @@ describe('ProjectInfo', () => {
     const image = screen.getByAltText(heroImage.alt);
     expect(image).toBeInTheDocument();
     expect(image).toHaveAttribute('src', heroImage.src);
+  });
+
+  it('should render action buttons when provided', () => {
+    const mockProject = mockState.projects[0]!;
+
+    render(
+      <ProjectInfo
+        project={mockProject}
+        backButton={<button>Back</button>}
+        closeButton={<button>Close</button>}
+      />,
+    );
+
+    expect(screen.getByText('Back')).toBeInTheDocument();
+    expect(screen.getByText('Close')).toBeInTheDocument();
   });
 });

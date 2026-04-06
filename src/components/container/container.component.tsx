@@ -7,6 +7,7 @@ import clsx from 'clsx';
 type PolymorphicProps<T extends ElementType> = {
   as?: T;
   className?: string;
+  maxWidth?: string;
   children: React.ReactNode;
 } & ComponentPropsWithoutRef<T>;
 
@@ -20,13 +21,17 @@ export type ContainerProps<T extends ElementType = 'div'> = PolymorphicProps<T>;
  * Layout wrapper that enforces consistent max-width and horizontal spacing.
  */
 export function Container<T extends ElementType = 'div'>(props: ContainerProps<T>) {
-  const { as: asComponent, className, children, ...rest } = props;
+  const { as: asComponent, className, maxWidth, children, ...rest } = props;
 
   const Component = asComponent || 'div';
   const classes = clsx('container', className);
 
   return (
-    <Component className={classes} {...rest}>
+    <Component
+      className={classes}
+      style={{ '--max-width': maxWidth } as React.CSSProperties}
+      {...rest}
+    >
       {children}
     </Component>
   );
