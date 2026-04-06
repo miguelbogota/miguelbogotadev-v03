@@ -112,13 +112,11 @@ let cachedContent: Content | null = {
  * application.
  */
 export async function getContent() {
-  if (cachedContent) {
-    console.log('❤️ Returning cached content...');
-    return cachedContent;
-  }
-
-  console.log('😭 Fetching content from API...');
-
+  // if (cachedContent) {
+  //   console.log('❤️ Returning cached content...');
+  //   return cachedContent;
+  // }
+  // console.log('😭 Fetching content from API...');
   const response = await fetch(`${API_URL}/content/v03.json`);
   const data = (await response.json()) as Content;
   cachedContent = data;

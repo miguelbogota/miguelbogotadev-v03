@@ -5,7 +5,7 @@
   "scripts": {
     "prepare": "husky",
     "dev": "vite dev",
-    "build": "nitro build",
+    "build": "nitro build --preset firebase-app-hosting",
     "test": "vitest run ."
   },
   "devDependencies": {
