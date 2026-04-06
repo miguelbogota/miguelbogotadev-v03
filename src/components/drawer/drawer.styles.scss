@@ -1,0 +1,76 @@
+dialog {
+  position: fixed;
+  top: 10svh;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 100svw;
+  height: 88svh;
+
+  visibility: hidden;
+  z-index: var(--drawer);
+  opacity: 0;
+  transform: translateY(200%);
+  background-color: var(--background-sheet);
+  border-radius: 20px 20px 0 0;
+  border: 0;
+  transition:
+    all 0.7s allow-discrete,
+    width 0s allow-discrete;
+
+  &::backdrop {
+    opacity: 0;
+    background-color: transparent;
+    transition:
+      all 0.7s allow-discrete,
+      width 0s allow-discrete;
+  }
+
+  &:open {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+
+    @starting-style {
+      opacity: 0;
+      transform: translateY(200%);
+    }
+
+    &::backdrop {
+      opacity: 1;
+      backdrop-filter: saturate(20%) blur(10px);
+
+      @starting-style {
+        opacity: 0;
+        background-color: transparent;
+      }
+    }
+  }
+}
+
+html[data-theme='light'] {
+  dialog::backdrop {
+    background-color: color-mix(in srgb, var(--dark) 70%, transparent 70%);
+  }
+}
+
+html[data-theme='dark'] {
+  dialog::backdrop {
+    background-color: color-mix(in srgb, var(--black) 70%, transparent 70%);
+  }
+}
+
+html[data-theme='system'] {
+  @media (prefers-color-scheme: light) {
+    dialog::backdrop {
+      background-color: color-mix(in srgb, var(--dark) 70%, transparent 70%);
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    dialog::backdrop {
+      background-color: color-mix(in srgb, var(--black) 70%, transparent 70%);
+    }
+  }
+}
