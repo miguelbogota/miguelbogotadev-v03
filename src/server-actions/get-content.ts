@@ -1,6 +1,8 @@
 import { API_URL } from './constants';
 
 let cachedContent: Content | null = {
+  title: 'Miguel Bogota',
+
   navigation: {
     name: 'MIGUEL BOGOTA',
     links: [
@@ -54,7 +56,7 @@ let cachedContent: Content | null = {
     },
     pagination: {
       previous: 'Go to previous page',
-      goToPage: 'Go to page',
+      goToPage: 'Go to page ',
       next: 'Go to next page',
     },
   },
@@ -85,6 +87,12 @@ let cachedContent: Content | null = {
         link: 'https://instagram.com/migue_bogota',
       },
     ],
+  },
+
+  projectDetails: {
+    backButton: 'Back',
+    closeButton: 'Close project details',
+    thumbnailLabel: 'View image ',
   },
 
   footer: {

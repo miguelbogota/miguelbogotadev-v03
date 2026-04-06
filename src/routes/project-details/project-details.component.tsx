@@ -1,3 +1,4 @@
+import { useAppState } from '@/state';
 import { ProjectInfo } from '@/components/project-info';
 
 /** Project details route props. */
@@ -7,13 +8,15 @@ export type ProjectDetailsRouteProps = {
 
 /** Project details route component. */
 export function ProjectDetailsRoute({ project }: ProjectDetailsRouteProps) {
+  const { content } = useAppState();
+
   return (
     <ProjectInfo
       project={project}
       backButton={
         <a href="/">
           <span>⬅</span>
-          <span>Back</span>
+          <span>{content.projectDetails.backButton}</span>
         </a>
       }
     />

@@ -1,9 +1,10 @@
 import './project-info.styles.scss';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Container } from '@/components/container';
 import { Footer } from '@/components/footer';
+import { useAppState } from '@/state';
 
 /** Props for the ProjectInfo component. */
 export type ProjectInfoProps = {
@@ -20,12 +21,21 @@ export type ProjectInfoProps = {
 export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoProps) {
   const { displayName, summary, industry, startedAt, role, tags, challenge, solution, images } =
     project;
+  const { content } = useAppState();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const selectedImage = images[selectedImageIndex]!;
 
   const handleThumbnailClick = (index: number) => {
     setSelectedImageIndex(index);
   };
+
+  // Set document title when component mounts and clean up on unmount.
+  useEffect(() => {
+    document.title = `${content.title} - ${displayName}`;
+    return () => {
+      document.title = content.title;
+    };
+  }, []);
 
   return (
     <>
@@ -39,13 +49,15 @@ export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoPro
         {/* Project header */}
         <div className="header">
           <p>{startedAt}</p>
-          <h1>{displayName}</h1>
+          <h1 id="drawer-title">{displayName}</h1>
           <span>{role}</span>
         </div>
 
         {/* Summary and tags wrapper */}
         <div className="summary-section">
-          <p className="summary">{summary}</p>
+          <p className="summary" id="drawer-description">
+            {summary}
+          </p>
           <div className="tags-section">
             <h3>{industry}</h3>
             <div className="tags">
@@ -83,7 +95,7 @@ export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoPro
                   key={index}
                   className={clsx('thumbnail', index === selectedImageIndex && 'active')}
                   onClick={() => handleThumbnailClick(index)}
-                  aria-label={`View image ${index + 1}`}
+                  aria-label={`${content.projectDetails.thumbnailLabel}${index + 1}`}
                 >
                   <img src={image.src} alt={image.alt} loading="lazy" />
                 </button>
