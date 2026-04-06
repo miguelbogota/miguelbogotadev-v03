@@ -8,12 +8,11 @@ let cachedProjects: Project[] = [];
  * application.
  */
 export async function getProjects() {
-  if (cachedProjects.length > 0) {
-    console.log('❤️ Returning cached projects...');
-    return cachedProjects;
-  }
-
-  console.log('😭 Fetching projects from API...');
+  // if (cachedProjects.length > 0) {
+  //   console.log('❤️ Returning cached projects...');
+  //   return cachedProjects;
+  // }
+  // console.log('😭 Fetching projects from API...');
 
   const response = await fetch(`${API_URL}/index.json`);
   const data = (await response.json()) as Project[];
