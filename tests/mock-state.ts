@@ -2,6 +2,7 @@ export const mockState: Window['__STATE__'] = {
   url: 'http://localhost:3000/',
   theme: 'system',
   content: {
+    title: 'Miguel Bogota',
     navigation: {
       name: 'MIGUEL BOGOTA',
       links: [
@@ -32,7 +33,10 @@ export const mockState: Window['__STATE__'] = {
     },
     profile: {
       overline: "Hi, I'm Miguel Bogota",
-      image: { url: '/profile.png', alt: "Miguel Bogota's profile picture" },
+      image: {
+        url: '/profile.png',
+        alt: "Miguel Bogota's profile picture",
+      },
       title: 'Senior Software Engineer\nBuilding AI-Enhanced Systems\nAnd Product Design',
       description:
         "Senior software engineer building scalable, high-impact products with a sharp focus on performance, design, and clean architecture. I enjoy turning complex ideas into intuitive experiences, and I'm currently exploring how AI can power smarter, more adaptive applications (and still a fan of cats 🐱).",
@@ -42,14 +46,20 @@ export const mockState: Window['__STATE__'] = {
       description:
         'I build software with intention—focused on quality, performance, and meaningful product impact. I care about the details and how each decision shapes the final experience. Below are some of the projects that represent my best work.',
       noResults: 'No results found.',
-      searchBar: { label: 'Search works', placeholder: 'Search projects…' },
+      searchBar: {
+        label: 'Search works',
+        placeholder: 'Search projects…',
+      },
       card: {
-        aria: { leadingLabel: 'View details for', trailingLabel: 'project -' },
+        aria: {
+          leadingLabel: 'View details for',
+          trailingLabel: 'project -',
+        },
         viewDetails: 'VIEW DETAILS',
       },
       pagination: {
         previous: 'Go to previous page',
-        goToPage: 'Go to page',
+        goToPage: 'Go to page ',
         next: 'Go to next page',
       },
     },
@@ -58,7 +68,11 @@ export const mockState: Window['__STATE__'] = {
       description:
         "Let's build something great together. Whether it's a new idea or an existing product, I'd be happy to help bring it to life with a focus on quality, performance, and user experience. Feel free to reach out via email or connect with me on social media—I'd love to hear about what you're working on.",
       links: [
-        { label: 'Email link', icon: 'bxf bx-envelope', link: 'mailto:contact@miguelbogota.dev' },
+        {
+          label: 'Email link',
+          icon: 'bxf bx-envelope',
+          link: 'mailto:contact@miguelbogota.dev',
+        },
         {
           label: 'GitHub profile link',
           icon: 'bxl bx-github',
@@ -76,7 +90,19 @@ export const mockState: Window['__STATE__'] = {
         },
       ],
     },
-    footer: { text: 'Designed & Built by Miguel Bogota' },
+    projectDetails: {
+      backButton: 'Back',
+      closeButton: 'Close project details',
+      thumbnailLabel: 'View image ',
+    },
+    notFound: {
+      title: '404',
+      description: "The page you're looking for doesn't exist.",
+      goHomeButton: 'Go Home',
+    },
+    footer: {
+      text: 'Designed & Built by Miguel Bogota',
+    },
   },
   projects: [
     {
