@@ -23,12 +23,12 @@ nav {
       align-items: center;
 
       & > a {
-        --extended-spacing: 0.02rem;
-        --collapsed-spacing: -1rem;
+        --extended-spacing: 1;
+        --collapsed-spacing: 0;
         --space: 0.28em;
-        --animation-duration: 0.35s;
+        --animation-duration: 0.3s;
         --animation-delay: 1.8s;
-        --animation-fn: cubic-bezier(0.25, 0, 0.75, 1);
+        --animation-fn: ease-in-out;
 
         display: flex;
         position: absolute;
@@ -40,35 +40,38 @@ nav {
 
         span {
           overflow: hidden;
-          letter-spacing: var(--extended-spacing);
+          transform: scaleX(var(--extended-spacing));
           transition:
-            letter-spacing var(--animation-duration) var(--animation-fn) var(--animation-delay),
+            transform var(--animation-duration) var(--animation-fn) var(--animation-delay),
             margin var(--animation-duration) var(--animation-fn) var(--animation-delay);
 
           &:nth-child(2) {
             @starting-style {
-              margin-right: var(--space);
+              margin-right: var(--space) !important;
             }
           }
 
           &:nth-child(even) {
-            letter-spacing: var(--collapsed-spacing);
+            margin-right: -3.4rem;
+            transform: scaleX(var(--collapsed-spacing));
 
             @starting-style {
-              letter-spacing: var(--extended-spacing);
+              margin-right: 0;
+              transform: scaleX(var(--extended-spacing));
             }
           }
         }
 
         &:hover span {
           &:nth-child(2) {
-            margin-right: var(--space);
+            margin-right: var(--space) !important;
           }
 
           &:nth-child(even) {
-            letter-spacing: var(--extended-spacing);
+            margin-right: 0;
+            transform: scaleX(var(--extended-spacing));
             transition:
-              letter-spacing var(--animation-duration) var(--animation-fn) 0s,
+              transform var(--animation-duration) var(--animation-fn) 0s,
               margin var(--animation-duration) var(--animation-fn) 0s !important;
           }
         }

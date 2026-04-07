@@ -13,51 +13,89 @@ import { useDrawerNavigation } from './use-drawer-navigation';
 export function Drawer() {
   const { isDrawerOpen, setIsDrawerOpen, projects, currentProjectId, content } = useAppState();
   const navigate = useDrawerNavigation();
-  const dialogRef = useRef<HTMLDialogElement | null>(null);
+  const dialogRef = useRef<HTMLDivElement | null>(null);
+  const backdropRef = useRef<HTMLDivElement | null>(null);
+  const previousActiveElementRef = useRef<HTMLElement | null>(null);
 
   const currentProject = projects.find((p) => p.id === currentProjectId) ?? null;
 
-  /** Sync dialog state with isDrawerOpen */
-  useEffect(() => {
-    if (!dialogRef.current) return;
+  const handleClose = () => {
+    navigate('/');
+    setIsDrawerOpen(false);
+  };
 
-    const handleDialogClose = () => {
-      navigate('/');
+  // Handles `ESC` key to close the drawer.
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') handleClose();
     };
 
-    dialogRef.current.addEventListener('close', handleDialogClose);
-    return () => dialogRef.current?.removeEventListener('close', handleDialogClose);
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
   }, []);
 
-  /** HTML Semantic Dialog Management */
+  // Focus trap for accessibility
   useEffect(() => {
     if (isDrawerOpen) {
-      dialogRef.current?.showModal();
-    } else {
-      dialogRef.current?.close();
+      previousActiveElementRef.current = document.activeElement as HTMLElement;
+      const dialogElement = dialogRef.current!;
+
+      const focusableElements = dialogElement.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      ) as NodeListOf<HTMLElement>;
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      setTimeout(() => {
+        firstElement?.focus();
+      }, 10);
+
+      const handleTabKeyPress = (event: KeyboardEvent) => {
+        if (event.key === 'Tab') {
+          if (event.shiftKey && document.activeElement === firstElement) {
+            event.preventDefault();
+            lastElement?.focus();
+          } else if (!event.shiftKey && document.activeElement === lastElement) {
+            event.preventDefault();
+            firstElement?.focus();
+          }
+        }
+      };
+
+      dialogElement.addEventListener('keydown', handleTabKeyPress);
+      return () => dialogElement.removeEventListener('keydown', handleTabKeyPress);
     }
+
+    setTimeout(() => {
+      previousActiveElementRef.current?.focus();
+      previousActiveElementRef.current = null;
+    }, 10);
+
+    return () => {};
   }, [isDrawerOpen]);
 
   return (
-    <dialog
-      ref={dialogRef}
-      aria-labelledby="drawer-title"
-      aria-describedby="drawer-description"
-      closedby="any"
-    >
-      {currentProject && (
-        <ProjectInfo
-          project={currentProject}
-          closeButton={
-            <button
-              onClick={() => setIsDrawerOpen(false)}
-              aria-label={content.projectDetails.closeButton}
-            >
-              ×
-            </button>
-          }
-        />
-      )}
-    </dialog>
+    <>
+      <div
+        ref={dialogRef}
+        className="drawer"
+        role="dialog"
+        aria-labelledby="drawer-title"
+        aria-describedby="drawer-description"
+        data-open={isDrawerOpen}
+      >
+        {currentProject && (
+          <ProjectInfo
+            project={currentProject}
+            closeButton={
+              <button onClick={handleClose} aria-label={content.projectDetails.closeButton}>
+                ×
+              </button>
+            }
+          />
+        )}
+      </div>
+      <div className="drawer-backdrop" ref={backdropRef} onClick={handleClose} />
+    </>
   );
 }
