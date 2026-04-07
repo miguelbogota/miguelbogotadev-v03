@@ -1,6 +1,7 @@
 import './work.styles.scss';
 
 import { useMemo, useState } from 'react';
+import clsx from 'clsx';
 import { useAppState } from '@/state';
 import { filterProjects } from './filter-projects.function';
 import { SearchBar } from './search-bar.component';
@@ -39,22 +40,24 @@ export function WorkSection() {
     setCurrentPage(1);
   };
 
-  const goToPage = (page: number) => {
+  const goToPage = (page: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
     if (page === currentPage) return;
 
     setCurrentPage(page);
     // Scroll to top of work section when changing pages
-    const workSection = document.getElementById(INPUT_ID)!;
-    workSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
     setTimeout(() => {
       const firstProject = document.querySelector('a[href^="/project/"]') as HTMLElement;
       firstProject?.focus();
+
+      const searchSection = document.getElementById(INPUT_ID)!;
+      searchSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 10);
   };
 
-  const goToPreviousPage = () => goToPage(Math.max(1, currentPage - 1));
-  const goToNextPage = () => goToPage(Math.min(totalPages, currentPage + 1));
+  const goToPreviousPage = goToPage(Math.max(1, currentPage - 1));
+  const goToNextPage = goToPage(Math.min(totalPages, currentPage + 1));
 
   return (
     <section id="work">
@@ -91,8 +94,8 @@ export function WorkSection() {
               {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
                 <button
                   key={page}
-                  className={`pagination-number ${currentPage === page ? 'active' : ''}`}
-                  onClick={() => goToPage(page)}
+                  className={clsx('pagination-number', currentPage === page && 'active')}
+                  onClick={goToPage(page)}
                   aria-label={`${pagination.goToPage}${page}`}
                   aria-current={currentPage === page ? 'page' : undefined}
                   disabled={currentPage === page}

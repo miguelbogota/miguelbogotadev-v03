@@ -36,6 +36,11 @@
   ):focus-visible {
   outline: 2px solid var(--info);
   outline-offset: 2px;
+
+  // Phone devices doesn't need focus outline for accessibility
+  @media (max-width: 750px) {
+    outline: none;
+  }
 }
 
 /* Reapply the pointer cursor for anchor tags */
