@@ -1,66 +1,77 @@
+.drawer > .details-actions {
+  padding-top: 0 !important;
+  margin-bottom: calc(var(--space-2) * -1) !important;
+}
+
+// Action buttons container
+.details-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--space-4);
+
+  & > .action {
+    display: flex;
+
+    & > button {
+      cursor: pointer;
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: var(--space-5);
+      height: var(--space-5);
+      font-weight: 700;
+      color: var(--text-secondary);
+      border-radius: 50%;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: var(--primary);
+      }
+    }
+
+    & > a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      color: var(--text-secondary);
+      padding: var(--space-1) var(--space-2);
+      border-radius: var(--space-1);
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: var(--text-primary);
+      }
+
+      & > span {
+        // Icon
+        &:first-child {
+          margin-top: 0.22rem;
+        }
+
+        // Text
+        &:last-child {
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+
 .project-info {
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
   padding: var(--space-4);
-  padding-bottom: var(--space-8);
 
   @media (max-width: 750px) {
     padding: var(--space-1);
   }
 
-  // Action buttons container
-  & > .actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: calc(var(--space-2) * -1);
-
-    & > div {
-      display: flex;
-
-      & > button {
-        padding: var(--space-2);
-        cursor: pointer;
-        font-size: 2rem;
-        font-weight: 700;
-        color: var(--text-secondary);
-        border-radius: 50%;
-        transition: color 0.2s ease;
-
-        &:hover {
-          color: var(--primary);
-        }
-      }
-
-      & > a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.8rem;
-        color: var(--text-secondary);
-        padding: var(--space-1) var(--space-2);
-        border-radius: var(--space-1);
-        transition: color 0.2s ease;
-
-        &:hover {
-          color: var(--text-primary);
-        }
-
-        & > span {
-          // Icon
-          &:first-child {
-            margin-top: 0.22rem;
-          }
-
-          // Text
-          &:last-child {
-            font-weight: 500;
-          }
-        }
-      }
-    }
-  }
+  // Added padding at the bottom to ensure footer is visible
+  padding-bottom: var(--space-8);
 
   // Header section
   > .header {

@@ -1,9 +1,9 @@
-import { AppStateProvider, type InitialState } from './state';
-import { HomeRoute } from '@/routes/home/home.component';
-import { NotFoundRoute } from '@/routes/not-found/not-found.component';
-import { ProjectDetailsRoute } from '@/routes/project-details/project-details.component';
 import { useEffect, type PropsWithChildren } from 'react';
-import { useDrawerRouting } from './components/drawer/use-drawer-routing';
+import { AppStateProvider, type InitialState } from './state';
+import { HomeRoute } from '@/routes/home';
+import { NotFoundRoute } from '@/routes/not-found';
+import { ProjectDetailsRoute } from '@/routes/project-details';
+import { useDrawerRouting } from '@/components/drawer';
 
 /** Props for the Router component. */
 export type RouterProps = InitialState;

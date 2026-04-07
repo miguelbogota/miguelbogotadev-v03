@@ -1,4 +1,4 @@
-html:has(dialog[open]) {
+html:has(.drawer[data-open='true']) {
   overflow: hidden;
 }
 
@@ -53,4 +53,8 @@ h2 {
   margin-bottom: var(--space-3);
   letter-spacing: 1px;
   letter-spacing: 0.02rem;
+}
+
+img {
+  color: var(--text-secondary);
 }
