@@ -206,11 +206,6 @@
           transform: scale(1.05);
         }
 
-        &:focus {
-          outline: 2px solid var(--primary);
-          outline-offset: 2px;
-        }
-
         &.active {
           border-color: var(--primary);
         }
