@@ -38,14 +38,14 @@ export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoPro
   }, []);
 
   return (
-    <>
-      <Container className="project-info" maxWidth="900px">
-        {/* Action buttons container - only show if buttons are present */}
-        <div className="actions">
-          <div className="back-button">{backButton}</div>
-          <div className="close-button">{closeButton}</div>
-        </div>
+    <div>
+      {/* Action buttons container - only show if buttons are present */}
+      <Container className="details-actions" maxWidth="50000px">
+        <div className="action">{backButton}</div>
+        <div className="action">{closeButton}</div>
+      </Container>
 
+      <Container className="project-info" maxWidth="900px">
         {/* Project header */}
         <div className="header">
           <p>{startedAt}</p>
@@ -105,6 +105,6 @@ export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoPro
         </div>
       </Container>
       <Footer />
-    </>
+    </div>
   );
 }
