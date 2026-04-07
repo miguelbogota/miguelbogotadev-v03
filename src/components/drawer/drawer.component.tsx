@@ -74,6 +74,10 @@ export function Drawer() {
     return () => {};
   }, [isDrawerOpen]);
 
+  useEffect(() => {
+    document.body.style.overflow = isDrawerOpen ? 'hidden' : 'auto';
+  }, [isDrawerOpen]);
+
   return (
     <>
       <div
