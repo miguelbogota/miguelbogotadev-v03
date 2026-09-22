@@ -19,6 +19,17 @@
   --success: #388e3c;
   --error: #d32f2f;
 
+  // Project artwork palette (shared across light and dark themes)
+  --artwork-background: var(--background-sheet);
+  --artwork-amber-light: #f4d7a1;
+  --artwork-amber: #e8a665;
+  --artwork-rose-light: #d58287;
+  --artwork-rose: #a75468;
+  --artwork-teal-light: #428d91;
+  --artwork-teal: #244d60;
+  --artwork-vignette: #08141b88;
+  --artwork-grain: rgb(from var(--white) r g b / 0.04);
+
   // Spacing
   --space-0: 0rem;
   --space-1: 0.45rem;

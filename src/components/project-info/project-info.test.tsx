@@ -3,6 +3,26 @@ import { ProjectInfo } from './project-info.component';
 import { mockState } from '@/testing';
 
 describe('ProjectInfo', () => {
+  it('renders project links using their supplied labels, icons, and URLs', () => {
+    const project = {
+      ...mockState.projects[0]!,
+      links: [{ label: 'Documentation', icon: 'bx bx-book', url: 'https://example.com/docs' }],
+    };
+    render(<ProjectInfo project={project} />);
+
+    const link = screen.getByRole('link', {
+      name: `${project.displayName}: Documentation (opens in a new tab)`,
+    });
+    expect(link).toHaveAttribute('href', 'https://example.com/docs');
+    expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+    expect(link.querySelector('i')).toHaveClass('bx', 'bx-book');
+  });
+
+  it('omits project links when none are provided', () => {
+    render(<ProjectInfo project={{ ...mockState.projects[0]!, links: undefined }} />);
+    expect(document.querySelector('.project-info .header .links')).not.toBeInTheDocument();
+  });
+
   it('should render project name', () => {
     const mockProject = mockState.projects[0]!;
 
@@ -68,6 +88,16 @@ describe('ProjectInfo', () => {
     const image = screen.getByAltText(heroImage.alt);
     expect(image).toBeInTheDocument();
     expect(image).toHaveAttribute('src', heroImage.src);
+  });
+
+  it('renders project details without an image gallery when no screenshots exist', () => {
+    const project = { ...mockState.projects[0]!, images: [] };
+
+    render(<ProjectInfo project={project} />);
+
+    expect(screen.getByText(project.displayName)).toBeInTheDocument();
+    expect(screen.getByText(project.solution.description)).toBeInTheDocument();
+    expect(document.querySelector('.images')).not.toBeInTheDocument();
   });
 
   it('should render action buttons when provided', () => {

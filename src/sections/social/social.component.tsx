@@ -17,16 +17,16 @@ export function SocialSection() {
           <p className="overline">{description}</p>
 
           <div className="social-networks">
-            {links.map(({ label, icon, link }) => (
+            {links.map(({ label, icon, url }) => (
               <a
                 className="social-link"
                 key={label}
-                href={link}
+                href={url}
                 aria-label={label}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <i className={icon} />
+                <i className={icon} aria-hidden="true" />
               </a>
             ))}
           </div>
