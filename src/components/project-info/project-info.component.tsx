@@ -18,12 +18,25 @@ export type ProjectInfoProps = {
  * Displays detailed information about a project including name, summary, industry, year, role, challenge, solution, and images.
  * This component is designed to be reusable and can be used in both the drawer and standalone pages.
  */
-export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoProps) {
-  const { displayName, summary, industry, startedAt, role, tags, challenge, solution, images } =
-    project;
+export function ProjectInfo({
+  project,
+  backButton,
+  closeButton,
+}: ProjectInfoProps) {
+  const {
+    displayName,
+    summary,
+    industry,
+    startedAt,
+    role,
+    tags,
+    challenge,
+    solution,
+    images,
+  } = project;
   const { content } = useAppState();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const selectedImage = images[selectedImageIndex]!;
+  const selectedImage = images[selectedImageIndex];
 
   const handleThumbnailClick = (index: number) => {
     setSelectedImageIndex(index);
@@ -62,7 +75,9 @@ export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoPro
             <h3>{industry}</h3>
             <div className="tags">
               {tags.map((tag, index) => (
-                <span key={tag}>{`${tag}${index < tags.length - 1 ? ' • ' : ''}`}</span>
+                <span
+                  key={tag}
+                >{`${tag}${index < tags.length - 1 ? ' • ' : ''}`}</span>
               ))}
             </div>
           </div>
@@ -81,28 +96,37 @@ export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoPro
         </div>
 
         {/* Images section */}
-        <div className="images">
-          {/* Main image */}
-          <div className="main-image">
-            <img src={selectedImage.src} alt={selectedImage.alt} loading="lazy" />
-          </div>
-
-          {/* Thumbnail gallery */}
-          {images.length > 1 && (
-            <div className="thumbnails">
-              {images.map((image, index) => (
-                <button
-                  key={index}
-                  className={clsx('thumbnail', index === selectedImageIndex && 'active')}
-                  onClick={() => handleThumbnailClick(index)}
-                  aria-label={`${content.projectDetails.thumbnailLabel}${index + 1}`}
-                >
-                  <img src={image.src} alt={image.alt} loading="lazy" />
-                </button>
-              ))}
+        {selectedImage ? (
+          <div className="images">
+            {/* Main image */}
+            <div className="main-image">
+              <img
+                src={selectedImage.src}
+                alt={selectedImage.alt}
+                loading="lazy"
+              />
             </div>
-          )}
-        </div>
+
+            {/* Thumbnail gallery */}
+            {images.length > 1 && (
+              <div className="thumbnails">
+                {images.map((image, index) => (
+                  <button
+                    key={index}
+                    className={clsx(
+                      'thumbnail',
+                      index === selectedImageIndex && 'active',
+                    )}
+                    onClick={() => handleThumbnailClick(index)}
+                    aria-label={`${content.projectDetails.thumbnailLabel}${index + 1}`}
+                  >
+                    <img src={image.src} alt={image.alt} loading="lazy" />
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : null}
       </Container>
       <Footer />
     </div>

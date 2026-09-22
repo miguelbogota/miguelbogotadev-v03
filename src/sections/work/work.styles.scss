@@ -57,8 +57,16 @@
             overflow: hidden;
             background: linear-gradient(
               135deg,
-              color-mix(in srgb, var(--background-sheet) 70%, var(--background-border)),
-              color-mix(in srgb, var(--background-sheet) 40%, var(--background-border))
+              color-mix(
+                in srgb,
+                var(--background-sheet) 70%,
+                var(--background-border)
+              ),
+              color-mix(
+                in srgb,
+                var(--background-sheet) 40%,
+                var(--background-border)
+              )
             );
 
             & > img {
@@ -68,6 +76,64 @@
               height: 100%;
               object-fit: cover;
               transition: transform 0.5s ease;
+            }
+
+            // Abstract cover art: broad pools of color drift continuously back and forth.
+            // Alternating direction avoids a visible jump between animation cycles.
+            & > .project-artwork {
+              background: var(--artwork-background);
+
+              &::before {
+                content: '';
+                position: absolute;
+                inset: -35%;
+                background:
+                  radial-gradient(
+                    ellipse at 34% 39%,
+                    var(--artwork-amber-light) 0%,
+                    var(--artwork-amber) 12%,
+                    transparent 34%
+                  ),
+                  radial-gradient(
+                    ellipse at 67% 59%,
+                    var(--artwork-rose-light) 0%,
+                    var(--artwork-rose) 17%,
+                    transparent 40%
+                  ),
+                  radial-gradient(
+                    ellipse at 37% 73%,
+                    var(--artwork-teal-light) 0%,
+                    var(--artwork-teal) 22%,
+                    transparent 44%
+                  ),
+                  var(--artwork-background);
+                filter: blur(28px);
+                transform: translate(3%, -2%) rotate(-12deg) scale(1.08);
+                animation: project-light-drift 2s ease-in-out infinite alternate;
+                animation-delay: var(--artwork-delay, 0s);
+
+                @media (prefers-reduced-motion: reduce) {
+                  animation: none;
+                }
+              }
+
+              // Fine stippling and a dark edge give the light a printed, atmospheric finish.
+              &::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background:
+                  radial-gradient(
+                    ellipse at center,
+                    transparent 25%,
+                    var(--artwork-vignette) 100%
+                  ),
+                  radial-gradient(var(--artwork-grain) 1.3px, transparent 1.5px);
+                background-size:
+                  100% 100%,
+                  5px 5px;
+                pointer-events: none;
+              }
             }
           }
 
@@ -114,7 +180,11 @@
           }
 
           &:hover {
-            background-color: color-mix(in srgb, var(--background-sheet) 40%, transparent 40%);
+            background-color: color-mix(
+              in srgb,
+              var(--background-sheet) 40%,
+              transparent 40%
+            );
 
             .media img {
               transform: scale(1.05);
@@ -233,5 +303,14 @@
         }
       }
     }
+  }
+}
+
+@keyframes project-light-drift {
+  from {
+    transform: translate(-5%, 5%) rotate(12deg) scale(1.2);
+  }
+  to {
+    transform: translate(3%, -2%) rotate(-12deg) scale(1.08);
   }
 }

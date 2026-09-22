@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import { useAppState } from '@/state';
 import { useDrawerNavigation } from '@/components/drawer';
 
@@ -21,7 +22,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
   } = useAppState();
   const { id, displayName, summary, industry, startedAt, images } = project;
   const year = startedAt.split('-')[0] ?? '';
-  const heroImage = images[0]!;
+  const heroImage = images[0];
+  // Stable across server rendering, filtering, and pagination. A negative delay
+  // starts each artwork partway through its full eight-second alternate cycle.
+  const animationSeed = Array.from(id).reduce(
+    (seed, character) => (Math.imul(seed, 31) + character.charCodeAt(0)) >>> 0,
+    0,
+  );
   const navigate = useDrawerNavigation();
 
   const handleCardClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -36,8 +43,20 @@ export function ProjectCard({ project }: ProjectCardProps) {
       aria-label={`${aria.leadingLabel} ${displayName} ${aria.trailingLabel} ${industry}, ${year}`}
     >
       <article>
-        <div className="media" aria-hidden={!heroImage}>
-          <img src={heroImage.src} alt={heroImage.alt} loading="lazy" />
+        <div className="media">
+          {heroImage ? (
+            <img src={heroImage.src} alt={heroImage.alt} loading="lazy" />
+          ) : (
+            <div
+              className="project-artwork"
+              style={
+                {
+                  '--artwork-delay': `-${animationSeed % 8000}ms`,
+                } as CSSProperties
+              }
+              aria-hidden="true"
+            />
+          )}
         </div>
 
         <div className="content">

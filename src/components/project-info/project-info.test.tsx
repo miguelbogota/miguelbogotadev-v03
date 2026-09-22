@@ -70,6 +70,16 @@ describe('ProjectInfo', () => {
     expect(image).toHaveAttribute('src', heroImage.src);
   });
 
+  it('renders project details without an image gallery when no screenshots exist', () => {
+    const project = { ...mockState.projects[0]!, images: [] };
+
+    render(<ProjectInfo project={project} />);
+
+    expect(screen.getByText(project.displayName)).toBeInTheDocument();
+    expect(screen.getByText(project.solution.description)).toBeInTheDocument();
+    expect(document.querySelector('.images')).not.toBeInTheDocument();
+  });
+
   it('should render action buttons when provided', () => {
     const mockProject = mockState.projects[0]!;
 
