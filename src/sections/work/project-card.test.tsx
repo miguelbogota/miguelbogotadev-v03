@@ -6,10 +6,7 @@ describe('ProjectCard image fallback', () => {
     const project = { ...mockState.projects[0]!, images: [] };
     const { container } = render(<ProjectCard project={project} />);
 
-    expect(screen.getByRole('link')).toHaveAttribute(
-      'href',
-      `/project/${project.id}`,
-    );
+    expect(screen.getByRole('link')).toHaveAttribute('href', `/project/${project.id}`);
     expect(container.querySelector('.project-artwork')).toBeInTheDocument();
     expect(container.querySelector('.media img')).not.toBeInTheDocument();
   });

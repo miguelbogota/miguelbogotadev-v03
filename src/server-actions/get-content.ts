@@ -18,10 +18,25 @@ let cachedContent: Content | null = {
       themePicker: {
         ariaLabel: 'Theme selector',
         options: [
-          { label: 'Light', ariaLabel: 'Light mode', value: 'light', icon: 'bx-sun' },
-          { label: 'Dark', ariaLabel: 'Dark mode', value: 'dark', icon: 'bx-moon' },
+          {
+            label: 'Light',
+            ariaLabel: 'Light mode',
+            value: 'light',
+            icon: 'bx-sun',
+          },
+          {
+            label: 'Dark',
+            ariaLabel: 'Dark mode',
+            value: 'dark',
+            icon: 'bx-moon',
+          },
           'divider',
-          { label: 'System', ariaLabel: 'System preference', value: 'system', icon: 'bx-desktop' },
+          {
+            label: 'System',
+            ariaLabel: 'System preference',
+            value: 'system',
+            icon: 'bx-desktop',
+          },
         ],
       },
     },
@@ -69,22 +84,22 @@ let cachedContent: Content | null = {
       {
         label: 'Email link',
         icon: 'bxf bx-envelope',
-        link: 'mailto:contact@miguelbogota.dev',
+        url: 'mailto:contact@miguelbogota.dev',
       },
       {
         label: 'GitHub profile link',
         icon: 'bxl bx-github',
-        link: 'https://github.com/miguelbogota',
+        url: 'https://github.com/miguelbogota',
       },
       {
         label: 'LinkedIn profile link',
         icon: 'bxl bx-linkedin-square',
-        link: 'https://linkedin.com/in/miguelbogota',
+        url: 'https://linkedin.com/in/miguelbogota',
       },
       {
         label: 'Instagram profile link',
         icon: 'bxl bx-instagram-alt',
-        link: 'https://instagram.com/migue_bogota',
+        url: 'https://instagram.com/migue_bogota',
       },
     ],
   },

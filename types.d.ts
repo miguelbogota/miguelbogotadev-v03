@@ -126,7 +126,7 @@ declare type Content = {
       /** Icon class name for the social platform. */
       icon: string;
       /** URL to the social media profile or contact method. */
-      link: string;
+      url: string;
     }[];
   };
 
@@ -207,11 +207,13 @@ declare type Project = {
   }[];
   /** External resources related to the project. */
   links?: {
-    /** GitHub repository URL (optional). */
-    github?: string;
-    /** Live project or website URL (optional). */
-    website?: string;
-  };
+    /** Display text for the link. */
+    label: string;
+    /** URL to the external resource. */
+    url: string;
+    /** Boxicon class name. */
+    icon: string;
+  }[];
 };
 
 declare interface Window {

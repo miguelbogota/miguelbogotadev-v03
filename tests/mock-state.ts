@@ -18,8 +18,18 @@ export const mockState: Window['__STATE__'] = {
         themePicker: {
           ariaLabel: 'Theme selector',
           options: [
-            { label: 'Light', ariaLabel: 'Light mode', value: 'light', icon: 'bx-sun' },
-            { label: 'Dark', ariaLabel: 'Dark mode', value: 'dark', icon: 'bx-moon' },
+            {
+              label: 'Light',
+              ariaLabel: 'Light mode',
+              value: 'light',
+              icon: 'bx-sun',
+            },
+            {
+              label: 'Dark',
+              ariaLabel: 'Dark mode',
+              value: 'dark',
+              icon: 'bx-moon',
+            },
             'divider',
             {
               label: 'System',
@@ -71,22 +81,22 @@ export const mockState: Window['__STATE__'] = {
         {
           label: 'Email link',
           icon: 'bxf bx-envelope',
-          link: 'mailto:contact@miguelbogota.dev',
+          url: 'mailto:contact@miguelbogota.dev',
         },
         {
           label: 'GitHub profile link',
           icon: 'bxl bx-github',
-          link: 'https://github.com/miguelbogota',
+          url: 'https://github.com/miguelbogota',
         },
         {
           label: 'LinkedIn profile link',
           icon: 'bxl bx-linkedin-square',
-          link: 'https://linkedin.com/in/miguelbogota',
+          url: 'https://linkedin.com/in/miguelbogota',
         },
         {
           label: 'Instagram profile link',
           icon: 'bxl bx-instagram-alt',
-          link: 'https://instagram.com/migue_bogota',
+          url: 'https://instagram.com/migue_bogota',
         },
       ],
     },
@@ -146,10 +156,18 @@ export const mockState: Window['__STATE__'] = {
           alt: 'Miguel Bogota Dev V3 - Fullstack Modern Portfolio',
         },
       ],
-      links: {
-        github: 'https://github.com/miguelbogota/miguelbogotadev-v3',
-        website: 'https://miguelbogotadev-v3.web.app',
-      },
+      links: [
+        {
+          label: 'GitHub repository',
+          icon: 'bxl bx-github',
+          url: 'https://github.com/miguelbogota/miguelbogotadev-v3',
+        },
+        {
+          label: 'Website',
+          icon: 'bx bx-arrow-out-up-right-square',
+          url: 'https://miguelbogotadev-v3.web.app',
+        },
+      ],
     },
     {
       id: 'miguelbogotadev-v02',
@@ -192,10 +210,18 @@ export const mockState: Window['__STATE__'] = {
           alt: 'Miguel Bogota Dev V2 - Modern Portfolio Interface',
         },
       ],
-      links: {
-        github: 'https://github.com/miguelbogota/miguelbogotadev-v2',
-        website: 'https://miguelbogotadev-v2.web.app',
-      },
+      links: [
+        {
+          label: 'GitHub repository',
+          icon: 'bxl bx-github',
+          url: 'https://github.com/miguelbogota/miguelbogotadev-v2',
+        },
+        {
+          label: 'Website',
+          icon: 'bx bx-arrow-out-up-right-square',
+          url: 'https://miguelbogotadev-v2.web.app',
+        },
+      ],
     },
     {
       id: 'crypto-june',
@@ -251,7 +277,13 @@ export const mockState: Window['__STATE__'] = {
           alt: 'Crypto June - Portfolio Management Screen',
         },
       ],
-      links: { github: 'https://github.com/miguelbogota/crypto-june' },
+      links: [
+        {
+          label: 'GitHub repository',
+          icon: 'bxl bx-github',
+          url: 'https://github.com/miguelbogota/crypto-june',
+        },
+      ],
     },
     {
       id: 'miguelbogotadev-v01',
@@ -293,10 +325,18 @@ export const mockState: Window['__STATE__'] = {
           alt: 'Miguel Bogota Dev V1 - Minimalist Portfolio',
         },
       ],
-      links: {
-        github: 'https://github.com/miguelbogota/miguelbogotadev-v1',
-        website: 'https://miguelbogotadev.web.app',
-      },
+      links: [
+        {
+          label: 'GitHub repository',
+          icon: 'bxl bx-github',
+          url: 'https://github.com/miguelbogota/miguelbogotadev-v1',
+        },
+        {
+          label: 'Website',
+          icon: 'bx bx-arrow-out-up-right-square',
+          url: 'https://miguelbogotadev.web.app',
+        },
+      ],
     },
     {
       id: 'clothing-park',
@@ -348,10 +388,18 @@ export const mockState: Window['__STATE__'] = {
           alt: 'Clothing Park - Checkout Page',
         },
       ],
-      links: {
-        github: 'https://github.com/miguelbogota/clothing-park',
-        website: 'https://clothing-park.web.app',
-      },
+      links: [
+        {
+          label: 'GitHub repository',
+          icon: 'bxl bx-github',
+          url: 'https://github.com/miguelbogota/clothing-park',
+        },
+        {
+          label: 'Website',
+          icon: 'bx bx-arrow-out-up-right-square',
+          url: 'https://clothing-park.web.app',
+        },
+      ],
     },
     {
       id: 'nvc-movies',
@@ -393,10 +441,18 @@ export const mockState: Window['__STATE__'] = {
           alt: 'NVC Movies - Movie Discovery Platform',
         },
       ],
-      links: {
-        github: 'https://github.com/miguelbogota/nvc-movies',
-        website: 'https://nvc-moviesm.web.app',
-      },
+      links: [
+        {
+          label: 'GitHub repository',
+          icon: 'bxl bx-github',
+          url: 'https://github.com/miguelbogota/nvc-movies',
+        },
+        {
+          label: 'Website',
+          icon: 'bx bx-arrow-out-up-right-square',
+          url: 'https://nvc-moviesm.web.app',
+        },
+      ],
     },
     {
       id: 'rey-writer',
@@ -445,7 +501,7 @@ export const mockState: Window['__STATE__'] = {
           alt: 'Rey Writer - Content Management Interface',
         },
       ],
-      links: { website: 'TODO' },
+      links: [],
     },
   ],
 };

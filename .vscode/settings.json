@@ -2,7 +2,7 @@
   "editor.rulers": [100],
   "editor.formatOnSave": true,
   "cSpell.diagnosticLevel": "Warning",
-  "javascript.suggestionActions.enabled": false,
+  "js/ts.suggestionActions.enabled": false,
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
