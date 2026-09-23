@@ -1,6 +1,6 @@
 import './container.styles.scss';
 
-import { type ElementType, type ComponentPropsWithoutRef } from 'react';
+import { createElement, type ElementType, type ComponentPropsWithoutRef } from 'react';
 import clsx from 'clsx';
 
 /** Polymorphic props helper to support the `as` prop. */
@@ -26,13 +26,13 @@ export function Container<T extends ElementType = 'div'>(props: ContainerProps<T
   const Component = asComponent || 'div';
   const classes = clsx('container', className);
 
-  return (
-    <Component
-      className={classes}
-      style={{ '--max-width': maxWidth } as React.CSSProperties}
-      {...rest}
-    >
-      {children}
-    </Component>
+  return createElement(
+    Component,
+    {
+      ...rest,
+      className: classes,
+      style: { '--max-width': maxWidth },
+    },
+    children,
   );
 }

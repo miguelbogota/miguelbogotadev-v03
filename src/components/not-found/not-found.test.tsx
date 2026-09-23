@@ -1,14 +1,13 @@
 import { render, screen } from '@/testing';
 import { NotFound } from '@/components/not-found';
-import { mockState } from '@/testing';
 
 describe('components / NotFound', () => {
-  it('should render not found component with content from API', () => {
+  it('should render the not found wording', () => {
     render(<NotFound />);
 
-    expect(screen.getByText(mockState.content.notFound.title)).toBeInTheDocument();
-    expect(screen.getByText(mockState.content.notFound.description)).toBeInTheDocument();
-    expect(screen.getByText(mockState.content.notFound.goHomeButton)).toBeInTheDocument();
+    expect(screen.getByText('404')).toBeInTheDocument();
+    expect(screen.getByText("The page you're looking for doesn't exist.")).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Go Home' })).toHaveAttribute('href', '/');
   });
 
   it('should have proper structure and classes', () => {

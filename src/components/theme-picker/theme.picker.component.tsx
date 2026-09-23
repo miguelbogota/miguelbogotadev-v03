@@ -5,6 +5,24 @@ import clsx from 'clsx';
 import { cookies } from '@/utils/cookies';
 import { useAppState } from '@/state';
 
+/** Theme types available for selection. */
+type ThemeOption =
+  | {
+      label: string;
+      ariaLabel: string;
+      value: ThemeType;
+      icon: string;
+    }
+  | 'divider';
+
+/** Options for the theme picker dropdown. */
+const options: ThemeOption[] = [
+  { label: 'Light', ariaLabel: 'Light mode', value: 'light', icon: 'bx-sun' },
+  { label: 'Dark', ariaLabel: 'Dark mode', value: 'dark', icon: 'bx-moon' },
+  'divider',
+  { label: 'System', ariaLabel: 'System preference', value: 'system', icon: 'bx-desktop' },
+];
+
 /**
  * ThemePicker Component
  *
@@ -19,19 +37,11 @@ import { useAppState } from '@/state';
  * - Shows visual indicator for the currently selected theme
  */
 export function ThemePicker() {
-  const {
-    currentTheme,
-    setCurrentTheme,
-    content: {
-      navigation: {
-        actions: { themePicker },
-      },
-    },
-  } = useAppState();
+  const { currentTheme, setCurrentTheme } = useAppState();
   const [isOpen, setIsOpen] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const currentThemeIcon = themePicker.options
+  const currentThemeIcon = options
     .filter((option) => option !== 'divider')
     .find((option) => option.value === currentTheme)?.icon;
 
@@ -57,14 +67,14 @@ export function ThemePicker() {
         setIsOpen(true);
       }}
     >
-      <button onClick={() => setIsOpen((prev) => !prev)} aria-label={themePicker.ariaLabel}>
+      <button onClick={() => setIsOpen((prev) => !prev)} aria-label="Theme selector">
         <i className={clsx('bx', currentThemeIcon, { hovered: isOpen })} />
       </button>
 
       {isOpen && (
         <div className="dropdown">
           <ul>
-            {themePicker.options.map((option, index) =>
+            {options.map((option, index) =>
               option === 'divider' ? (
                 <li className="divider" key={`divider-${index}`} />
               ) : (

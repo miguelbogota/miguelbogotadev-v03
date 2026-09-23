@@ -1,7 +1,6 @@
 import './styles/index.scss';
 
 import { renderToReadableStream } from 'react-dom/server.edge';
-import { getContent } from '@/server-actions/get-content.ts';
 import { getProjects } from '@/server-actions/get-projects.ts';
 import { getCookieTheme } from '@/server-actions/get-cookie-theme.ts';
 import clientAssets from './entry-client?assets=client';
@@ -12,13 +11,13 @@ export default {
   async fetch(req: Request) {
     const assets = clientAssets.merge(serverAssets);
 
-    const [content, projects] = await Promise.all([getContent(), getProjects()]);
+    const projects = await getProjects();
     const theme = getCookieTheme(req.headers.get('cookie'));
 
     const projectId = req.url.split('/').pop();
     const project = projects.find((p) => p.id === projectId);
 
-    const state = { url: req.url, theme, content, projects };
+    const state = { url: req.url, theme, projects };
 
     return new Response(
       await renderToReadableStream(
@@ -26,7 +25,7 @@ export default {
           <head>
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <meta charSet="utf-8" />
-            <title>{`${content.title}${project ? ` - ${project.displayName}` : ''}`}</title>
+            <title>{`Miguel Bogota${project ? ` - ${project.displayName}` : ''}`}</title>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <link rel="icon" href="/favicon.ico" />
 

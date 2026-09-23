@@ -15,12 +15,7 @@ const INPUT_ID = 'work-search';
 
 /** Section renders the work information. */
 export function WorkSection() {
-  const {
-    projects,
-    content: {
-      work: { title, description, searchBar, noResults, pagination },
-    },
-  } = useAppState();
+  const { projects } = useAppState();
 
   const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -62,10 +57,14 @@ export function WorkSection() {
   return (
     <section id="work">
       <div className="work-container">
-        <h2>{title}</h2>
-        <p className="overline">{description}</p>
+        <h2>Work</h2>
+        <p className="overline">
+          I build software with intention—focused on quality, performance, and meaningful product
+          impact. I care about the details and how each decision shapes the final experience. Below
+          are some of the projects that represent my best work.
+        </p>
 
-        <SearchBar {...searchBar} id={INPUT_ID} value={query} onChange={onSearch} />
+        <SearchBar id={INPUT_ID} value={query} onChange={onSearch} />
 
         {/* Projects */}
         {displayedProjects.length ? (
@@ -75,7 +74,7 @@ export function WorkSection() {
             ))}
           </div>
         ) : (
-          <div className="empty">{noResults}</div>
+          <div className="empty">No results found.</div>
         )}
 
         {/* Pagination */}
@@ -85,7 +84,7 @@ export function WorkSection() {
               className="pagination-arrow"
               onClick={goToPreviousPage}
               disabled={currentPage === 1}
-              aria-label={pagination.previous}
+              aria-label="Go to previous page"
             >
               ←
             </button>
@@ -96,7 +95,7 @@ export function WorkSection() {
                   key={page}
                   className={clsx('pagination-number', currentPage === page && 'active')}
                   onClick={goToPage(page)}
-                  aria-label={`${pagination.goToPage}${page}`}
+                  aria-label={`Go to page ${page}`}
                   aria-current={currentPage === page ? 'page' : undefined}
                   disabled={currentPage === page}
                 >
@@ -109,7 +108,7 @@ export function WorkSection() {
               className="pagination-arrow"
               onClick={goToNextPage}
               disabled={currentPage === totalPages}
-              aria-label={pagination.next}
+              aria-label="Go to next page"
             >
               →
             </button>

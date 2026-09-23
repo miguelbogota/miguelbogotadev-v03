@@ -4,8 +4,14 @@ import { Fragment } from 'react';
 import clsx from 'clsx';
 import { Container } from '@/components/container';
 import { ThemePicker } from '@/components/theme-picker';
+import { API_URL } from '@/server-actions/constants';
 import { useActiveIndicator } from './use-active-indicator.hook';
-import { useAppState } from '@/state';
+
+const links = [
+  { id: 'profile', label: 'PROFILE' },
+  { id: 'work', label: 'WORK' },
+  { id: 'social', label: 'SOCIAL' },
+];
 
 /**
  * With the given name, this function returns a list of span elements, where the first
@@ -36,12 +42,6 @@ const createLogoName = (name: string) =>
  * - No center links visible
  */
 export function Navigation() {
-  const {
-    content: {
-      navigation: { name, actions, links },
-    },
-  } = useAppState();
-
   const { activeSection, indicatorStyle, linksRef } = useActiveIndicator(
     links.map((section) => section.id),
   );
@@ -61,7 +61,7 @@ export function Navigation() {
         {/* Logo / Name at the start of the navigation bar. */}
         <h3 className="logo">
           <a href="/" onClick={handleNameClick}>
-            {createLogoName(name)}
+            {createLogoName('MIGUEL BOGOTA')}
           </a>
         </h3>
 
@@ -107,8 +107,8 @@ export function Navigation() {
         {/* Final actions (resume and theme picker) */}
         <div className="actions">
           <div className="actions-content">
-            <a href={actions.resume.href} target="_blank" rel="noopener noreferrer">
-              {actions.resume.label}
+            <a href={`${API_URL}/assets/resume.pdf`} target="_blank" rel="noopener noreferrer">
+              RESUME
             </a>
             <ThemePicker />
           </div>
