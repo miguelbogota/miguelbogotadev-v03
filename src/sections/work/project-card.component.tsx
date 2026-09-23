@@ -1,5 +1,4 @@
 import type { CSSProperties } from 'react';
-import { useAppState } from '@/state';
 import { useDrawerNavigation } from '@/components/drawer';
 
 /** Props for the ProjectCard component. */
@@ -13,13 +12,6 @@ export type ProjectCardProps = {
  * Features 65/40 image-to-content layout with hover effects.
  */
 export function ProjectCard({ project }: ProjectCardProps) {
-  const {
-    content: {
-      work: {
-        card: { aria, viewDetails },
-      },
-    },
-  } = useAppState();
   const { id, displayName, summary, industry, startedAt, images } = project;
   const year = startedAt.split('-')[0] ?? '';
   const heroImage = images[0];
@@ -40,7 +32,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     <a
       href={`/project/${id}`}
       onClick={handleCardClick}
-      aria-label={`${aria.leadingLabel} ${displayName} ${aria.trailingLabel} ${industry}, ${year}`}
+      aria-label={`View details for ${displayName} project - ${industry}, ${year}`}
     >
       <article>
         <div className="media">
@@ -66,7 +58,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <p className="overline">{summary}</p>
 
           <span className="action" aria-hidden="true">
-            {viewDetails}
+            VIEW DETAILS
           </span>
         </div>
       </article>

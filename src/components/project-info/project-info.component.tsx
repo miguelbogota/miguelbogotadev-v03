@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Container } from '@/components/container';
 import { Footer } from '@/components/footer';
-import { useAppState } from '@/state';
 
 /** Props for the ProjectInfo component. */
 export type ProjectInfoProps = {
@@ -31,7 +30,6 @@ export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoPro
     images,
     links,
   } = project;
-  const { content } = useAppState();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const selectedImage = images[selectedImageIndex];
 
@@ -41,11 +39,11 @@ export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoPro
 
   // Set document title when component mounts and clean up on unmount.
   useEffect(() => {
-    document.title = `${content.title} - ${displayName}`;
+    document.title = `Miguel Bogota - ${displayName}`;
     return () => {
-      document.title = content.title;
+      document.title = 'Miguel Bogota';
     };
-  }, []);
+  }, [displayName]);
 
   return (
     <div>
@@ -122,7 +120,7 @@ export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoPro
                     key={index}
                     className={clsx('thumbnail', index === selectedImageIndex && 'active')}
                     onClick={() => handleThumbnailClick(index)}
-                    aria-label={`${content.projectDetails.thumbnailLabel}${index + 1}`}
+                    aria-label={`View image ${index + 1}`}
                   >
                     <img src={image.src} alt={image.alt} loading="lazy" />
                   </button>

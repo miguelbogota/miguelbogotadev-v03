@@ -11,7 +11,7 @@ import { useDrawerNavigation } from './use-drawer-navigation';
  * The drawer is always present in the DOM but only visible when open.
  */
 export function Drawer() {
-  const { isDrawerOpen, setIsDrawerOpen, projects, currentProjectId, content } = useAppState();
+  const { isDrawerOpen, setIsDrawerOpen, projects, currentProjectId } = useAppState();
   const navigate = useDrawerNavigation();
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const backdropRef = useRef<HTMLDivElement | null>(null);
@@ -92,7 +92,7 @@ export function Drawer() {
           <ProjectInfo
             project={currentProject}
             closeButton={
-              <button onClick={handleClose} aria-label={content.projectDetails.closeButton}>
+              <button onClick={handleClose} aria-label="Close project details">
                 ×
               </button>
             }

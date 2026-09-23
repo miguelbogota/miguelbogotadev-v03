@@ -1,6 +1,7 @@
 import { render, screen } from '@/testing';
 import { expect, describe, it, beforeEach, afterEach, vi } from 'vitest';
 import { Navigation } from './navigation.component';
+import { API_URL } from '@/server-actions/constants';
 
 describe('components / Navigation', () => {
   beforeEach(() => {
@@ -76,7 +77,7 @@ describe('components / Navigation', () => {
   it('should be external and open in a new tab the resume link', () => {
     render(<Navigation />);
     const resumeLink = screen.getByRole('link', { name: /resume/i });
-    expect(resumeLink.getAttribute('href')).toBe('https://youtu.be');
+    expect(resumeLink.getAttribute('href')).toBe(`${API_URL}/assets/resume.pdf`);
     expect(resumeLink.getAttribute('target')).toBe('_blank');
     expect(resumeLink.getAttribute('rel')).toBe('noopener noreferrer');
   });
