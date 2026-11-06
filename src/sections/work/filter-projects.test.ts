@@ -14,10 +14,10 @@ describe('sections / Work / filterProjects', () => {
   it('should match case-insensitively across all displayed fields', () => {
     const projects = mockedProjects;
 
-    expect(filterProjects(projects, 'MiguelbogotaDev')).toHaveLength(3);
+    expect(filterProjects(projects, 'MiguelbogotaDev')).toHaveLength(4);
     expect(filterProjects(projects, 'DIGITAL')).toHaveLength(1);
-    expect(filterProjects(projects, '2023')).toHaveLength(1);
-    expect(filterProjects(projects, 'interface')).toHaveLength(4);
+    expect(filterProjects(projects, '2023')).toHaveLength(2);
+    expect(filterProjects(projects, 'Firebase App Hosting')).toHaveLength(2);
   });
 
   it('should support multi-token queries by normalizing whitespace', () => {

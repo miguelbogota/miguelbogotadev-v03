@@ -1,8 +1,19 @@
-import { render, screen } from '@/testing';
+import { act, render, screen } from '@/testing';
 import { ProjectInfo } from './project-info.component';
 import { mockState } from '@/testing';
+import { getProjectContent } from '@/server-actions/get-project-content';
+
+vi.mock('@/server-actions/get-project-content', () => ({
+  getProjectContent: vi.fn(),
+}));
+
+const getProjectContentMock = vi.mocked(getProjectContent);
 
 describe('ProjectInfo', () => {
+  beforeEach(() => {
+    getProjectContentMock.mockResolvedValue(null);
+  });
+
   it('renders project links using their supplied labels, icons, and URLs', () => {
     const project = {
       ...mockState.projects[0]!,
@@ -19,7 +30,7 @@ describe('ProjectInfo', () => {
   });
 
   it('omits project links when none are provided', () => {
-    render(<ProjectInfo project={{ ...mockState.projects[0]!, links: undefined }} />);
+    render(<ProjectInfo project={{ ...mockState.projects[0]!, links: [] }} />);
     expect(document.querySelector('.project-info .header .links')).not.toBeInTheDocument();
   });
 
@@ -61,22 +72,33 @@ describe('ProjectInfo', () => {
     expect(tagsContainer?.textContent).toContain(mockProject.tags[0]);
   });
 
-  it('should render challenge section', () => {
-    const mockProject = mockState.projects[0]!;
+  it('should show skeletons only where project content will appear', () => {
+    getProjectContentMock.mockReturnValue(new Promise(() => {}));
 
-    render(<ProjectInfo project={mockProject} />);
+    render(<ProjectInfo project={mockState.projects[0]!} />);
 
-    expect(screen.getByText(mockProject.challenge.title)).toBeInTheDocument();
-    expect(screen.getByText(mockProject.challenge.description)).toBeInTheDocument();
+    expect(screen.getByRole('status', { name: 'Loading project details' })).toBeInTheDocument();
+    expect(screen.getByText(mockState.projects[0]!.displayName)).toBeInTheDocument();
+    expect(screen.getByText(mockState.projects[0]!.summary)).toBeInTheDocument();
   });
 
-  it('should render solution section', () => {
+  it('should render the Markdown project content without its frontmatter', async () => {
     const mockProject = mockState.projects[0]!;
+    getProjectContentMock.mockResolvedValue(
+      '## Architecture\n\nBuilt with **server-driven UI**.\n\n- Go backend\n- React frontend',
+    );
 
     render(<ProjectInfo project={mockProject} />);
 
-    expect(screen.getByText(mockProject.solution.title)).toBeInTheDocument();
-    expect(screen.getByText(mockProject.solution.description)).toBeInTheDocument();
+    expect(getProjectContentMock).toHaveBeenCalledWith(mockProject);
+    await act(async () => {
+      await getProjectContentMock.mock.results[0]?.value;
+    });
+
+    expect(screen.getByRole('heading', { name: 'Architecture' })).toBeInTheDocument();
+    expect(screen.getByText('server-driven UI')).toHaveProperty('tagName', 'STRONG');
+    expect(screen.getByText('Go backend')).toBeInTheDocument();
+    expect(screen.queryByText('id:')).not.toBeInTheDocument();
   });
 
   it('should render project images', () => {
@@ -85,9 +107,13 @@ describe('ProjectInfo', () => {
 
     render(<ProjectInfo project={mockProject} />);
 
-    const image = screen.getByAltText(heroImage.alt);
-    expect(image).toBeInTheDocument();
-    expect(image).toHaveAttribute('src', heroImage.src);
+    const [gallery, thumbnail] = screen.getAllByAltText(heroImage.alt);
+
+    expect(gallery).toBeInTheDocument();
+    expect(gallery).toHaveAttribute('src', heroImage.src);
+
+    expect(thumbnail).toBeInTheDocument();
+    expect(thumbnail).toHaveAttribute('src', heroImage.src);
   });
 
   it('renders project details without an image gallery when no screenshots exist', () => {
@@ -96,7 +122,6 @@ describe('ProjectInfo', () => {
     render(<ProjectInfo project={project} />);
 
     expect(screen.getByText(project.displayName)).toBeInTheDocument();
-    expect(screen.getByText(project.solution.description)).toBeInTheDocument();
     expect(document.querySelector('.images')).not.toBeInTheDocument();
   });
 

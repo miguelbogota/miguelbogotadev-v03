@@ -2,8 +2,30 @@ import './project-info.styles.scss';
 
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
+import ReactMarkdown from 'react-markdown';
 import { Container } from '@/components/container';
 import { Footer } from '@/components/footer';
+import { getProjectContent } from '@/server-actions/get-project-content';
+
+const SKELETON_LINES = ['heading', 'long', 'medium', 'long', 'short', 'heading', 'long'] as const;
+
+/** Placeholder matching the shape of the Markdown content while it loads. */
+function ProjectContentSkeleton() {
+  return (
+    <div
+      className="content-skeleton"
+      role="status"
+      aria-label="Loading project details"
+      aria-live="polite"
+    >
+      <div aria-hidden="true">
+        {SKELETON_LINES.map((size, index) => (
+          <span key={`${size}-${index}`} className={size} />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 /** Props for the ProjectInfo component. */
 export type ProjectInfoProps = {
@@ -14,23 +36,14 @@ export type ProjectInfoProps = {
 
 /**
  * ProjectInfo component.
- * Displays detailed information about a project including name, summary, industry, year, role, challenge, solution, and images.
+ * Displays project metadata and renders its long-form Markdown content.
  * This component is designed to be reusable and can be used in both the drawer and standalone pages.
  */
 export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoProps) {
-  const {
-    displayName,
-    summary,
-    industry,
-    startedAt,
-    role,
-    tags,
-    challenge,
-    solution,
-    images,
-    links,
-  } = project;
+  const { displayName, summary, industry, startedAt, role, tags, images, links } = project;
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [content, setContent] = useState<string | null>(null);
+  const [isLoadingContent, setIsLoadingContent] = useState(true);
   const selectedImage = images[selectedImageIndex];
 
   const handleThumbnailClick = (index: number) => {
@@ -44,6 +57,24 @@ export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoPro
       document.title = 'Miguel Bogota';
     };
   }, [displayName]);
+
+  // Project metadata is rendered immediately; the long-form content is always loaded in-browser.
+  useEffect(() => {
+    let isCurrent = true;
+    setContent(null);
+    setIsLoadingContent(true);
+    setSelectedImageIndex(0);
+
+    getProjectContent(project).then((markdown) => {
+      if (!isCurrent) return;
+      setContent(markdown);
+      setIsLoadingContent(false);
+    });
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [project.id]);
 
   return (
     <div>
@@ -92,17 +123,15 @@ export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoPro
           </div>
         </div>
 
-        {/* Challenge section */}
-        <div className="section">
-          <h2>{challenge.title}</h2>
-          <p>{challenge.description}</p>
-        </div>
-
-        {/* Solution section */}
-        <div className="section">
-          <h2>{solution.title}</h2>
-          <p>{solution.description}</p>
-        </div>
+        {isLoadingContent ? (
+          <ProjectContentSkeleton />
+        ) : content ? (
+          <article className="markdown">
+            <ReactMarkdown>{content}</ReactMarkdown>
+          </article>
+        ) : (
+          <p className="content-status">Project details are unavailable.</p>
+        )}
 
         {/* Images section */}
         {selectedImage ? (

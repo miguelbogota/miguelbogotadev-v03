@@ -23,8 +23,6 @@ export function filterProjects(projects: Project[], query: string): Project[] {
       const matchesSummary = project.summary.toLowerCase().includes(token);
       const matchesRole = project.role.toLowerCase().includes(token);
       const matchesCompanyName = project.companyName.toLowerCase().includes(token);
-      const matchesChallenge = project.challenge.description.toLowerCase().includes(token);
-      const matchesSolution = project.solution.description.toLowerCase().includes(token);
       const matchesYear = project.startedAt.includes(token);
 
       return (
@@ -35,8 +33,6 @@ export function filterProjects(projects: Project[], query: string): Project[] {
         matchesSummary ||
         matchesRole ||
         matchesCompanyName ||
-        matchesChallenge ||
-        matchesSolution ||
         matchesYear
       );
     });
