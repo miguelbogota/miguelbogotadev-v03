@@ -9,4 +9,10 @@ node_modules
 # framework
 *.local
 .env
-.output
+.next/
+next-env.d.ts
+tsconfig.tsbuildinfo
+.output/
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
