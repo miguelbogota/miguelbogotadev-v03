@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import ReactMarkdown from 'react-markdown';
 import { Container } from '@/components/container';
 import { Footer } from '@/components/footer';
-import { getProjectContent } from '@/server-actions/get-project-content';
+import { projectsService, type Project } from '@/modules/projects';
 
 const SKELETON_LINES = ['heading', 'long', 'medium', 'long', 'short', 'heading', 'long'] as const;
 
@@ -65,7 +65,7 @@ export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoPro
     setIsLoadingContent(true);
     setSelectedImageIndex(0);
 
-    getProjectContent(project).then((markdown) => {
+    projectsService.getProjectContent(project).then((markdown) => {
       if (!isCurrent) return;
       setContent(markdown);
       setIsLoadingContent(false);

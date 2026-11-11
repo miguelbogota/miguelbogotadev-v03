@@ -1,21 +1,24 @@
-import './theme.picker.styles.scss';
+'use client';
+
+import './theme-picker.styles.scss';
 
 import { Fragment, useRef, useState } from 'react';
 import clsx from 'clsx';
-import { cookies } from '@/utils/cookies';
 import { useAppState } from '@/state';
+import { themeService } from '../../services/theme.service';
+import type { Theme } from '../../types/types';
 
-/** Theme types available for selection. */
+/** A selectable theme entry or a visual divider in the theme menu. */
 type ThemeOption =
   | {
       label: string;
       ariaLabel: string;
-      value: ThemeType;
+      value: Theme;
       icon: string;
     }
   | 'divider';
 
-/** Options for the theme picker dropdown. */
+/** Ordered entries displayed in the theme picker menu. */
 const options: ThemeOption[] = [
   { label: 'Light', ariaLabel: 'Light mode', value: 'light', icon: 'bx-sun' },
   { label: 'Dark', ariaLabel: 'Dark mode', value: 'dark', icon: 'bx-moon' },
@@ -24,17 +27,19 @@ const options: ThemeOption[] = [
 ];
 
 /**
- * ThemePicker Component
+ * Renders a menu that switches between the light, dark, and system themes.
+ * A selection updates the document attribute, application state, and persisted cookie.
  *
- * A theme selector component that allows users to switch between light, dark, and system themes.
- * The selected theme is stored as a `data-theme` attribute on the document root element.
+ * @example
+ * ```tsx
+ * import { ThemePicker } from '@/modules/theme';
  *
- * Features:
- * - Hover to show/hide theme options
- * - Smooth transition when showing/hiding
- * - Click to select a theme
- * - Persists selection to the DOM
- * - Shows visual indicator for the currently selected theme
+ * export function Navigation() {
+ *   return <ThemePicker />;
+ * }
+ * ```
+ *
+ * @returns The interactive theme picker.
  */
 export function ThemePicker() {
   const { currentTheme, setCurrentTheme } = useAppState();
@@ -46,12 +51,13 @@ export function ThemePicker() {
     .find((option) => option.value === currentTheme)?.icon;
 
   /**
-   * Handle theme selection.
-   * Updates the DOM attribute and closes the dropdown.
+   * Applies a selected theme and closes the menu.
+   *
+   * @param theme - The theme selected by the user.
    */
-  const handleThemeChange = (theme: ThemeType) => {
+  const handleThemeChange = (theme: Theme) => {
     document.documentElement.setAttribute('data-theme', theme);
-    cookies.set('theme', theme);
+    themeService.setThemeCookie(theme);
     setCurrentTheme(theme);
     setIsOpen(false);
   };

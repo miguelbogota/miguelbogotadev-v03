@@ -1,3 +1,5 @@
+import type { Project } from '@/modules/projects';
+
 /**
  * Filters work projects based on search query.
  * Searches across all project fields (name, industry, tags, summary, role, company, etc.).

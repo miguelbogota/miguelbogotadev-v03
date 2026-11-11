@@ -1,13 +1,14 @@
-import { act, render, screen } from '@/testing';
+import { act, projectFixture, render, screen } from '@/testing';
 import { ProjectInfo } from './project-info.component';
-import { mockState } from '@/testing';
-import { getProjectContent } from '@/server-actions/get-project-content';
+import { projectsService } from '@/modules/projects';
 
-vi.mock('@/server-actions/get-project-content', () => ({
-  getProjectContent: vi.fn(),
+vi.mock('@/modules/projects', () => ({
+  projectsService: {
+    getProjectContent: vi.fn(),
+  },
 }));
 
-const getProjectContentMock = vi.mocked(getProjectContent);
+const getProjectContentMock = vi.mocked(projectsService.getProjectContent);
 
 describe('ProjectInfo', () => {
   beforeEach(() => {
@@ -16,7 +17,7 @@ describe('ProjectInfo', () => {
 
   it('renders project links using their supplied labels, icons, and URLs', () => {
     const project = {
-      ...mockState.projects[0]!,
+      ...projectFixture,
       links: [{ label: 'Documentation', icon: 'bx bx-book', url: 'https://example.com/docs' }],
     };
     render(<ProjectInfo project={project} />);
@@ -30,12 +31,12 @@ describe('ProjectInfo', () => {
   });
 
   it('omits project links when none are provided', () => {
-    render(<ProjectInfo project={{ ...mockState.projects[0]!, links: [] }} />);
+    render(<ProjectInfo project={{ ...projectFixture, links: [] }} />);
     expect(document.querySelector('.project-info .header .links')).not.toBeInTheDocument();
   });
 
   it('should render project name', () => {
-    const mockProject = mockState.projects[0]!;
+    const mockProject = projectFixture;
 
     render(<ProjectInfo project={mockProject} />);
 
@@ -43,7 +44,7 @@ describe('ProjectInfo', () => {
   });
 
   it('should render project summary', () => {
-    const mockProject = mockState.projects[0]!;
+    const mockProject = projectFixture;
 
     render(<ProjectInfo project={mockProject} />);
 
@@ -51,7 +52,7 @@ describe('ProjectInfo', () => {
   });
 
   it('should render project date and role', () => {
-    const mockProject = mockState.projects[0]!;
+    const mockProject = projectFixture;
 
     render(<ProjectInfo project={mockProject} />);
 
@@ -60,7 +61,7 @@ describe('ProjectInfo', () => {
   });
 
   it('should render project industry and tags', () => {
-    const mockProject = mockState.projects[0]!;
+    const mockProject = projectFixture;
 
     render(<ProjectInfo project={mockProject} />);
 
@@ -75,15 +76,15 @@ describe('ProjectInfo', () => {
   it('should show skeletons only where project content will appear', () => {
     getProjectContentMock.mockReturnValue(new Promise(() => {}));
 
-    render(<ProjectInfo project={mockState.projects[0]!} />);
+    render(<ProjectInfo project={projectFixture} />);
 
     expect(screen.getByRole('status', { name: 'Loading project details' })).toBeInTheDocument();
-    expect(screen.getByText(mockState.projects[0]!.displayName)).toBeInTheDocument();
-    expect(screen.getByText(mockState.projects[0]!.summary)).toBeInTheDocument();
+    expect(screen.getByText(projectFixture.displayName)).toBeInTheDocument();
+    expect(screen.getByText(projectFixture.summary)).toBeInTheDocument();
   });
 
   it('should render the Markdown project content without its frontmatter', async () => {
-    const mockProject = mockState.projects[0]!;
+    const mockProject = projectFixture;
     getProjectContentMock.mockResolvedValue(
       '## Architecture\n\nBuilt with **server-driven UI**.\n\n- Go backend\n- React frontend',
     );
@@ -102,7 +103,7 @@ describe('ProjectInfo', () => {
   });
 
   it('should render project images', () => {
-    const mockProject = mockState.projects[0]!;
+    const mockProject = projectFixture;
     const heroImage = mockProject.images[0]!;
 
     render(<ProjectInfo project={mockProject} />);
@@ -117,7 +118,7 @@ describe('ProjectInfo', () => {
   });
 
   it('renders project details without an image gallery when no screenshots exist', () => {
-    const project = { ...mockState.projects[0]!, images: [] };
+    const project = { ...projectFixture, images: [] };
 
     render(<ProjectInfo project={project} />);
 
@@ -126,7 +127,7 @@ describe('ProjectInfo', () => {
   });
 
   it('should render action buttons when provided', () => {
-    const mockProject = mockState.projects[0]!;
+    const mockProject = projectFixture;
 
     render(
       <ProjectInfo

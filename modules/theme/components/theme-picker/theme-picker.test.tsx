@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, act } from '@/testing';
-import { ThemePicker } from './theme.picker.component';
+import { ThemePicker } from './theme-picker.component';
 
 describe('components / ThemePicker', () => {
   beforeEach(() => {

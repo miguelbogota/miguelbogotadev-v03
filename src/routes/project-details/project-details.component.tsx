@@ -1,4 +1,5 @@
 import { ProjectInfo } from '@/components/project-info';
+import type { Project } from '@/modules/projects';
 
 /** Project details route props. */
 export type ProjectDetailsRouteProps = {

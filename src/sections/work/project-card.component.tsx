@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import { useDrawerNavigation } from '@/components/drawer';
+import type { Project } from '@/modules/projects';
 
 /** Props for the ProjectCard component. */
 export type ProjectCardProps = {

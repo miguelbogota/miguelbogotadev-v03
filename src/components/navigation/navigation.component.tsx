@@ -3,7 +3,7 @@ import './navigation.styles.scss';
 import { Fragment } from 'react';
 import clsx from 'clsx';
 import { Container } from '@/components/container';
-import { ThemePicker } from '@/components/theme-picker';
+import { ThemePicker } from '@/modules/theme';
 import { API_URL } from '@/server-actions/constants';
 import { useActiveIndicator } from './use-active-indicator.hook';
 
