@@ -11,7 +11,8 @@
     "build": "next build --webpack",
     "start": "next start",
     "typecheck": "next typegen && tsc --noEmit",
-    "test": "vitest run .",
+    "test": "vitest run . --passWithNoTests",
+    "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
     "format": "prettier --write ."
   },
   "devDependencies": {
