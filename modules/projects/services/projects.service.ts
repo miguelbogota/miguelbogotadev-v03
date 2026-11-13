@@ -1,3 +1,5 @@
+import { RequestError } from '@/modules/shared';
+
 import { PROJECTS_API_BASE_URL } from '../config/constants';
 import { type Project } from '../types/project.type';
 
@@ -13,56 +15,109 @@ class ProjectsService {
    * Returns the in-memory project list or fetches the published index when the list is empty.
    * A server fetch requests a 15-minute Next.js revalidation window.
    *
-   * @returns The projects published by the portfolio data source.
+   * @returns The published projects.
+   * @throws {RequestError} When the project index cannot be loaded.
    */
   async getProjects(): Promise<Project[]> {
     if (ProjectsService.projects.length > 0) {
       return ProjectsService.projects;
     }
 
-    const response = await fetch(`${PROJECTS_API_BASE_URL}/index.json`, {
-      next: { revalidate: 15 * 60 },
-    });
+    try {
+      const response = await fetch(`${PROJECTS_API_BASE_URL}/index.json`, {
+        next: { revalidate: 15 * 60 },
+      });
 
-    if (!response.ok) {
-      throw new Error(`The projects API request failed with status ${response.status}.`);
+      if (!response.ok) {
+        throw new RequestError({
+          code: response.status,
+          message: `The projects API request failed with status ${response.status}.`,
+        });
+      }
+
+      ProjectsService.projects = (await response.json()) as Project[];
+      return ProjectsService.projects;
+    } catch (error) {
+      if (error instanceof RequestError) {
+        throw error;
+      }
+
+      throw new RequestError({
+        code: 500,
+        message: 'The projects API request could not be completed.',
+      });
     }
-
-    ProjectsService.projects = (await response.json()) as Project[];
-    return ProjectsService.projects;
   }
 
   /**
    * Finds a project in the published project index.
    *
    * @param id - The project identifier to find.
-   * @returns The matching project, or `null` when the index does not contain the identifier.
+   * @returns The matching project.
+   * @throws {RequestError} When the project index cannot load or the identifier is not published.
    */
-  async getProject(id: string): Promise<Project | null> {
+  async getProject(id: string): Promise<Project> {
     const projects = await this.getProjects();
 
-    return projects.find((project) => project.id === id) ?? null;
+    const project = projects.find((item) => item.id === id);
+
+    if (!project) {
+      throw new RequestError({
+        code: 404,
+        message: `Project "${id}" was not found.`,
+      });
+    }
+
+    return project;
   }
 
   /**
    * Loads the Markdown document for a project and removes its YAML frontmatter.
    *
    * @param project - A project reference that contains the identifier used in the Markdown URL.
-   * @returns The Markdown body, or `null` when the document cannot be loaded.
+   * @returns The Markdown body.
+   * @throws {RequestError} When the Markdown document cannot be loaded.
    */
-  async getProjectContent(project: Pick<Project, 'id'>): Promise<string | null> {
+  async getProjectContent(project: Pick<Project, 'id'>): Promise<string> {
     try {
       const projectId = encodeURIComponent(project.id);
       const response = await fetch(`${PROJECTS_API_BASE_URL}/projects/${projectId}.md`);
 
+      if (response.status === 404) {
+        throw new RequestError({
+          code: response.status,
+          message: `Project content for "${project.id}" was not found.`,
+        });
+      }
+
       if (!response.ok) {
-        return null;
+        throw new RequestError({
+          code: response.status,
+          message: `Project content for "${project.id}" failed with status ${response.status}.`,
+        });
       }
 
       return this.removeFrontmatter(await response.text());
-    } catch {
-      return null;
+    } catch (error) {
+      if (error instanceof RequestError) {
+        throw error;
+      }
+
+      throw new RequestError({
+        code: 500,
+        message: `Project content for "${project.id}" could not be loaded.`,
+      });
     }
+  }
+
+  /**
+   * Clears project metadata cached by this service instance.
+   * This internal test seam must not be used by application code.
+   *
+   * @internal
+   */
+  _clearCache(): void {
+    ProjectsService.projects = [];
   }
 
   /**
@@ -84,6 +139,7 @@ class ProjectsService {
  * import { projectsService } from '@/modules/projects';
  *
  * const project = await projectsService.getProject('portfolio-project');
+ * console.log(project.displayName);
  * ```
  */
 export const projectsService = new ProjectsService();

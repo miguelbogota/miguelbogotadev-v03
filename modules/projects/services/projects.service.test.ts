@@ -1,12 +1,11 @@
+import { RequestError } from '@/modules/shared';
 import { projectFixture } from '@/testing';
 
-/** Fresh service module instance loaded before each test to reset its static project cache. */
-let projectsService: (typeof import('./projects.service'))['projectsService'];
+import { projectsService } from './projects.service';
 
 describe('projects / service', () => {
-  beforeEach(async () => {
-    vi.resetModules();
-    ({ projectsService } = await import('./projects.service'));
+  beforeEach(() => {
+    projectsService._clearCache();
     vi.stubGlobal('fetch', vi.fn());
   });
 
@@ -32,7 +31,19 @@ describe('projects / service', () => {
   it('should reject an unsuccessful project-index response', async () => {
     vi.mocked(fetch).mockResolvedValue(new Response(null, { status: 503 }));
 
-    await expect(projectsService.getProjects()).rejects.toThrow('503');
+    await expect(projectsService.getProjects()).rejects.toMatchObject({
+      code: 503,
+      message: 'The projects API request failed with status 503.',
+    });
+  });
+
+  it('should reject with an internal request error when the project index cannot load', async () => {
+    vi.mocked(fetch).mockRejectedValue(new Error('network unavailable'));
+
+    await expect(projectsService.getProjects()).rejects.toMatchObject({
+      code: 500,
+      message: 'The projects API request could not be completed.',
+    });
   });
 
   it('should return a project by id', async () => {
@@ -41,10 +52,12 @@ describe('projects / service', () => {
     await expect(projectsService.getProject(projectFixture.id)).resolves.toEqual(projectFixture);
   });
 
-  it('should return null when a project id is not published', async () => {
+  it('should reject with a not-found request error when a project is not published', async () => {
     vi.mocked(fetch).mockResolvedValue(new Response(JSON.stringify([projectFixture])));
 
-    await expect(projectsService.getProject('missing-project')).resolves.toBeNull();
+    await expect(projectsService.getProject('missing-project')).rejects.toEqual(
+      new RequestError({ code: 404, message: 'Project "missing-project" was not found.' }),
+    );
   });
 
   it('should remove YAML frontmatter from Markdown', async () => {
@@ -63,15 +76,21 @@ describe('projects / service', () => {
     expect(fetch).toHaveBeenCalledWith(expect.stringContaining('project%2Fwith%20spaces.md'));
   });
 
-  it('should return null when Markdown is missing', async () => {
+  it('should reject with a not-found request error when Markdown is missing', async () => {
     vi.mocked(fetch).mockResolvedValue(new Response(null, { status: 404 }));
 
-    await expect(projectsService.getProjectContent(projectFixture)).resolves.toBeNull();
+    await expect(projectsService.getProjectContent(projectFixture)).rejects.toMatchObject({
+      code: 404,
+      message: `Project content for "${projectFixture.id}" was not found.`,
+    });
   });
 
-  it('should return null when the Markdown request fails', async () => {
+  it('should reject with an internal request error when the Markdown request fails', async () => {
     vi.mocked(fetch).mockRejectedValue(new Error('network unavailable'));
 
-    await expect(projectsService.getProjectContent(projectFixture)).resolves.toBeNull();
+    await expect(projectsService.getProjectContent(projectFixture)).rejects.toMatchObject({
+      code: 500,
+      message: `Project content for "${projectFixture.id}" could not be loaded.`,
+    });
   });
 });

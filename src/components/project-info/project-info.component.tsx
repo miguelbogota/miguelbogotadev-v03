@@ -7,6 +7,7 @@ import ReactMarkdown from 'react-markdown';
 import { Container } from '@/components/container';
 import { Footer } from '@/components/footer';
 import { type Project, projectsService } from '@/modules/projects';
+import { RequestError } from '@/modules/shared';
 
 const SKELETON_LINES = ['heading', 'long', 'medium', 'long', 'short', 'heading', 'long'] as const;
 
@@ -44,6 +45,7 @@ export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoPro
   const { id, displayName, summary, industry, startedAt, role, tags, images, links } = project;
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [content, setContent] = useState<string | null>(null);
+  const [contentError, setContentError] = useState<RequestError | null>(null);
   const [isLoadingContent, setIsLoadingContent] = useState(true);
   const selectedImage = images[selectedImageIndex];
 
@@ -64,17 +66,33 @@ export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoPro
     let isCurrent = true;
 
     setContent(null);
+    setContentError(null);
     setIsLoadingContent(true);
     setSelectedImageIndex(0);
 
-    projectsService.getProjectContent({ id }).then((markdown) => {
-      if (!isCurrent) {
-        return;
-      }
+    projectsService
+      .getProjectContent({ id })
+      .then((markdown) => {
+        if (isCurrent) {
+          setContent(markdown);
+        }
+      })
+      .catch((error: unknown) => {
+        if (!isCurrent) {
+          return;
+        }
 
-      setContent(markdown);
-      setIsLoadingContent(false);
-    });
+        setContentError(
+          error instanceof RequestError
+            ? error
+            : new RequestError({ code: 500, message: 'Project details could not be loaded.' }),
+        );
+      })
+      .finally(() => {
+        if (isCurrent) {
+          setIsLoadingContent(false);
+        }
+      });
 
     return () => {
       isCurrent = false;
@@ -134,6 +152,10 @@ export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoPro
           <article className="markdown">
             <ReactMarkdown>{content}</ReactMarkdown>
           </article>
+        ) : contentError?.code === 404 ? (
+          <p className="content-status">Project details were not found.</p>
+        ) : contentError ? (
+          <p className="content-status">Project details are temporarily unavailable.</p>
         ) : (
           <p className="content-status">Project details are unavailable.</p>
         )}

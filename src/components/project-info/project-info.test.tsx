@@ -1,4 +1,5 @@
 import { projectsService } from '@/modules/projects';
+import { RequestError } from '@/modules/shared';
 import { act, projectFixture, render, screen } from '@/testing';
 
 import { ProjectInfo } from './project-info.component';
@@ -14,7 +15,7 @@ const getProjectContentMock = vi.mocked(projectsService.getProjectContent);
 describe('ProjectInfo', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    getProjectContentMock.mockResolvedValue(null);
+    getProjectContentMock.mockReturnValue(new Promise(() => {}));
   });
 
   it('renders project links using their supplied labels, icons, and URLs', () => {
@@ -106,6 +107,32 @@ describe('ProjectInfo', () => {
     expect(screen.getByText('server-driven UI')).toHaveProperty('tagName', 'STRONG');
     expect(screen.getByText('Go backend')).toBeInTheDocument();
     expect(screen.queryByText('id:')).not.toBeInTheDocument();
+  });
+
+  it('should render a not-found project-content error', async () => {
+    getProjectContentMock.mockRejectedValue(
+      new RequestError({ code: 404, message: 'Project content was not found.' }),
+    );
+
+    render(<ProjectInfo project={projectFixture} />);
+    await act(async () => {
+      await getProjectContentMock.mock.results[0]?.value.catch(() => undefined);
+    });
+
+    expect(screen.getByText('Project details were not found.')).toBeInTheDocument();
+  });
+
+  it('should render an internal project-content error', async () => {
+    getProjectContentMock.mockRejectedValue(
+      new RequestError({ code: 500, message: 'Project content could not be loaded.' }),
+    );
+
+    render(<ProjectInfo project={projectFixture} />);
+    await act(async () => {
+      await getProjectContentMock.mock.results[0]?.value.catch(() => undefined);
+    });
+
+    expect(screen.getByText('Project details are temporarily unavailable.')).toBeInTheDocument();
   });
 
   it('should render project images', () => {
