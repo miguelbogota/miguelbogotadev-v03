@@ -1,9 +1,11 @@
-import { useEffect, type PropsWithChildren } from 'react';
-import { AppStateProvider, type InitialState } from './state';
+import { type PropsWithChildren, useEffect } from 'react';
+
+import { useDrawerRouting } from '@/components/drawer';
 import { HomeRoute } from '@/routes/home';
 import { NotFoundRoute } from '@/routes/not-found';
 import { ProjectDetailsRoute } from '@/routes/project-details';
-import { useDrawerRouting } from '@/components/drawer';
+
+import { AppStateProvider, type InitialState } from './state';
 
 /** Props for the Router component. */
 export type RouterProps = InitialState;
@@ -19,11 +21,12 @@ function Effects({ children }: PropsWithChildren) {
   useEffect(() => {
     function handleTouchStart(this: Document, event: TouchEvent) {
       const target = event.target as HTMLElement;
+
       if (target.tagName === 'BUTTON' || target.closest('button')) {
         try {
           event.preventDefault();
           target.click();
-        } catch (er) {}
+        } catch {}
       }
     }
 
@@ -50,7 +53,9 @@ export function Router(props: RouterProps) {
     const project = projects.find((p) => p.id === projectId);
 
     // Not found route.
-    if (!project) return withStateProvider(<NotFoundRoute />);
+    if (!project) {
+      return withStateProvider(<NotFoundRoute />);
+    }
 
     // Project details route.
     return withStateProvider(<ProjectDetailsRoute project={project} />);

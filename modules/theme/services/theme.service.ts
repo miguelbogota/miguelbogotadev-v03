@@ -1,4 +1,4 @@
-import type { Theme } from '../types/types';
+import { type Theme } from '../types/types';
 
 /** Cookie name used to persist the selected theme. */
 const THEME_COOKIE_NAME = 'theme';
@@ -12,7 +12,9 @@ class ThemeService {
    * @returns The stored theme, or `system` when the theme cookie is missing.
    */
   getThemeFromCookieString(cookieString?: string | null): Theme {
-    if (!cookieString) return 'system';
+    if (!cookieString) {
+      return 'system';
+    }
 
     const themeCookie = cookieString
       .split(';')
@@ -30,7 +32,10 @@ class ThemeService {
    * @param theme - The theme to persist.
    */
   setThemeCookie(theme: Theme): void {
-    if (typeof document === 'undefined') return;
+    if (typeof document === 'undefined') {
+      return;
+    }
+
     document.cookie = `${THEME_COOKIE_NAME}=${encodeURIComponent(theme)}; path=/; samesite=lax`;
   }
 }

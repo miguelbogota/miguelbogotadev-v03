@@ -1,5 +1,6 @@
-import { createContext, useContext, useState, type PropsWithChildren } from 'react';
-import type { Theme } from '@/modules/theme';
+import { createContext, type PropsWithChildren, useContext, useState } from 'react';
+
+import { type Theme } from '@/modules/theme';
 
 /** Initial state type. */
 export type InitialState = Window['__STATE__'];

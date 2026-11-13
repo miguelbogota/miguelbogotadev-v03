@@ -1,4 +1,5 @@
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+
 import { useScrollSpy } from './use-scroll-spy.hook';
 
 /** Testing component. */
@@ -38,6 +39,7 @@ describe('hook / useScrollSpy', () => {
 
   it('should detect the active section based on scroll position', () => {
     const section = document.createElement('div');
+
     section.id = 'section-1';
 
     section.getBoundingClientRect = vi.fn(() => ({
@@ -63,10 +65,12 @@ describe('hook / useScrollSpy', () => {
 
   it('should update the active section on scroll', () => {
     const section1 = document.createElement('div');
+
     section1.id = 'section-1';
     section1.getBoundingClientRect = createMockRect(0, 100);
 
     const section2 = document.createElement('div');
+
     section2.id = 'section-2';
     section2.getBoundingClientRect = createMockRect(100, 100);
 

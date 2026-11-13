@@ -1,5 +1,7 @@
 import './not-found.styles.scss';
 
+import Link from 'next/link';
+
 import { Container } from '@/components/container';
 
 /**
@@ -12,8 +14,8 @@ export function NotFound() {
     <Container className="not-found">
       <div>
         <h1>404</h1>
-        <p>The page you're looking for doesn't exist.</p>
-        <a href="/">Go Home</a>
+        <p>The page you’re looking for doesn’t exist.</p>
+        <Link href="/">Go Home</Link>
       </div>
     </Container>
   );

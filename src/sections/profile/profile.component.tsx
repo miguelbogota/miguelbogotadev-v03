@@ -9,9 +9,11 @@ export function ProfileSection() {
     <section id="profile">
       <div className="profile-container">
         <div className="information">
+          {/* The remote profile asset is not configured for Next image optimization yet. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={`${API_URL}/assets/profile.png`} alt="Miguel Bogota's profile picture" />
 
-          <p>Hi, I'm Miguel Bogota</p>
+          <p>Hi, I’m Miguel Bogota</p>
 
           <h1>
             <span>Senior Software Engineer</span>
@@ -22,7 +24,7 @@ export function ProfileSection() {
           <p className="overline">
             Senior software engineer building scalable, high-impact products with a sharp focus on
             performance, design, and clean architecture. I enjoy turning complex ideas into
-            intuitive experiences, and I'm currently exploring how AI can power smarter, more
+            intuitive experiences, and I’m currently exploring how AI can power smarter, more
             adaptive applications (and still a fan of cats 🐱).
           </p>
         </div>

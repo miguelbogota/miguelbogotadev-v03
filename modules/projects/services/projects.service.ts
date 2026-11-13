@@ -1,5 +1,5 @@
 import { PROJECTS_API_BASE_URL } from '../config/constants';
-import type { Project } from '../types/types';
+import { type Project } from '../types/project.type';
 
 /**
  * Provides project metadata and Markdown through one shared module instance.
@@ -40,6 +40,7 @@ class ProjectsService {
    */
   async getProject(id: string): Promise<Project | null> {
     const projects = await this.getProjects();
+
     return projects.find((project) => project.id === id) ?? null;
   }
 
@@ -54,7 +55,9 @@ class ProjectsService {
       const projectId = encodeURIComponent(project.id);
       const response = await fetch(`${PROJECTS_API_BASE_URL}/projects/${projectId}.md`);
 
-      if (!response.ok) return null;
+      if (!response.ok) {
+        return null;
+      }
 
       return this.removeFrontmatter(await response.text());
     } catch {

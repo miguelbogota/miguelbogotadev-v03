@@ -1,9 +1,11 @@
 import { render, screen } from '@/testing';
+
 import { SocialSection } from './social.component';
 
 describe('sections / Social', () => {
   it('uses each social link URL as its destination', () => {
     render(<SocialSection />);
+
     for (const { label, url } of [
       { label: 'Email link', url: 'mailto:contact@miguelbogota.dev' },
       { label: 'GitHub profile link', url: 'https://github.com/miguelbogota' },

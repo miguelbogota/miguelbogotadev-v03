@@ -1,11 +1,13 @@
 import './work.styles.scss';
 
-import { useMemo, useState } from 'react';
 import clsx from 'clsx';
+import { useMemo, useState } from 'react';
+
 import { useAppState } from '@/state';
+
 import { filterProjects } from './filter-projects.function';
-import { SearchBar } from './search-bar.component';
 import { ProjectCard } from './project-card.component';
+import { SearchBar } from './search-bar.component';
 
 /** Number of projects to display per page. */
 const PROJECTS_PER_PAGE = 3;
@@ -20,15 +22,16 @@ export function WorkSection() {
   const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
-  const filteredProjects = useMemo(() => filterProjects(projects, query), [query]);
+  const filteredProjects = useMemo(() => filterProjects(projects, query), [projects, query]);
   const totalPages = Math.ceil(filteredProjects.length / PROJECTS_PER_PAGE);
 
   // Get projects for current page
   const displayedProjects = useMemo(() => {
     const startIndex = (currentPage - 1) * PROJECTS_PER_PAGE;
     const endIndex = startIndex + PROJECTS_PER_PAGE;
+
     return filteredProjects.slice(startIndex, endIndex);
-  }, [filteredProjects, currentPage, PROJECTS_PER_PAGE]);
+  }, [filteredProjects, currentPage]);
 
   const onSearch = (value: string) => {
     setQuery(value);
@@ -38,16 +41,20 @@ export function WorkSection() {
   const goToPage = (page: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    if (page === currentPage) return;
+    if (page === currentPage) {
+      return;
+    }
 
     setCurrentPage(page);
     // Scroll to top of work section when changing pages
     setTimeout(() => {
       const firstProject = document.querySelector('a[href^="/project/"]') as HTMLElement;
+
       firstProject?.focus();
 
-      const searchSection = document.getElementById(INPUT_ID)!;
-      searchSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const searchSection = document.getElementById(INPUT_ID);
+
+      searchSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 10);
   };
 

@@ -1,11 +1,12 @@
 import './project-info.styles.scss';
 
-import { useEffect, useState } from 'react';
 import clsx from 'clsx';
+import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+
 import { Container } from '@/components/container';
 import { Footer } from '@/components/footer';
-import { projectsService, type Project } from '@/modules/projects';
+import { type Project, projectsService } from '@/modules/projects';
 
 const SKELETON_LINES = ['heading', 'long', 'medium', 'long', 'short', 'heading', 'long'] as const;
 
@@ -40,7 +41,7 @@ export type ProjectInfoProps = {
  * This component is designed to be reusable and can be used in both the drawer and standalone pages.
  */
 export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoProps) {
-  const { displayName, summary, industry, startedAt, role, tags, images, links } = project;
+  const { id, displayName, summary, industry, startedAt, role, tags, images, links } = project;
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [content, setContent] = useState<string | null>(null);
   const [isLoadingContent, setIsLoadingContent] = useState(true);
@@ -61,12 +62,16 @@ export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoPro
   // Project metadata is rendered immediately; the long-form content is always loaded in-browser.
   useEffect(() => {
     let isCurrent = true;
+
     setContent(null);
     setIsLoadingContent(true);
     setSelectedImageIndex(0);
 
-    projectsService.getProjectContent(project).then((markdown) => {
-      if (!isCurrent) return;
+    projectsService.getProjectContent({ id }).then((markdown) => {
+      if (!isCurrent) {
+        return;
+      }
+
       setContent(markdown);
       setIsLoadingContent(false);
     });
@@ -74,7 +79,7 @@ export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoPro
     return () => {
       isCurrent = false;
     };
-  }, [project.id]);
+  }, [id]);
 
   return (
     <div>
@@ -138,6 +143,8 @@ export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoPro
           <div className="images">
             {/* Main image */}
             <div className="main-image">
+              {/* Project media uses remote URLs that are not configured for Next image optimization yet. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={selectedImage.src} alt={selectedImage.alt} loading="lazy" />
             </div>
 
@@ -151,6 +158,8 @@ export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoPro
                     onClick={() => handleThumbnailClick(index)}
                     aria-label={`View image ${index + 1}`}
                   >
+                    {/* Thumbnails use the same unconfigured remote image source as the gallery. */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={image.src} alt={image.alt} loading="lazy" />
                   </button>
                 ))}

@@ -1,4 +1,5 @@
 import { projectsFixture } from '@/testing';
+
 import { filterProjects } from './filter-projects.function';
 
 const mockedProjects = projectsFixture;

@@ -1,6 +1,8 @@
-import { type ReactElement } from 'react';
 import { render, type RenderOptions } from '@testing-library/react';
+import { type ReactElement } from 'react';
+
 import { AppStateProvider, type StateProviderProps } from '@/state';
+
 import { appStateFixture } from './fixtures/app-state.fixture';
 
 /**

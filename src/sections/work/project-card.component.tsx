@@ -1,6 +1,7 @@
-import type { CSSProperties } from 'react';
+import { type CSSProperties } from 'react';
+
 import { useDrawerNavigation } from '@/components/drawer';
-import type { Project } from '@/modules/projects';
+import { type Project } from '@/modules/projects';
 
 /** Props for the ProjectCard component. */
 export type ProjectCardProps = {
@@ -38,7 +39,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
       <article>
         <div className="media">
           {heroImage ? (
-            <img src={heroImage.src} alt={heroImage.alt} loading="lazy" />
+            <>
+              {/* Project media uses remote URLs that are not configured for Next image optimization yet. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={heroImage.src} alt={heroImage.alt} loading="lazy" />
+            </>
           ) : (
             <div
               className="project-artwork"

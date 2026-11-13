@@ -30,7 +30,9 @@ export function useScrollSpy<T extends string = string>(options: UseScrollSpyOpt
       const scroll = window.scrollY;
 
       const position = elements.find(({ element }) => {
-        if (!element) return false;
+        if (!element) {
+          return false;
+        }
 
         const rect = element.getBoundingClientRect();
         const top = clamp(rect.top + scroll - offset);
@@ -41,7 +43,9 @@ export function useScrollSpy<T extends string = string>(options: UseScrollSpyOpt
 
       const currentSectionId = position?.section ?? '';
 
-      if (prevActiveSectionId.current === currentSectionId) return;
+      if (prevActiveSectionId.current === currentSectionId) {
+        return;
+      }
 
       prevActiveSectionId.current = currentSectionId;
       setActiveSectionId(currentSectionId as T);

@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@/testing';
+
 import { SearchBar } from './search-bar.component';
 
 describe('sections / SearchBar', () => {

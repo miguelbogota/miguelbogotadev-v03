@@ -39,10 +39,10 @@ export function SocialSection() {
         <div className="content">
           <h2>Find me Around the Web</h2>
           <p className="overline">
-            Let's build something great together. Whether it's a new idea or an existing product,
-            I'd be happy to help bring it to life with a focus on quality, performance, and user
-            experience. Feel free to reach out via email or connect with me on social media—I'd love
-            to hear about what you're working on.
+            Let’s build something great together. Whether it’s a new idea or an existing product,
+            I’d be happy to help bring it to life with a focus on quality, performance, and user
+            experience. Feel free to reach out via email or connect with me on social media. I’d
+            love to hear about what you’re working on.
           </p>
 
           <div className="social-networks">

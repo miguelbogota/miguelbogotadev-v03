@@ -1,5 +1,5 @@
-import type { Project } from '@/modules/projects';
-import type { Theme } from '@/modules/theme';
+import { type Project } from '@/modules/projects';
+import { type Theme } from '@/modules/theme';
 
 declare global {
   interface Window {

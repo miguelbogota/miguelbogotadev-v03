@@ -1,4 +1,5 @@
 import { projectFixture, render, screen } from '@/testing';
+
 import { ProjectCard } from './project-card.component';
 
 describe('ProjectCard image fallback', () => {
@@ -14,11 +15,13 @@ describe('ProjectCard image fallback', () => {
   it('keeps the project image when one is provided', () => {
     const project = projectFixture;
     const { container } = render(<ProjectCard project={project} />);
+    const heroImage = project.images[0];
 
-    expect(screen.getByAltText(project.images[0]!.alt)).toHaveAttribute(
-      'src',
-      project.images[0]!.src,
-    );
+    if (!heroImage) {
+      throw new Error('The project fixture must include a hero image.');
+    }
+
+    expect(screen.getByAltText(heroImage.alt)).toHaveAttribute('src', heroImage.src);
 
     expect(container.querySelector('.project-artwork')).not.toBeInTheDocument();
     expect(container.querySelector('.media img')).toBeInTheDocument();

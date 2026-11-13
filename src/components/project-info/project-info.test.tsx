@@ -1,6 +1,7 @@
-import { act, projectFixture, render, screen } from '@/testing';
-import { ProjectInfo } from './project-info.component';
 import { projectsService } from '@/modules/projects';
+import { act, projectFixture, render, screen } from '@/testing';
+
+import { ProjectInfo } from './project-info.component';
 
 vi.mock('@/modules/projects', () => ({
   projectsService: {
@@ -12,6 +13,7 @@ const getProjectContentMock = vi.mocked(projectsService.getProjectContent);
 
 describe('ProjectInfo', () => {
   beforeEach(() => {
+    vi.clearAllMocks();
     getProjectContentMock.mockResolvedValue(null);
   });
 
@@ -20,11 +22,13 @@ describe('ProjectInfo', () => {
       ...projectFixture,
       links: [{ label: 'Documentation', icon: 'bx bx-book', url: 'https://example.com/docs' }],
     };
+
     render(<ProjectInfo project={project} />);
 
     const link = screen.getByRole('link', {
       name: `${project.displayName}: Documentation (opens in a new tab)`,
     });
+
     expect(link).toHaveAttribute('href', 'https://example.com/docs');
     expect(link).toHaveAttribute('rel', 'noopener noreferrer');
     expect(link.querySelector('i')).toHaveClass('bx', 'bx-book');
@@ -69,6 +73,7 @@ describe('ProjectInfo', () => {
 
     // Check that tags container exists and has content
     const tagsContainer = document.querySelector('.tags');
+
     expect(tagsContainer).toBeInTheDocument();
     expect(tagsContainer?.textContent).toContain(mockProject.tags[0]);
   });
@@ -85,13 +90,14 @@ describe('ProjectInfo', () => {
 
   it('should render the Markdown project content without its frontmatter', async () => {
     const mockProject = projectFixture;
+
     getProjectContentMock.mockResolvedValue(
       '## Architecture\n\nBuilt with **server-driven UI**.\n\n- Go backend\n- React frontend',
     );
 
     render(<ProjectInfo project={mockProject} />);
 
-    expect(getProjectContentMock).toHaveBeenCalledWith(mockProject);
+    expect(getProjectContentMock).toHaveBeenCalledWith({ id: mockProject.id });
     await act(async () => {
       await getProjectContentMock.mock.results[0]?.value;
     });
@@ -104,7 +110,11 @@ describe('ProjectInfo', () => {
 
   it('should render project images', () => {
     const mockProject = projectFixture;
-    const heroImage = mockProject.images[0]!;
+    const heroImage = mockProject.images[0];
+
+    if (!heroImage) {
+      throw new Error('The project fixture must include a hero image.');
+    }
 
     render(<ProjectInfo project={mockProject} />);
 

@@ -2,11 +2,13 @@
 
 import './theme-picker.styles.scss';
 
-import { Fragment, useRef, useState } from 'react';
 import clsx from 'clsx';
+import { Fragment, useRef, useState } from 'react';
+
 import { useAppState } from '@/state';
+
 import { themeService } from '../../services/theme.service';
-import type { Theme } from '../../types/types';
+import { type Theme } from '../../types/types';
 
 /** A selectable theme entry or a visual divider in the theme menu. */
 type ThemeOption =
@@ -69,7 +71,10 @@ export function ThemePicker() {
         timeoutRef.current = setTimeout(() => setIsOpen(false), 200);
       }}
       onMouseEnter={() => {
-        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
+
         setIsOpen(true);
       }}
     >
@@ -88,7 +93,7 @@ export function ThemePicker() {
                   <li>
                     <button
                       role="option"
-                      aria-pressed={currentTheme === option.value ? 'true' : 'false'}
+                      aria-selected={currentTheme === option.value}
                       aria-label={option.ariaLabel}
                       onClick={() => handleThemeChange(option.value)}
                     >

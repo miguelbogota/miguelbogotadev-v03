@@ -1,4 +1,4 @@
-import type { Project } from '@/modules/projects';
+import { type Project } from '@/modules/projects';
 
 /**
  * Filters work projects based on search query.

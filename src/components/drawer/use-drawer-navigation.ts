@@ -12,7 +12,9 @@ export function useDrawerNavigation() {
 
     if (url.includes('/project/')) {
       setIsDrawerOpen(true);
+
       const projectId = url.split('/').pop();
+
       if (projectId) {
         setCurrentProjectId(projectId);
       }

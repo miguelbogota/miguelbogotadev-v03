@@ -1,4 +1,4 @@
-import type { Theme } from '@/modules/theme';
+import { type Theme } from '@/modules/theme';
 
 /**
  * Default theme used by component tests.
