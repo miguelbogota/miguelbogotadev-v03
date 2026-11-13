@@ -1,10 +1,13 @@
 import './navigation.styles.scss';
 
-import { Fragment } from 'react';
 import clsx from 'clsx';
+import Link from 'next/link';
+import { Fragment } from 'react';
+
 import { Container } from '@/components/container';
-import { ThemePicker } from '@/components/theme-picker';
+import { ThemePicker } from '@/modules/theme';
 import { API_URL } from '@/server-actions/constants';
+
 import { useActiveIndicator } from './use-active-indicator.hook';
 
 const links = [
@@ -60,9 +63,9 @@ export function Navigation() {
       <Container>
         {/* Logo / Name at the start of the navigation bar. */}
         <h3 className="logo">
-          <a href="/" onClick={handleNameClick}>
+          <Link href="/" onClick={handleNameClick}>
             {createLogoName('MIGUEL BOGOTA')}
-          </a>
+          </Link>
         </h3>
 
         {/* Central links to navigate. */}
@@ -74,16 +77,23 @@ export function Navigation() {
                   href={`#${link.id}`}
                   className={clsx({ active: activeSection === link.id })}
                   ref={(el) => {
-                    if (el) linksRef.current[link.id] = el;
+                    if (el) {
+                      linksRef.current[link.id] = el;
+                    }
                   }}
                   onClick={(e) => {
                     e.preventDefault();
+
                     // For some reason the hash breaks the page if we are already on the same page
-                    if (window.location.hash === `#${link.id}`) return;
+                    if (window.location.hash === `#${link.id}`) {
+                      return;
+                    }
 
                     window.history.replaceState(null, '', `#${link.id}`);
+
                     // Scroll to the section
                     const element = document.getElementById(link.id);
+
                     if (element) {
                       element.scrollIntoView({ behavior: 'smooth' });
                     }

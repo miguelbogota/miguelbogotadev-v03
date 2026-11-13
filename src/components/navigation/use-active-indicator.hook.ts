@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+
 import { useScrollSpy } from '@/hooks/use-scroll-spy';
 
 /** Hook allows to track the active state for the links underneath line. */

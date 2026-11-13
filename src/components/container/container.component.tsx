@@ -1,7 +1,7 @@
 import './container.styles.scss';
 
-import { createElement, type ElementType, type ComponentPropsWithoutRef } from 'react';
 import clsx from 'clsx';
+import { type ComponentPropsWithoutRef, createElement, type ElementType } from 'react';
 
 /** Polymorphic props helper to support the `as` prop. */
 type PolymorphicProps<T extends ElementType> = {

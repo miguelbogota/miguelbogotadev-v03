@@ -1,5 +1,6 @@
-import { useAppState } from '@/state';
 import { useEffect } from 'react';
+
+import { useAppState } from '@/state';
 
 /**
  * Subscribes to the back and forward browser buttons, also restores scrolling position.
@@ -22,7 +23,7 @@ export function useDrawerRouting() {
 
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, [isDrawerOpen]);
+  }, [isDrawerOpen, setIsDrawerOpen]);
 
   /**
    * Handles the scroll event and saves the scroll position to sessionStorage.

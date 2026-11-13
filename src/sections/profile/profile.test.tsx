@@ -1,5 +1,6 @@
-import { render, screen } from '@/testing';
 import { API_URL } from '@/server-actions/constants';
+import { render, screen } from '@/testing';
+
 import { ProfileSection } from './profile.component';
 
 vi.mock('@/components/cat-model', () => ({

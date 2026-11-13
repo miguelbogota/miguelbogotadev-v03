@@ -1,4 +1,6 @@
-import { createContext, useContext, useState, type PropsWithChildren } from 'react';
+import { createContext, type PropsWithChildren, useContext, useState } from 'react';
+
+import { type Theme } from '@/modules/theme';
 
 /** Initial state type. */
 export type InitialState = Window['__STATE__'];
@@ -10,9 +12,9 @@ export type VirtualStateContext = {
   /** Function to set the current project ID. */
   setCurrentProjectId: (projectId: string | null) => void;
   /** Current theme of the application. */
-  currentTheme: ThemeType;
+  currentTheme: Theme;
   /** Function to set the current theme of the application. */
-  setCurrentTheme: (theme: ThemeType) => void;
+  setCurrentTheme: (theme: Theme) => void;
   /** Whether the drawer is open. */
   isDrawerOpen: boolean;
   /** Function to set whether the drawer is open. */
@@ -44,7 +46,7 @@ export function AppStateProvider({ children, value }: StateProviderProps) {
         currentProjectId,
         setCurrentProjectId,
         currentTheme: theme,
-        setCurrentTheme: (theme: ThemeType) => setTheme(theme),
+        setCurrentTheme: (theme: Theme) => setTheme(theme),
         isDrawerOpen,
         setIsDrawerOpen,
       }}

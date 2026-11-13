@@ -1,8 +1,10 @@
 import './drawer.styles.scss';
 
-import { useEffect, useRef } from 'react';
-import { useAppState } from '@/state';
+import { useCallback, useEffect, useRef } from 'react';
+
 import { ProjectInfo } from '@/components/project-info';
+import { useAppState } from '@/state';
+
 import { useDrawerNavigation } from './use-drawer-navigation';
 
 /**
@@ -19,26 +21,33 @@ export function Drawer() {
 
   const currentProject = projects.find((p) => p.id === currentProjectId) ?? null;
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     navigate('/');
     setIsDrawerOpen(false);
-  };
+  }, [navigate, setIsDrawerOpen]);
 
   // Handles `ESC` key to close the drawer.
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') handleClose();
+      if (event.key === 'Escape') {
+        handleClose();
+      }
     };
 
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
-  }, []);
+  }, [handleClose]);
 
   // Focus trap for accessibility
   useEffect(() => {
     if (isDrawerOpen) {
       previousActiveElementRef.current = document.activeElement as HTMLElement;
-      const dialogElement = dialogRef.current!;
+
+      const dialogElement = dialogRef.current;
+
+      if (!dialogElement) {
+        return;
+      }
 
       const focusableElements = dialogElement.querySelectorAll(
         'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',

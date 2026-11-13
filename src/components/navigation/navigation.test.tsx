@@ -1,7 +1,9 @@
-import { render, screen } from '@/testing';
-import { expect, describe, it, beforeEach, afterEach, vi } from 'vitest';
-import { Navigation } from './navigation.component';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
 import { API_URL } from '@/server-actions/constants';
+import { render, screen } from '@/testing';
+
+import { Navigation } from './navigation.component';
 
 describe('components / Navigation', () => {
   beforeEach(() => {
@@ -16,13 +18,17 @@ describe('components / Navigation', () => {
 
   it('should render the navigation component', () => {
     render(<Navigation />);
+
     const nav = screen.getByRole('navigation');
+
     expect(nav).toBeTruthy();
   });
 
   it('should render the logo on the left', () => {
     render(<Navigation />);
+
     const nameLink = screen.getByRole('link', { name: /MIGUEL|BOGOTA/i });
+
     expect(nameLink).toBeTruthy();
     // The parent element (h3) has the logo class
     expect(nameLink.parentElement?.className).toContain('logo');
@@ -37,19 +43,25 @@ describe('components / Navigation', () => {
 
   it('should render resume link', () => {
     render(<Navigation />);
+
     const resumeLink = screen.getByRole('link', { name: /resume/i });
+
     expect(resumeLink).toBeTruthy();
   });
 
   it('should render theme picker', () => {
     render(<Navigation />);
+
     const themeButton = screen.getByRole('button', { name: /theme/i });
+
     expect(themeButton).toBeTruthy();
   });
 
   it('should have the logo as a clickable and reset scroll position', () => {
     render(<Navigation />);
+
     const nameLink = screen.getByRole('link', { name: /MIGUEL|BOGOTA/i });
+
     expect(nameLink).toBeTruthy();
     expect(nameLink.getAttribute('href')).toBe('/');
   });
@@ -58,25 +70,33 @@ describe('components / Navigation', () => {
     render(<Navigation />);
 
     const profileLink = screen.getByRole('link', { name: /profile/i });
+
     expect(profileLink.getAttribute('href')).toBe('#profile');
 
     const worksLink = screen.getByRole('link', { name: /work/i });
+
     expect(worksLink.getAttribute('href')).toBe('#work');
 
     const socialLink = screen.getByRole('link', { name: /social/i });
+
     expect(socialLink.getAttribute('href')).toBe('#social');
   });
 
   it('should apply active state to current section', () => {
     render(<Navigation />);
+
     const profileLink = screen.getByRole('link', { name: /profile/i });
+
     // Initial state should be the first one.
+
     expect(profileLink.className).toContain('active');
   });
 
   it('should be external and open in a new tab the resume link', () => {
     render(<Navigation />);
+
     const resumeLink = screen.getByRole('link', { name: /resume/i });
+
     expect(resumeLink.getAttribute('href')).toBe(`${API_URL}/assets/resume.pdf`);
     expect(resumeLink.getAttribute('target')).toBe('_blank');
     expect(resumeLink.getAttribute('rel')).toBe('noopener noreferrer');
@@ -84,13 +104,17 @@ describe('components / Navigation', () => {
 
   it('should render theme picker in right section', () => {
     render(<Navigation />);
+
     const themeButton = screen.getByRole('button', { name: /theme/i });
+
     expect(themeButton).toBeTruthy();
   });
 
   it('navigation should be accessible with proper semantic HTML', () => {
     render(<Navigation />);
+
     const nav = screen.getByRole('navigation');
+
     expect(nav).toBeTruthy();
   });
 });

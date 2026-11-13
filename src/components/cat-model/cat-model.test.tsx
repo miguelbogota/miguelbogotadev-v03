@@ -1,6 +1,8 @@
-import { act, fireEvent, render, screen } from '@/testing';
 import { useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+import { act, fireEvent, render, screen } from '@/testing';
+
 import { CatModel } from './cat-model.component';
 
 vi.mock('@react-three/fiber', () => ({
@@ -25,7 +27,7 @@ describe('components / CatModel', () => {
       render(<CatModel />);
     });
 
-    expect(screen.getByRole('group', { name: 'June 3D model' })).toBeInTheDocument();
+    expect(screen.getByRole('group', { name: /^June 3D model\./ })).toBeInTheDocument();
     expect(screen.getByTestId('cat-canvas')).toBeInTheDocument();
     expect(useLoader).toHaveBeenCalledWith(GLTFLoader, expect.stringMatching(/june\.glb$/));
     expect(screen.getByText('Drag to rotate')).toBeInTheDocument();
@@ -41,7 +43,10 @@ describe('components / CatModel', () => {
     let isLoading = true;
 
     vi.mocked(useLoader).mockImplementation(() => {
-      if (isLoading) throw loading;
+      if (isLoading) {
+        throw loading;
+      }
+
       return { scene: {} } as never;
     });
 
@@ -82,6 +87,7 @@ describe('components / CatModel', () => {
     });
 
     const viewer = screen.getByRole('group');
+
     expect(viewer).toHaveAttribute('data-touch-enabled', 'false');
 
     vi.setSystemTime(1000);

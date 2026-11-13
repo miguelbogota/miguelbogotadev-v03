@@ -1,7 +1,8 @@
-import { mockState } from '@/testing';
+import { projectsFixture } from '@/testing';
+
 import { filterProjects } from './filter-projects.function';
 
-const mockedProjects = mockState.projects;
+const mockedProjects = projectsFixture;
 
 describe('sections / Work / filterProjects', () => {
   it('should return all projects when query is empty', () => {
@@ -14,17 +15,16 @@ describe('sections / Work / filterProjects', () => {
   it('should match case-insensitively across all displayed fields', () => {
     const projects = mockedProjects;
 
-    expect(filterProjects(projects, 'MiguelbogotaDev')).toHaveLength(4);
-    expect(filterProjects(projects, 'DIGITAL')).toHaveLength(1);
-    expect(filterProjects(projects, '2023')).toHaveLength(2);
-    expect(filterProjects(projects, 'Firebase App Hosting')).toHaveLength(2);
+    expect(filterProjects(projects, 'PORTFOLIO')).toHaveLength(1);
+    expect(filterProjects(projects, 'DEVELOPER TOOLS')).toHaveLength(1);
+    expect(filterProjects(projects, '2026')).toHaveLength(1);
+    expect(filterProjects(projects, 'Next.js')).toHaveLength(1);
   });
 
   it('should support multi-token queries by normalizing whitespace', () => {
     const projects = mockedProjects;
 
-    // Should find project with both "miguelbogotadev" AND "2026"
-    expect(filterProjects(projects, 'miguelbogotadev 2026')).toHaveLength(1);
+    expect(filterProjects(projects, 'portfolio 2026')).toHaveLength(1);
   });
 
   it('should return empty when there are no matches', () => {

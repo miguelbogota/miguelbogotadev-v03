@@ -1,5 +1,6 @@
-import { render, screen, fireEvent, act } from '@/testing';
-import { ThemePicker } from './theme.picker.component';
+import { act, fireEvent, render, screen } from '@/testing';
+
+import { ThemePicker } from './theme-picker.component';
 
 describe('components / ThemePicker', () => {
   beforeEach(() => {
@@ -17,6 +18,7 @@ describe('components / ThemePicker', () => {
     render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
+
     expect(mainButton).toBeTruthy();
   });
 
@@ -24,6 +26,7 @@ describe('components / ThemePicker', () => {
     render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
+
     fireEvent.mouseEnter(mainButton);
 
     expect(screen.getByRole('option', { name: /light/i })).toBeTruthy();
@@ -35,6 +38,7 @@ describe('components / ThemePicker', () => {
     render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
+
     fireEvent.mouseEnter(mainButton);
     fireEvent.mouseLeave(mainButton);
 
@@ -48,9 +52,11 @@ describe('components / ThemePicker', () => {
     render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
+
     fireEvent.mouseEnter(mainButton);
 
     const lightOption = screen.getByRole('option', { name: /light/i });
+
     fireEvent.click(lightOption);
 
     expect(document.documentElement.getAttribute('data-theme')).toBe('light');
@@ -60,9 +66,11 @@ describe('components / ThemePicker', () => {
     render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
+
     fireEvent.mouseEnter(mainButton);
 
     const darkOption = screen.getByRole('option', { name: /dark/i });
+
     fireEvent.click(darkOption);
 
     expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
@@ -72,9 +80,11 @@ describe('components / ThemePicker', () => {
     render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
+
     fireEvent.mouseEnter(mainButton);
 
     const systemOption = screen.getByRole('option', { name: /system/i });
+
     fireEvent.click(systemOption);
 
     expect(document.documentElement.getAttribute('data-theme')).toBe('system');
@@ -84,9 +94,11 @@ describe('components / ThemePicker', () => {
     render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
+
     fireEvent.mouseEnter(mainButton);
 
     const lightOption = screen.getByRole('option', { name: /light/i });
+
     fireEvent.click(lightOption);
 
     // Check that the sun icon is present in the button
@@ -97,39 +109,47 @@ describe('components / ThemePicker', () => {
     render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
+
     fireEvent.mouseEnter(mainButton);
 
     const lightOption = screen.getByRole('option', { name: /light/i });
+
     fireEvent.click(lightOption);
 
     fireEvent.mouseEnter(mainButton);
+
     const activeOption = screen.getByRole('option', { name: /light/i });
 
-    expect(activeOption.getAttribute('aria-pressed')).toBe('true');
+    expect(activeOption).toHaveAttribute('aria-selected', 'true');
   });
 
   it('should unmark other theme options as inactive', () => {
     render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
+
     fireEvent.mouseEnter(mainButton);
 
     const lightOption = screen.getByRole('option', { name: /light/i });
+
     fireEvent.click(lightOption);
 
     fireEvent.mouseEnter(mainButton);
+
     const darkOption = screen.getByRole('option', { name: /dark/i });
 
-    expect(darkOption.getAttribute('aria-pressed')).toBe('false');
+    expect(darkOption).toHaveAttribute('aria-selected', 'false');
   });
 
   it('should close dropdown after selecting an option', () => {
     render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
+
     fireEvent.mouseEnter(mainButton);
 
     const lightOption = screen.getByRole('option', { name: /light/i });
+
     fireEvent.click(lightOption);
 
     expect(screen.queryByRole('option', { name: /dark/i })).toBeFalsy();
@@ -139,9 +159,11 @@ describe('components / ThemePicker', () => {
     render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
+
     fireEvent.mouseEnter(mainButton);
 
     const darkOption = screen.getByRole('option', { name: /dark/i });
+
     fireEvent.click(darkOption);
 
     expect(document.cookie).toContain('theme=dark');
@@ -151,6 +173,7 @@ describe('components / ThemePicker', () => {
     render(<ThemePicker />, { state: { theme: 'light' } });
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
+
     expect(mainButton.querySelector('.bx-sun')).toBeTruthy();
   });
 
@@ -175,6 +198,7 @@ describe('components / ThemePicker', () => {
     render(<ThemePicker />);
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
+
     fireEvent.mouseEnter(mainButton);
 
     const dropdown = screen.getByRole('option', { name: /light/i }).closest('.dropdown');

@@ -1,8 +1,9 @@
 import './cat-model.styles.scss';
 
+import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import {
-  type PointerEvent as ReactPointerEvent,
   type KeyboardEvent as ReactKeyboardEvent,
+  type PointerEvent as ReactPointerEvent,
   type RefObject,
   Suspense,
   useEffect,
@@ -10,8 +11,8 @@ import {
   useState,
 } from 'react';
 import { type Group } from 'three';
-import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
 import { ErrorBoundary } from '@/components/error-boundary';
 import { API_URL } from '@/server-actions/constants';
 
@@ -38,37 +39,37 @@ const CAT_MODELS: readonly [CatModelDefinition, CatModelDefinition] = [
 interface CatSceneProps {
   url: string;
   onLoaded: (loaded: boolean) => void;
-  yaw: RefObject<number>;
-  dragging: RefObject<boolean>;
-  lastInteraction: RefObject<number>;
+  yawRef: RefObject<number>;
+  draggingRef: RefObject<boolean>;
+  lastInteractionRef: RefObject<number>;
   idleDelayMs: number;
 }
 
 /** Load the GLB and rotate its parent only around the world up axis. */
 function CatMesh(props: CatSceneProps) {
-  const { url, onLoaded, yaw, dragging, lastInteraction, idleDelayMs } = props;
+  const { url, onLoaded, yawRef, draggingRef, lastInteractionRef, idleDelayMs } = props;
 
   const gltf = useLoader(GLTFLoader, url);
-  const group = useRef<Group | null>(null);
+  const groupRef = useRef<Group | null>(null);
 
   useEffect(() => {
     onLoaded(true);
   }, [onLoaded]);
 
   useFrame((_, delta) => {
-    if (!group.current) {
+    if (!groupRef.current) {
       return;
     }
 
-    if (!dragging.current && Date.now() - lastInteraction.current >= idleDelayMs) {
-      yaw.current += delta * 0.35;
+    if (!draggingRef.current && Date.now() - lastInteractionRef.current >= idleDelayMs) {
+      yawRef.current += delta * 0.35;
     }
 
-    group.current.rotation.y = yaw.current;
+    groupRef.current.rotation.y = yawRef.current;
   });
 
   return (
-    <group ref={group} position={[0, -1.08, 0]}>
+    <group ref={groupRef} position={[0, -1.08, 0]}>
       <primitive object={gltf.scene} />
     </group>
   );
@@ -80,12 +81,12 @@ export function CatModel() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [touchEnabled, setTouchEnabled] = useState(false);
   // The GLB's face points toward +Z, where the camera starts.
-  const yaw = useRef(0);
-  const lastInteraction = useRef(Date.now());
-  const dragging = useRef(false);
-  const pointerId = useRef<number | null>(null);
-  const previousX = useRef(0);
-  const lastTouchTap = useRef<number | null>(null);
+  const yawRef = useRef(0);
+  const lastInteractionRef = useRef(0);
+  const draggingRef = useRef(false);
+  const pointerIdRef = useRef<number | null>(null);
+  const previousXRef = useRef(0);
+  const lastTouchTapRef = useRef<number | null>(null);
 
   useEffect(() => {
     const catPicked =
@@ -93,7 +94,7 @@ export function CatModel() {
       CAT_MODELS[0];
 
     setModel(catPicked);
-    lastInteraction.current = Date.now();
+    lastInteractionRef.current = Date.now();
   }, []);
 
   /** Begin mouse drag immediately; require a double tap for touch drag. */
@@ -101,44 +102,44 @@ export function CatModel() {
     if (event.pointerType === 'touch' && !touchEnabled) {
       const now = Date.now();
 
-      if (lastTouchTap.current !== null && now - lastTouchTap.current <= DOUBLE_TAP_MS) {
+      if (lastTouchTapRef.current !== null && now - lastTouchTapRef.current <= DOUBLE_TAP_MS) {
         setTouchEnabled(true);
-        lastInteraction.current = now;
-        lastTouchTap.current = null;
+        lastInteractionRef.current = now;
+        lastTouchTapRef.current = null;
       } else {
-        lastTouchTap.current = now;
+        lastTouchTapRef.current = now;
       }
 
       return;
     }
 
-    dragging.current = true;
-    pointerId.current = event.pointerId;
-    previousX.current = event.clientX;
-    lastInteraction.current = Date.now();
+    draggingRef.current = true;
+    pointerIdRef.current = event.pointerId;
+    previousXRef.current = event.clientX;
+    lastInteractionRef.current = Date.now();
     event.currentTarget.setPointerCapture?.(event.pointerId);
   }
 
   /** Horizontal dragging changes yaw only; the cat never tilts. */
   function handlePointerMove(event: ReactPointerEvent<HTMLDivElement>) {
-    if (!dragging.current || pointerId.current !== event.pointerId) {
+    if (!draggingRef.current || pointerIdRef.current !== event.pointerId) {
       return;
     }
 
-    yaw.current += (event.clientX - previousX.current) * DRAG_RADIANS_PER_PIXEL;
-    previousX.current = event.clientX;
-    lastInteraction.current = Date.now();
+    yawRef.current += (event.clientX - previousXRef.current) * DRAG_RADIANS_PER_PIXEL;
+    previousXRef.current = event.clientX;
+    lastInteractionRef.current = Date.now();
   }
 
   /** Release the drag so the idle timer can start again. */
   function handlePointerEnd(event: ReactPointerEvent<HTMLDivElement>) {
-    if (pointerId.current !== event.pointerId) {
+    if (pointerIdRef.current !== event.pointerId) {
       return;
     }
 
-    dragging.current = false;
-    pointerId.current = null;
-    lastInteraction.current = Date.now();
+    draggingRef.current = false;
+    pointerIdRef.current = null;
+    lastInteractionRef.current = Date.now();
 
     if (event.currentTarget.hasPointerCapture?.(event.pointerId)) {
       event.currentTarget.releasePointerCapture(event.pointerId);
@@ -152,8 +153,8 @@ export function CatModel() {
     }
 
     event.preventDefault();
-    yaw.current += event.key === 'ArrowLeft' ? -0.2 : 0.2;
-    lastInteraction.current = Date.now();
+    yawRef.current += event.key === 'ArrowLeft' ? -0.2 : 0.2;
+    lastInteractionRef.current = Date.now();
   }
 
   return (
@@ -162,8 +163,7 @@ export function CatModel() {
         className="cat-model"
         data-touch-enabled={touchEnabled}
         role="group"
-        aria-label={`${model?.name ?? 'Cat'} 3D model`}
-        aria-description="Drag horizontally to rotate. On touch screens, double tap first. Arrow keys also rotate."
+        aria-label={`${model?.name ?? 'Cat'} 3D model. Drag horizontally to rotate. On touch screens, double tap first. Arrow keys also rotate.`}
         tabIndex={0}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
@@ -186,9 +186,9 @@ export function CatModel() {
               <CatMesh
                 url={model.url}
                 onLoaded={setIsLoaded}
-                yaw={yaw}
-                dragging={dragging}
-                lastInteraction={lastInteraction}
+                yawRef={yawRef}
+                draggingRef={draggingRef}
+                lastInteractionRef={lastInteractionRef}
                 idleDelayMs={IDLE_DELAY_MS}
               />
             </Suspense>
