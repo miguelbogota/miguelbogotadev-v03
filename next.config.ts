@@ -1,6 +1,9 @@
 import { type NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  logging: {
+    browserToTerminal: false,
+  },
   cacheComponents: true,
   partialPrefetching: true,
   cacheLife: {

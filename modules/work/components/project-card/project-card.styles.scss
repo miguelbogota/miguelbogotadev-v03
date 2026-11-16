@@ -1,0 +1,183 @@
+.project-card {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+
+  & > article {
+    display: grid;
+    grid-template-columns: 60fr 40fr;
+    gap: var(--space-4);
+    align-items: stretch;
+    overflow: hidden;
+
+    & > div:first-child {
+      position: relative;
+      min-height: 400px;
+      overflow: hidden;
+      background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--background-sheet) 70%, var(--background-border)),
+        color-mix(in srgb, var(--background-sheet) 40%, var(--background-border))
+      );
+
+      & > img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      // This class distinguishes generated artwork from a project image.
+      & > .project-artwork {
+        position: absolute;
+        inset: 0;
+        background: var(--artwork-background);
+
+        &::before {
+          content: '';
+          position: absolute;
+          inset: -35%;
+          background:
+            radial-gradient(
+              ellipse at 34% 39%,
+              var(--artwork-amber-light) 0%,
+              var(--artwork-amber) 12%,
+              transparent 34%
+            ),
+            radial-gradient(
+              ellipse at 67% 59%,
+              var(--artwork-rose-light) 0%,
+              var(--artwork-rose) 17%,
+              transparent 40%
+            ),
+            radial-gradient(
+              ellipse at 37% 73%,
+              var(--artwork-teal-light) 0%,
+              var(--artwork-teal) 22%,
+              transparent 44%
+            ),
+            var(--artwork-background);
+          filter: blur(28px);
+          transform: translate(3%, -2%) rotate(-12deg) scale(1.08);
+          animation: project-light-drift 2s ease-in-out infinite alternate;
+          animation-delay: var(--artwork-delay, 0s);
+
+          @media (prefers-reduced-motion: reduce) {
+            animation: none;
+          }
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background:
+            radial-gradient(ellipse at center, transparent 25%, var(--artwork-vignette) 100%),
+            radial-gradient(var(--artwork-grain) 1.3px, transparent 1.5px);
+          background-size:
+            100% 100%,
+            5px 5px;
+          pointer-events: none;
+        }
+      }
+    }
+
+    & > div:last-child {
+      display: flex;
+      flex-direction: column;
+      padding: var(--space-4);
+
+      & > div {
+        display: flex;
+        gap: var(--space-1);
+        margin-bottom: var(--space-2);
+        font-size: 0.75rem;
+        letter-spacing: 0.03rem;
+        text-transform: uppercase;
+      }
+
+      & > h3 {
+        margin: 0 0 var(--space-2);
+        color: var(--text-primary);
+        font-size: clamp(1.4rem, 2.6vw, 2.2rem);
+        font-weight: 600;
+        line-height: 1.1;
+        letter-spacing: 0.03rem;
+        text-transform: uppercase;
+      }
+
+      & > p {
+        display: -webkit-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+      }
+
+      & > span {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-1);
+        color: var(--text-primary);
+        font-weight: 500;
+        letter-spacing: 0.1rem;
+      }
+    }
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--background-sheet) 40%, transparent 40%);
+
+      & > div:first-child > img {
+        transform: scale(1.05);
+      }
+
+      & > div:last-child > span {
+        color: var(--primary);
+        text-decoration: underline;
+      }
+    }
+
+    @media (width <= 750px) {
+      grid-template-columns: 1fr !important;
+      gap: var(--space-2);
+
+      & > div:first-child {
+        order: unset !important;
+        min-height: 300px;
+      }
+
+      & > div:last-child {
+        order: unset !important;
+        padding: var(--space-2);
+
+        & > p {
+          margin-bottom: var(--space-2);
+        }
+      }
+    }
+  }
+
+  &:nth-child(even) > article {
+    grid-template-columns: 40fr 60fr;
+
+    & > div:first-child {
+      order: 2;
+    }
+
+    & > div:last-child {
+      order: 1;
+    }
+  }
+}
+
+@keyframes project-light-drift {
+  from {
+    transform: translate(-5%, 5%) rotate(12deg) scale(1.2);
+  }
+
+  to {
+    transform: translate(3%, -2%) rotate(-12deg) scale(1.08);
+  }
+}

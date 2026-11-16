@@ -21,6 +21,8 @@ The private class keeps construction internal and exposes one shared `projectsSe
 ## Files
 
 - `index.ts`: public singleton and type exports.
+- `components/drawer/*`: legacy client drawer retained until Phase 5 intercepted routing.
+- `components/project-info/*`: progressively loaded project details shared by project presentations.
 - `config/constants.ts`: published API location; only the service imports it.
 - `services/projects.service.ts`: the private class, exported singleton, cached metadata access, and Markdown loading.
 - `services/projects.service.test.ts`: interface-level tests with mocked network responses.

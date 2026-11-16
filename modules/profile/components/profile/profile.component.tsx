@@ -1,0 +1,39 @@
+import './profile.styles.scss';
+
+import { API_URL } from '@/modules/shared/config/constants';
+
+import { CatModel } from '../cat-model';
+
+/** Section renders the profile information. */
+export function ProfileSection() {
+  return (
+    <section id="profile">
+      <div className="profile-container">
+        <div className="information">
+          {/* The remote profile asset is not configured for Next image optimization yet. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={`${API_URL}/assets/profile.png`} alt="Miguel Bogota's profile picture" />
+
+          <p>Hi, I’m Miguel Bogota</p>
+
+          <h1>
+            <span>Senior Software Engineer</span>
+            <span>Building AI-Enhanced Systems</span>
+            <span>And Product Design</span>
+          </h1>
+
+          <p className="overline">
+            Senior software engineer building scalable, high-impact products with a sharp focus on
+            performance, design, and clean architecture. I enjoy turning complex ideas into
+            intuitive experiences, and I’m currently exploring how AI can power smarter, more
+            adaptive applications (and still a fan of cats 🐱).
+          </p>
+        </div>
+
+        <div className="pet">
+          <CatModel />
+        </div>
+      </div>
+    </section>
+  );
+}

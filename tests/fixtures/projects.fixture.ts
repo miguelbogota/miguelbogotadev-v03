@@ -6,7 +6,7 @@ import { type Project } from '@/modules/projects';
  * @example
  * ```tsx
  * import { projectFixture, render } from '@/testing';
- * import { ProjectCard } from '@/sections/work/project-card.component';
+ * import { ProjectCard } from '@/modules/work/components/project-card';
  *
  * render(<ProjectCard project={projectFixture} />);
  * ```
@@ -49,7 +49,7 @@ export const projectFixture: Project = {
  * @example
  * ```tsx
  * import { projectsFixture } from '@/testing';
- * import { filterProjects } from '@/sections/work/filter-projects.function';
+ * import { filterProjects } from '@/modules/work/utils/filter-projects.function';
  *
  * const result = filterProjects(projectsFixture, 'Next.js');
  * ```
