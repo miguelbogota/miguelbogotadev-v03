@@ -102,7 +102,7 @@ describe('components / ThemePicker', () => {
     fireEvent.click(lightOption);
 
     // Check that the sun icon is present in the button
-    expect(mainButton.querySelector('.bx-sun')).toBeTruthy();
+    expect(mainButton.querySelector('[data-icon="light"]')).toBeTruthy();
   });
 
   it('should mark the current theme option as active', () => {
@@ -174,7 +174,8 @@ describe('components / ThemePicker', () => {
 
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
 
-    expect(mainButton.querySelector('.bx-sun')).toBeTruthy();
+    expect(mainButton.querySelector('[data-icon="light"]')).toBeTruthy();
+    expect(document.documentElement).toHaveAttribute('data-theme', 'light');
   });
 
   it('should toggle dropdown when main button is clicked', () => {

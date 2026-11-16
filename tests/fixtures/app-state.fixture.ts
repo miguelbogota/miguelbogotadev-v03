@@ -7,8 +7,7 @@ import { themeFixture } from './theme.fixture';
  * @example
  * ```tsx
  * import { appStateFixture, render } from '@/testing';
- * import { AppStateProvider } from '@/state';
- * import { Navigation } from '@/components/navigation';
+ * import { AppStateProvider, Navigation } from '@/modules/shared';
  *
  * render(
  *   <AppStateProvider value={appStateFixture}>
@@ -17,8 +16,7 @@ import { themeFixture } from './theme.fixture';
  * );
  * ```
  */
-export const appStateFixture: Window['__STATE__'] = {
-  url: 'http://localhost:3000/',
+export const appStateFixture = {
   theme: themeFixture,
   projects: projectsFixture,
 };

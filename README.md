@@ -1,6 +1,115 @@
 # MiguelBogotaDev V03
 
-Personal portfolio website, built with React, showcasing my projects and skills as a developer. The website features a clean and modern design, with sections for my bio, projects, and contact information. It is responsive and optimized for both desktop and mobile devices. The code is organized and well-documented, making it easy to maintain and update in the future.
+My personal portfolio, built with Next.js 16, React 19, TypeScript, and an arguably unreasonable amount of care for a website whose primary job is to say, “Hello, I write software.”
+
+[Visit miguelbogota.dev](https://miguelbogota.dev)
+
+## What is this?
+
+This repository contains the frontend for my portfolio. It introduces who I am, presents selected projects, provides searchable and paginated work history, and includes an interactive cat because every serious engineering portfolio needs at least one completely serious WebGL cat.
+
+The application is currently being migrated from a Vite/Nitro React application to the Next.js 16 App Router. The migration is intentionally split into phases so each piece can be reviewed, tested, and blamed independently.
+
+## Highlights
+
+- Next.js 16 App Router with Cache Components.
+- Server-loaded project metadata with a 15-minute revalidation window.
+- Client-loaded Markdown when project details are opened.
+- Light, dark, and system themes persisted with a cookie.
+- Searchable and paginated project cards.
+- Drawer-based project navigation retained during the routing migration.
+- Responsive layouts for desktop and mobile.
+- Interactive Three.js cat model. This is a feature, not a cry for help.
+- Modular architecture with documentation close to the code it explains.
+- ESLint, Prettier, TypeScript, Vitest, and Husky guarding the doors.
+
+## Tech stack
+
+| Area           | Technology                     |
+| -------------- | ------------------------------ |
+| Framework      | Next.js 16                     |
+| UI             | React 19                       |
+| Language       | TypeScript                     |
+| Styling        | SCSS                           |
+| 3D             | Three.js and React Three Fiber |
+| Content        | Remote JSON and Markdown       |
+| Testing        | Vitest and Testing Library     |
+| Quality        | ESLint, Prettier, and Husky    |
+| Hosting target | Firebase App Hosting           |
+
+## Getting started
+
+You need Node.js 22 or newer. The repository currently recommends Node.js 24 through `.nvmrc`.
+
+```bash
+nvm use
+npm ci
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000). If the page works on the first try, please remain calm; this is known to happen occasionally.
+
+The portfolio data is public and does not require local environment variables. Project metadata and Markdown are loaded from the companion [`miguelbogotadev-api`](https://github.com/miguelbogota/miguelbogotadev-api) repository.
+
+## Available commands
+
+| Command             | Purpose                                                  |
+| ------------------- | -------------------------------------------------------- |
+| `npm run dev`       | Start the Next.js development server.                    |
+| `npm run build`     | Create the production build with webpack.                |
+| `npm run start`     | Run the production build locally.                        |
+| `npm run typecheck` | Generate route types and check TypeScript.               |
+| `npm test`          | Run the complete Vitest suite once.                      |
+| `npm run lint`      | Run ESLint with zero warnings allowed. It has standards. |
+| `npm run format`    | Format the repository with Prettier.                     |
+
+## Project structure
+
+The application lives at the repository root; there is intentionally no `src` directory.
+
+```text
+app/                  Next.js routes and layouts
+modules/
+  profile/            Introduction and interactive cat model
+  projects/           Project domain, data service, drawer, and details
+  shared/             Reusable UI, state, hooks, configuration, and errors
+  social/             Contact copy and social links
+  theme/              Theme persistence and picker
+  work/               Search, pagination, and project-card presentation
+styles/               Global tokens, reset, and base styles
+tests/                Shared test renderer and fixtures
+public/               Static assets
+docs/                 Migration and project documentation
+```
+
+Each module exposes a small public API through its root `index.ts` and includes a README describing its responsibilities and files. Components own their styles and tests inside their component folders. In other words, files are encouraged to live near their friends instead of wandering the repository alone at night.
+
+## How project content works
+
+The home route loads project metadata on the server and caches it through Next.js. The project service also keeps an in-memory copy for the lifetime of the current runtime to avoid unnecessary requests.
+
+Long-form Markdown is intentionally fetched in the browser only when a project is opened. This keeps the home response focused and lets the drawer show the loading skeleton immediately. The upcoming canonical project route will reuse the same content-loading experience.
+
+Request failures use a shared `RequestError`, allowing the UI to distinguish missing content from temporary service failures without consulting a crystal ball or comparing error-message punctuation.
+
+## Quality checks
+
+Before opening a pull request, run:
+
+```bash
+npm run lint
+npm run typecheck
+npm test
+npm run build
+```
+
+Husky runs the test suite before commits. It is less a guard dog and more a very polite bouncer that knows TypeScript.
+
+## Migration status
+
+This repository is actively moving to Next.js phase by phase. The home experience and root-level module structure are already migrated. Project routing, SEO, analytics, deployment polish, and the remaining migration work are tracked in GitHub issues rather than hidden in a mysterious notebook nobody can find.
+
+## Find me around the web
 
 ### Find me around the web
 
@@ -19,4 +128,4 @@ Personal portfolio website, built with React, showcasing my projects and skills 
   </a>&nbsp;&nbsp;
 </p>
 
-Feel free to explore the repositories or reach out if something resonates.
+Feel free to explore the repository, borrow an idea, report a bug, or say hello. If you find an undocumented feature, congratulations: it may be a bug wearing business casual.

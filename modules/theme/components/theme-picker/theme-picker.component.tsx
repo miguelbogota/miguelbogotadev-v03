@@ -3,9 +3,9 @@
 import './theme-picker.styles.scss';
 
 import clsx from 'clsx';
-import { Fragment, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 
-import { useAppState } from '@/state';
+import { useAppState } from '@/modules/shared';
 
 import { themeService } from '../../services/theme.service';
 import { type Theme } from '../../types/types';
@@ -48,6 +48,10 @@ export function ThemePicker() {
   const [isOpen, setIsOpen] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  }, [currentTheme]);
+
   const currentThemeIcon = options
     .filter((option) => option !== 'divider')
     .find((option) => option.value === currentTheme)?.icon;
@@ -79,16 +83,22 @@ export function ThemePicker() {
       }}
     >
       <button onClick={() => setIsOpen((prev) => !prev)} aria-label="Theme selector">
-        <i className={clsx('bx', currentThemeIcon, { hovered: isOpen })} />
+        <i
+          className={clsx('bx', currentThemeIcon, { hovered: isOpen })}
+          data-icon={currentTheme}
+          aria-hidden="true"
+        />
       </button>
 
       {isOpen && (
         <div className="dropdown">
           <ul>
-            {options.map((option, index) =>
-              option === 'divider' ? (
-                <li className="divider" key={`divider-${index}`} />
-              ) : (
+            {options.map((option, index) => {
+              if (option === 'divider') {
+                return <li className="divider" key={`divider-${index}`} />;
+              }
+
+              return (
                 <Fragment key={option.value}>
                   <li>
                     <button
@@ -97,13 +107,13 @@ export function ThemePicker() {
                       aria-label={option.ariaLabel}
                       onClick={() => handleThemeChange(option.value)}
                     >
-                      <i className={clsx('bx', option.icon)} />
+                      <i className={clsx('bx', option.icon)} aria-hidden="true" />
                       <span>{option.label}</span>
                     </button>
                   </li>
                 </Fragment>
-              ),
-            )}
+              );
+            })}
           </ul>
         </div>
       )}

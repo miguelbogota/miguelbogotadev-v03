@@ -1,7 +1,7 @@
 import { render, type RenderOptions } from '@testing-library/react';
 import { type ReactElement } from 'react';
 
-import { AppStateProvider, type StateProviderProps } from '@/state';
+import { AppStateProvider, type StateProviderProps } from '@/modules/shared';
 
 import { appStateFixture } from './fixtures/app-state.fixture';
 
@@ -12,7 +12,7 @@ import { appStateFixture } from './fixtures/app-state.fixture';
  * @example
  * ```tsx
  * import { render } from '@/testing';
- * import { Navigation } from '@/components/navigation';
+ * import { Navigation } from '@/modules/shared';
  *
  * render(<Navigation />, { state: { theme: 'dark' } });
  * ```
