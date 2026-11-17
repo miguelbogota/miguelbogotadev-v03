@@ -16,15 +16,23 @@ const barlow = Barlow({
   variable: '--font-barlow',
 });
 
-/** Theme cookies require request-time rendering without a loading boundary. */
-export const instant = false;
-
 export const metadata: Metadata = {
+  metadataBase: new URL('https://miguelbogota.dev'),
   title: 'Miguel Bogota',
   description: 'Portfolio of Miguel Bogota, software engineer.',
 };
 
-export default async function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+/** Allows the cookie-dependent document shell to render as one request-time response. */
+export const instant = false;
+
+/**
+ * Renders the shared document shell for every application route.
+ *
+ * @param props - Root layout children supplied by Next.js.
+ * @returns The application document.
+ */
+export default async function RootLayout(props: Readonly<{ children: ReactNode }>) {
+  const { children } = props;
   const cookieStore = await cookies();
   const theme = themeService.getThemeFromCookieString(cookieStore.toString());
 

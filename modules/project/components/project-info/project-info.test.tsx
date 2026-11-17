@@ -1,16 +1,16 @@
-import { projectsService } from '@/modules/projects';
+import { projectClient } from '@/modules/project/services/project.client';
 import { RequestError } from '@/modules/shared';
 import { act, projectFixture, render, screen } from '@/testing';
 
 import { ProjectInfo } from './project-info.component';
 
-vi.mock('@/modules/projects', () => ({
-  projectsService: {
-    getProjectContent: vi.fn(),
+vi.mock('@/modules/project/services/project.client', () => ({
+  projectClient: {
+    getContent: vi.fn(),
   },
 }));
 
-const getProjectContentMock = vi.mocked(projectsService.getProjectContent);
+const getProjectContentMock = vi.mocked(projectClient.getContent);
 
 describe('ProjectInfo', () => {
   beforeEach(() => {
@@ -107,6 +107,20 @@ describe('ProjectInfo', () => {
     expect(screen.getByText('server-driven UI')).toHaveProperty('tagName', 'STRONG');
     expect(screen.getByText('Go backend')).toBeInTheDocument();
     expect(screen.queryByText('id:')).not.toBeInTheDocument();
+  });
+
+  it('should not render raw HTML from project Markdown', async () => {
+    getProjectContentMock.mockResolvedValue(
+      'Safe content\n\n<script data-project-script>window.projectScript = true;</script>',
+    );
+
+    render(<ProjectInfo project={projectFixture} />);
+    await act(async () => {
+      await getProjectContentMock.mock.results[0]?.value;
+    });
+
+    expect(screen.getByText('Safe content')).toBeInTheDocument();
+    expect(document.querySelector('[data-project-script]')).not.toBeInTheDocument();
   });
 
   it('should render a not-found project-content error', async () => {

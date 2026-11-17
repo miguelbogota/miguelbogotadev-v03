@@ -71,7 +71,7 @@ The application lives at the repository root; there is intentionally no `src` di
 app/                  Next.js routes and layouts
 modules/
   profile/            Introduction and interactive cat model
-  projects/           Project domain, data service, drawer, and details
+  project/            Project domain, data services, drawer, and details
   shared/             Reusable UI, state, hooks, configuration, and errors
   social/             Contact copy and social links
   theme/              Theme persistence and picker
@@ -107,7 +107,7 @@ Husky runs the test suite before commits. It is less a guard dog and more a very
 
 ## Migration status
 
-This repository is actively moving to Next.js phase by phase. The home experience and root-level module structure are already migrated. Project routing, SEO, analytics, deployment polish, and the remaining migration work are tracked in GitHub issues rather than hidden in a mysterious notebook nobody can find.
+This repository is actively moving to Next.js phase by phase. The home experience, root-level module structure, canonical project routes, and project social metadata are already migrated. Drawer interception, broader SEO, analytics, deployment polish, and the remaining migration work are tracked in GitHub issues rather than hidden in a mysterious notebook nobody can find.
 
 ## Find me around the web
 
