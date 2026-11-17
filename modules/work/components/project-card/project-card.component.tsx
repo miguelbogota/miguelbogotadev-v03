@@ -5,7 +5,7 @@ import './project-card.styles.scss';
 import Link from 'next/link';
 import { type CSSProperties } from 'react';
 
-import { type Project, useDrawerNavigation } from '@/modules/projects';
+import { type Project, useDrawerNavigation } from '@/modules/project';
 
 /** Props for the ProjectCard component. */
 export type ProjectCardProps = {
@@ -16,8 +16,13 @@ export type ProjectCardProps = {
  * Work project card component.
  * Displays project information with image, details, and link to project page.
  * Features 65/40 image-to-content layout with hover effects.
+ *
+ * @param props - Project metadata rendered by the card.
+ * @returns A project link that supports drawer navigation.
  */
-export function ProjectCard({ project }: ProjectCardProps) {
+export function ProjectCard(props: ProjectCardProps) {
+  const { project } = props;
+
   const { id, displayName, summary, industry, startedAt, images } = project;
   const year = startedAt.split('-')[0] ?? '';
   const heroImage = images[0];
@@ -39,6 +44,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       className="project-card"
       href={`/project/${id}`}
       onClick={handleCardClick}
+      scroll={false}
       aria-label={`View details for ${displayName} project - ${industry}, ${year}`}
     >
       <article>

@@ -1,4 +1,4 @@
-import { type Project } from '@/modules/projects';
+import { type Project } from '@/modules/project';
 
 /**
  * Representative project used by component and module tests.

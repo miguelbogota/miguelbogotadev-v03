@@ -3,7 +3,9 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { useScrollSpy } from './use-scroll-spy.hook';
 
 /** Testing component. */
-function TestComponent({ ids }: { ids: string[] }) {
+function TestComponent(props: { ids: string[] }) {
+  const { ids } = props;
+
   const active = useScrollSpy({ ids, offset: 0 });
 
   return <div data-testid="active">{active}</div>;

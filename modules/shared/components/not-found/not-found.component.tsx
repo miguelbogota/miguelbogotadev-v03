@@ -14,8 +14,10 @@ export function NotFound() {
     <Container className="not-found">
       <div>
         <h1>404</h1>
-        <p>The page you’re looking for doesn’t exist.</p>
-        <Link href="/">Go Home</Link>
+        <p>The page you&apos;re looking for doesn&apos;t exist.</p>
+        <Link href="/" scroll={false}>
+          Go Home
+        </Link>
       </div>
     </Container>
   );

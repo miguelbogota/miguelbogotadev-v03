@@ -4,7 +4,7 @@ import './work.styles.scss';
 
 import { useMemo, useState } from 'react';
 
-import { type Project } from '@/modules/projects';
+import { type Project } from '@/modules/project';
 
 import { filterProjects } from '../../utils/filter-projects.function';
 import { ProjectCard } from '../project-card';
@@ -21,8 +21,15 @@ export type WorkSectionProps = {
   projects: Project[];
 };
 
-/** Section renders the work information. */
-export function WorkSection({ projects }: WorkSectionProps) {
+/**
+ * Renders searchable and paginated project cards.
+ *
+ * @param props - Published projects supplied by the server route.
+ * @returns The interactive work section.
+ */
+export function WorkSection(props: WorkSectionProps) {
+  const { projects } = props;
+
   const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 

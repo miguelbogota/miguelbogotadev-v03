@@ -6,8 +6,10 @@ import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
-import { type Project, projectsService } from '@/modules/projects';
 import { Container, Footer, RequestError } from '@/modules/shared';
+
+import { projectClient } from '../../services/project.client';
+import { type Project } from '../../types/project.type';
 
 const SKELETON_LINES = ['heading', 'long', 'medium', 'long', 'short', 'heading', 'long'] as const;
 
@@ -34,14 +36,19 @@ export type ProjectInfoProps = {
   project: Project;
   backButton?: React.ReactNode;
   closeButton?: React.ReactNode;
+  manageDocumentTitle?: boolean;
 };
 
 /**
  * ProjectInfo component.
  * Displays project metadata and renders its long-form Markdown content.
  * This component is designed to be reusable and can be used in both the drawer and standalone pages.
+ *
+ * @param props - Project metadata, optional actions, and title-management behavior.
+ * @returns The progressive project details presentation.
  */
-export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoProps) {
+export function ProjectInfo(props: ProjectInfoProps) {
+  const { project, backButton, closeButton, manageDocumentTitle = true } = props;
   const { id, displayName, summary, industry, startedAt, role, tags, images, links } = project;
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [content, setContent] = useState<string | null>(null);
@@ -55,11 +62,15 @@ export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoPro
 
   // Set document title when component mounts and clean up on unmount.
   useEffect(() => {
+    if (!manageDocumentTitle) {
+      return undefined;
+    }
+
     document.title = `Miguel Bogota - ${displayName}`;
     return () => {
       document.title = 'Miguel Bogota';
     };
-  }, [displayName]);
+  }, [displayName, manageDocumentTitle]);
 
   // Project metadata is rendered immediately; the long-form content is always loaded in-browser.
   useEffect(() => {
@@ -70,8 +81,8 @@ export function ProjectInfo({ project, backButton, closeButton }: ProjectInfoPro
     setIsLoadingContent(true);
     setSelectedImageIndex(0);
 
-    projectsService
-      .getProjectContent({ id })
+    projectClient
+      .getContent({ id })
       .then((markdown) => {
         if (isCurrent) {
           setContent(markdown);
