@@ -3,8 +3,10 @@ import '@/styles/index.scss';
 import { type Metadata } from 'next';
 import { Barlow } from 'next/font/google';
 import { cookies } from 'next/headers';
-import { type ReactNode } from 'react';
+import { type ReactNode, Suspense } from 'react';
 
+import { AnalyticsNotice, AnalyticsTracker } from '@/modules/analytics';
+import { seoService, SITE_URL } from '@/modules/seo';
 import { themeService } from '@/modules/theme';
 
 /** Barlow font configuration shared by every route. */
@@ -17,9 +19,13 @@ const barlow = Barlow({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://miguelbogota.dev'),
-  title: 'Miguel Bogota',
-  description: 'Portfolio of Miguel Bogota, software engineer.',
+  ...seoService.getHomeMetadata(),
+  metadataBase: new URL(SITE_URL),
+  applicationName: 'Miguel Bogota',
+  authors: [{ name: 'Miguel Bogota', url: SITE_URL }],
+  creator: 'Miguel Bogota',
+  icons: { icon: '/favicon.ico' },
+  manifest: '/manifest.webmanifest',
 };
 
 /** Allows the cookie-dependent document shell to render as one request-time response. */
@@ -49,7 +55,13 @@ export default async function RootLayout(props: Readonly<{ children: ReactNode }
           href="https://cdn.boxicons.com/3.0.8/fonts/brands/boxicons-brands.min.css"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Suspense fallback={null}>
+          <AnalyticsTracker />
+        </Suspense>
+        <AnalyticsNotice />
+      </body>
     </html>
   );
 }

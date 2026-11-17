@@ -1,7 +1,6 @@
+import { GET } from '@/app/api/project/[projectId]/content/route';
 import { projectService } from '@/modules/project/services/project.service';
 import { RequestError } from '@/modules/shared';
-
-import { GET } from './route';
 
 vi.mock('@/modules/project/services/project.service', () => ({
   projectService: {

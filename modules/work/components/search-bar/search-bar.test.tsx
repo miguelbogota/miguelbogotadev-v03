@@ -1,8 +1,13 @@
+import { analyticsService } from '@/modules/analytics/services/analytics.service';
 import { fireEvent, render, screen } from '@/testing';
 
 import { SearchBar } from './search-bar.component';
 
 describe('sections / SearchBar', () => {
+  beforeEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('should render an accessible search field with default wording', () => {
     render(<SearchBar value="" onChange={vi.fn()} />);
 
@@ -43,5 +48,20 @@ describe('sections / SearchBar', () => {
 
     rerender(<SearchBar value="Blender" onChange={onChange} />);
     expect(input).toHaveValue('Blender');
+  });
+
+  it('should report search usage once without forwarding entered text', () => {
+    const trackSearchUse = vi
+      .spyOn(analyticsService, 'trackSearchUse')
+      .mockImplementation(() => {});
+    const { rerender } = render(<SearchBar value="" onChange={vi.fn()} />);
+    const input = screen.getByRole('searchbox', { name: 'Search works' });
+
+    fireEvent.change(input, { target: { value: 'private search words' } });
+    rerender(<SearchBar value="private search words" onChange={vi.fn()} />);
+    fireEvent.change(input, { target: { value: 'more private search words' } });
+
+    expect(trackSearchUse).toHaveBeenCalledOnce();
+    expect(trackSearchUse).toHaveBeenCalledWith();
   });
 });

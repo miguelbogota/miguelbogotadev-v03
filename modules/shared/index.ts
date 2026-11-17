@@ -2,6 +2,7 @@
 export { Container, type ContainerProps } from './components/container';
 export { ErrorBoundary } from './components/error-boundary';
 export { Footer } from './components/footer';
+export { GlobalError, type GlobalErrorProps } from './components/global-error';
 export { Navigation } from './components/navigation';
 export { NotFound } from './components/not-found';
 
@@ -11,7 +12,7 @@ export { API_URL } from './config/constants';
 /** Shared request error used by service boundaries. */
 export { RequestError } from './errors/request.error';
 
-/** Shared client state used until App Router drawer routing replaces it in Phase 5. */
+/** Shared client state for the theme and project drawer. */
 export {
   AppStateProvider,
   type InitialState,

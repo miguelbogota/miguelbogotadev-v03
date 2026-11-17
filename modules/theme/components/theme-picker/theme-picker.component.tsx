@@ -5,6 +5,7 @@ import './theme-picker.styles.scss';
 import clsx from 'clsx';
 import { Fragment, useEffect, useRef, useState } from 'react';
 
+import { analyticsService } from '@/modules/analytics/services/analytics.service';
 import { useAppState } from '@/modules/shared';
 
 import { themeService } from '../../services/theme.service';
@@ -65,6 +66,7 @@ export function ThemePicker() {
     document.documentElement.setAttribute('data-theme', theme);
     themeService.setThemeCookie(theme);
     setCurrentTheme(theme);
+    analyticsService.trackTheme(theme);
     setIsOpen(false);
   };
 

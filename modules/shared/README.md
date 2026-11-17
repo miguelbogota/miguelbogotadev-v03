@@ -29,6 +29,7 @@ throw new RequestError({
 - `components/container/*`: polymorphic layout wrapper, styles, and tests.
 - `components/navigation/*`: responsive home navigation, active-section hook, styles, and tests.
 - `components/footer/*`: shared footer, styles, and tests.
+- `components/global-error/*`: root application failure presentation, styles, and tests.
 - `components/not-found/*`: reusable missing-content presentation, styles, and tests.
 - `components/error-boundary/*`: reusable client error boundary.
 - `config/constants.ts`: public portfolio API asset URL.

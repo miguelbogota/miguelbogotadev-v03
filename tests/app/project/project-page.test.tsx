@@ -1,11 +1,15 @@
 import { notFound } from 'next/navigation';
 
+import ProjectPage, {
+  generateMetadata,
+  generateStaticParams,
+  instant,
+} from '@/app/project/[projectId]/page';
 import { projectClient } from '@/modules/project/services/project.client';
 import { getCachedProject, getCachedProjects } from '@/modules/project/services/project.service';
 import { RequestError } from '@/modules/shared';
 import { projectFixture, render, screen } from '@/testing';
 
-import ProjectPage, { generateMetadata, generateStaticParams, instant } from './page';
 vi.mock('next/navigation', () => ({
   notFound: vi.fn(() => {
     throw new Error('NEXT_NOT_FOUND');

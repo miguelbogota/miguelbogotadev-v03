@@ -18,6 +18,8 @@ The application is currently being migrated from a Vite/Nitro React application 
 - Light, dark, and system themes persisted with a cookie.
 - Searchable and paginated project cards.
 - Drawer-based project navigation retained during the routing migration.
+- Canonical metadata, sitemap, robots, manifest, and 1200×630 social previews.
+- Privacy-limited Firebase Analytics with an informational notice and privacy page.
 - Responsive layouts for desktop and mobile.
 - Interactive Three.js cat model. This is a feature, not a cry for help.
 - Modular architecture with documentation close to the code it explains.
@@ -33,6 +35,7 @@ The application is currently being migrated from a Vite/Nitro React application 
 | Styling        | SCSS                           |
 | 3D             | Three.js and React Three Fiber |
 | Content        | Remote JSON and Markdown       |
+| Analytics      | Firebase Analytics (GA4)       |
 | Testing        | Vitest and Testing Library     |
 | Quality        | ESLint, Prettier, and Husky    |
 | Hosting target | Firebase App Hosting           |
@@ -49,7 +52,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000). If the page works on the first try, please remain calm; this is known to happen occasionally.
 
-The portfolio data is public and does not require local environment variables. Project metadata and Markdown are loaded from the companion [`miguelbogotadev-api`](https://github.com/miguelbogota/miguelbogotadev-api) repository.
+Project metadata and Markdown are loaded from the companion [`miguelbogotadev-api`](https://github.com/miguelbogota/miguelbogotadev-api) repository. The portfolio still runs without local environment variables; Firebase Analytics stays disabled until the documented `NEXT_PUBLIC_FIREBASE_*` values are provided. Copy `.env.example` to `.env.local` when configuring a Firebase web app.
 
 ## Available commands
 
@@ -70,8 +73,10 @@ The application lives at the repository root; there is intentionally no `src` di
 ```text
 app/                  Next.js routes and layouts
 modules/
+  analytics/          Firebase Analytics, typed events, and notice
   profile/            Introduction and interactive cat model
   project/            Project domain, data services, drawer, and details
+  seo/                Canonical search and social metadata
   shared/             Reusable UI, state, hooks, configuration, and errors
   social/             Contact copy and social links
   theme/              Theme persistence and picker
@@ -88,9 +93,15 @@ Each module exposes a small public API through its root `index.ts` and includes 
 
 The home route loads project metadata on the server and caches it through Next.js. The project service also keeps an in-memory copy for the lifetime of the current runtime to avoid unnecessary requests.
 
-Long-form Markdown is intentionally fetched in the browser only when a project is opened. This keeps the home response focused and lets the drawer show the loading skeleton immediately. The upcoming canonical project route will reuse the same content-loading experience.
+Long-form Markdown is intentionally fetched in the browser only when a project is opened. This keeps the home response focused and lets both the drawer and canonical project page show the loading skeleton immediately.
 
 Request failures use a shared `RequestError`, allowing the UI to distinguish missing content from temporary service failures without consulting a crystal ball or comparing error-message punctuation.
+
+## Analytics and privacy
+
+Firebase Analytics records sanitized navigation paths and a small allowlist of project, navigation, link, search-use, theme, and exception events. Query strings, fragments, search terms, raw errors, full outbound URLs, and user-entered values are excluded. The notice is informational: **OK** dismisses it but is not a consent switch. The `/privacy` page describes the theme cookie, notice storage, analytics, and App Hosting diagnostics.
+
+The GA4 web stream must keep Enhanced Measurement disabled for outbound clicks, site search, and form interactions so automatic collection cannot bypass the application allowlist. Analytics configuration and event details live in `modules/analytics/README.md`.
 
 ## Quality checks
 
@@ -107,7 +118,7 @@ Husky runs the test suite before commits. It is less a guard dog and more a very
 
 ## Migration status
 
-This repository is actively moving to Next.js phase by phase. The home experience, root-level module structure, canonical project routes, and project social metadata are already migrated. Drawer interception, broader SEO, analytics, deployment polish, and the remaining migration work are tracked in GitHub issues rather than hidden in a mysterious notebook nobody can find.
+This repository is actively moving to Next.js phase by phase. The home experience, root-level modules, canonical project routes, SEO metadata routes, privacy notice, and analytics foundation are migrated. The existing drawer remains intentionally simple; deployment polish and the remaining migration work are tracked in GitHub issues rather than hidden in a mysterious notebook nobody can find.
 
 ## Find me around the web
 

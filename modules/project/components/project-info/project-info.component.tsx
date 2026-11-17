@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
+import { analyticsService } from '@/modules/analytics/services/analytics.service';
 import { Container, Footer, RequestError } from '@/modules/shared';
 
 import { projectClient } from '../../services/project.client';
@@ -98,6 +99,7 @@ export function ProjectInfo(props: ProjectInfoProps) {
             ? error
             : new RequestError({ code: 500, message: 'Project details could not be loaded.' }),
         );
+        analyticsService.trackException('project_content');
       })
       .finally(() => {
         if (isCurrent) {
@@ -126,7 +128,7 @@ export function ProjectInfo(props: ProjectInfoProps) {
           <span>{role}</span>
           {links && links.length > 0 && (
             <div className="links" aria-label={`${displayName} links`}>
-              {links.map(({ url, label, icon }) => (
+              {links.map(({ url, label, icon }, index) => (
                 <a
                   key={`${url}-${label}`}
                   href={url}
@@ -134,6 +136,7 @@ export function ProjectInfo(props: ProjectInfoProps) {
                   rel="noopener noreferrer"
                   aria-label={`${displayName}: ${label} (opens in a new tab)`}
                   title={`${label} (opens in a new tab)`}
+                  onClick={() => analyticsService.trackLink('project', `resource-${index + 1}`)}
                 >
                   <i className={icon} aria-hidden="true" />
                 </a>

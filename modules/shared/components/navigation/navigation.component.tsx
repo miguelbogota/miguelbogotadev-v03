@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { Fragment } from 'react';
 
+import { analyticsService } from '@/modules/analytics/services/analytics.service';
 import { API_URL } from '@/modules/shared/config/constants';
 import { ThemePicker } from '@/modules/theme';
 
@@ -56,6 +57,7 @@ export function Navigation() {
    */
   const handleNameClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
+    analyticsService.trackNavigation('home');
     window.history.replaceState(null, '', window.location.href.split('#')[0]);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -91,6 +93,7 @@ export function Navigation() {
                       return;
                     }
 
+                    analyticsService.trackNavigation(link.id);
                     window.history.replaceState(null, '', `#${link.id}`);
 
                     // Scroll to the section
@@ -119,7 +122,12 @@ export function Navigation() {
         {/* Final actions (resume and theme picker) */}
         <div className="actions">
           <div className="actions-content">
-            <a href={`${API_URL}/assets/resume.pdf`} target="_blank" rel="noopener noreferrer">
+            <a
+              href={`${API_URL}/assets/resume.pdf`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => analyticsService.trackLink('resume', 'resume')}
+            >
               RESUME
             </a>
             <ThemePicker />

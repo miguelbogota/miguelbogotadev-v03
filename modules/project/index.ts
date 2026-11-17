@@ -1,4 +1,4 @@
-/** Legacy project drawer retained until intercepted routing is introduced in Phase 5. */
+/** Project drawer and its lightweight browser-history navigation. */
 export { Drawer, useDrawerNavigation, useDrawerRouting } from './components/drawer';
 
 /** Project detail presentation shared by the drawer and canonical route. */

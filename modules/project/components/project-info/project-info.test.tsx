@@ -10,6 +10,13 @@ vi.mock('@/modules/project/services/project.client', () => ({
   },
 }));
 
+vi.mock('@/modules/analytics/services/analytics.service', () => ({
+  analyticsService: {
+    trackException: vi.fn(),
+    trackLink: vi.fn(),
+  },
+}));
+
 const getProjectContentMock = vi.mocked(projectClient.getContent);
 
 describe('ProjectInfo', () => {
