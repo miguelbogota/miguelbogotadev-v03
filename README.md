@@ -113,7 +113,7 @@ npm run build
 npm test
 ```
 
-Husky runs the same lint, build, and test sequence before commits. GitHub Actions runs each check as a separate step when a pull request is opened or reopened against any branch, then once more after it is merged. Ordinary branch pushes do not start the workflow. It is less a guard dog and more a very polite bouncer that knows TypeScript.
+Husky runs the same lint, build, and test sequence before commits. GitHub Actions runs lint, build, and tests as three independent checks when a pull request is opened or reopened against any branch, then once more after it is merged. Ordinary branch pushes do not start the workflow. It is less a guard dog and more a very polite bouncer that knows TypeScript.
 
 ## Migration status
 
