@@ -1,8 +1,9 @@
 import { type Metadata, type MetadataRoute } from 'next';
 
 import { type Project } from '@/modules/project/types/project.type';
+import { SITE_URL } from '@/modules/shared/config/constants';
 
-import { DEFAULT_SOCIAL_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '../config/constants';
+import { DEFAULT_SOCIAL_IMAGE, SITE_DESCRIPTION, SITE_NAME } from '../config/constants';
 
 /** Creates consistent canonical, search, and social metadata for portfolio routes. */
 class SeoService {
@@ -69,7 +70,7 @@ class SeoService {
   }
 
   /**
-   * Builds project-specific metadata using the first valid artwork URL or the fallback image.
+   * Builds project-specific metadata using the first artwork entry or the fallback image.
    *
    * @param project - Published project used to populate metadata.
    * @returns Canonical search and social metadata for the project.
@@ -80,43 +81,19 @@ class SeoService {
       description: project.summary,
       path: `/project/${project.id}`,
       image: this.getProjectImage(project),
-      imageAlt: project.images.find((image) => this.isValidImageUrl(image.src))?.alt,
+      imageAlt: project.images[0]?.alt,
       keywords: project.tags,
     });
   }
 
   /**
-   * Returns the first syntactically valid HTTP project image or the site fallback.
+   * Returns the first project image or the site fallback.
    *
    * @param project - Project whose artwork should be inspected.
-   * @returns An absolute social image URL.
+   * @returns The project image source or local fallback path.
    */
   getProjectImage(project: Pick<Project, 'images'>): string {
-    const image = project.images.find((item) => this.isValidImageUrl(item.src));
-
-    return image
-      ? new URL(image.src, SITE_URL).toString()
-      : new URL(DEFAULT_SOCIAL_IMAGE, SITE_URL).toString();
-  }
-
-  /**
-   * Determines whether a value resolves to an HTTP or HTTPS image URL.
-   *
-   * @param value - Candidate image source.
-   * @returns Whether the value is safe to publish as social metadata.
-   */
-  private isValidImageUrl(value: string): boolean {
-    if (!value.trim()) {
-      return false;
-    }
-
-    try {
-      const url = new URL(value, SITE_URL);
-
-      return url.protocol === 'http:' || url.protocol === 'https:';
-    } catch {
-      return false;
-    }
+    return project.images[0]?.src ?? DEFAULT_SOCIAL_IMAGE;
   }
 
   /**
@@ -134,7 +111,7 @@ class SeoService {
     keywords?: string[];
   }): Metadata {
     const { title, description, path, image, imageAlt = `${SITE_NAME} portfolio`, keywords } = data;
-    const isFallbackImage = new URL(image, SITE_URL).pathname === DEFAULT_SOCIAL_IMAGE;
+    const isFallbackImage = image === DEFAULT_SOCIAL_IMAGE;
     const socialImage = isFallbackImage
       ? { url: image, width: 1200, height: 630, alt: imageAlt }
       : { url: image, alt: imageAlt };

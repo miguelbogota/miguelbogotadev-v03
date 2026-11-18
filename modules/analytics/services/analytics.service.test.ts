@@ -1,3 +1,5 @@
+import { SITE_URL } from '@/modules/shared/config/constants';
+
 import { analyticsService, sanitizeAnalyticsPath } from './analytics.service';
 
 describe('services / AnalyticsService', () => {
@@ -29,7 +31,7 @@ describe('services / AnalyticsService', () => {
 
     expect(info).toHaveBeenCalledWith('[analytics] page_view', {
       page_path: '/project/example',
-      page_location: 'https://miguelbogota.dev/project/example',
+      page_location: `${SITE_URL}/project/example`,
     });
   });
 });

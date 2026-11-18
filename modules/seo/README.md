@@ -5,7 +5,7 @@ Owns canonical URLs and shared search/social metadata. Route files stay responsi
 ## Public API
 
 ```ts
-import { SITE_URL, seoService } from '@/modules/seo';
+import { seoService } from '@/modules/seo';
 ```
 
 ## Files
@@ -15,4 +15,6 @@ import { SITE_URL, seoService } from '@/modules/seo';
 - `services/seo.service.ts`: builds root, privacy, project, manifest, robots, and sitemap metadata.
 - `services/seo.service.test.ts`: metadata-route, canonical URL, sitemap, and image fallback coverage.
 
-Project metadata uses the first valid HTTP(S) image. Projects without valid artwork use `public/images/social-card.png`, which is intentionally 1200×630 for Open Graph previews.
+Project metadata uses the first image in the published project data. Projects without artwork use `public/images/social-card.png`, which is intentionally 1200×630 for Open Graph previews.
+
+The shared module owns `SITE_URL`: `http://localhost:3000` in Next.js development/test mode and `https://miguelbogota.dev` in production.

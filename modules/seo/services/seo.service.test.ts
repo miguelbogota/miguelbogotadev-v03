@@ -1,6 +1,7 @@
+import { SITE_URL } from '@/modules/shared/config/constants';
 import { projectFixture } from '@/testing';
 
-import { DEFAULT_SOCIAL_IMAGE, SITE_URL } from '../config/constants';
+import { DEFAULT_SOCIAL_IMAGE } from '../config/constants';
 import { seoService } from './seo.service';
 
 describe('services / SeoService', () => {
@@ -35,7 +36,7 @@ describe('services / SeoService', () => {
     );
   });
 
-  it('should use the first valid project image', () => {
+  it('should use the first project image', () => {
     const project = {
       ...projectFixture,
       images: [
@@ -50,17 +51,9 @@ describe('services / SeoService', () => {
     });
   });
 
-  it('should use the fallback image when project artwork is invalid', () => {
-    const project = {
-      ...projectFixture,
-      images: [
-        { src: '', alt: 'Empty' },
-        { src: 'http://[invalid', alt: 'Invalid' },
-      ],
-    };
+  it('should use the fallback image when a project has no artwork', () => {
+    const project = { ...projectFixture, images: [] };
 
-    expect(seoService.getProjectImage(project)).toBe(
-      new URL(DEFAULT_SOCIAL_IMAGE, SITE_URL).toString(),
-    );
+    expect(seoService.getProjectImage(project)).toBe(DEFAULT_SOCIAL_IMAGE);
   });
 });

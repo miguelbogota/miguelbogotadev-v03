@@ -32,7 +32,7 @@ throw new RequestError({
 - `components/global-error/*`: root application failure presentation, styles, and tests.
 - `components/not-found/*`: reusable missing-content presentation, styles, and tests.
 - `components/error-boundary/*`: reusable client error boundary.
-- `config/constants.ts`: public portfolio API asset URL.
+- `config/constants.ts`: public portfolio API URL and environment-aware site origin.
 - `errors/request.error.ts`: shared request error implementation.
 - `errors/request.error.test.ts`: constructor contract tests.
 - `hooks/use-scroll-spy/*`: reusable section-observation hook and tests.

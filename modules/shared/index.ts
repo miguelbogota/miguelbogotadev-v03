@@ -7,7 +7,7 @@ export { Navigation } from './components/navigation';
 export { NotFound } from './components/not-found';
 
 /** Public asset API location. */
-export { API_URL } from './config/constants';
+export { API_URL, SITE_URL } from './config/constants';
 
 /** Shared request error used by service boundaries. */
 export { RequestError } from './errors/request.error';

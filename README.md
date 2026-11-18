@@ -52,7 +52,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000). If the page works on the first try, please remain calm; this is known to happen occasionally.
 
-Project metadata and Markdown are loaded from the companion [`miguelbogotadev-api`](https://github.com/miguelbogota/miguelbogotadev-api) repository. The portfolio still runs without local environment variables; Firebase Analytics stays disabled until the documented `NEXT_PUBLIC_FIREBASE_*` values are provided. Copy `.env.example` to `.env.local` when configuring a Firebase web app.
+Project metadata and Markdown are loaded from the companion [`miguelbogotadev-api`](https://github.com/miguelbogota/miguelbogotadev-api) repository. The portfolio still runs without local environment variables; Firebase Analytics stays disabled until the documented `NEXT_PUBLIC_FIREBASE_*` values are provided. The shared site URL uses localhost in development and the public domain in production without additional configuration. Copy `.env.example` to `.env.local` when configuring Firebase.
 
 ## Available commands
 

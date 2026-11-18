@@ -6,7 +6,8 @@ import { cookies } from 'next/headers';
 import { type ReactNode, Suspense } from 'react';
 
 import { AnalyticsNotice, AnalyticsTracker } from '@/modules/analytics';
-import { seoService, SITE_URL } from '@/modules/seo';
+import { seoService } from '@/modules/seo';
+import { SITE_URL } from '@/modules/shared/config/constants';
 import { themeService } from '@/modules/theme';
 
 /** Barlow font configuration shared by every route. */

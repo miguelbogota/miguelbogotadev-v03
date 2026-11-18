@@ -1,6 +1,3 @@
-/** Canonical public origin for the portfolio. */
-export const SITE_URL = 'https://miguelbogota.dev';
-
 /** Human-readable portfolio name used by search and social metadata. */
 export const SITE_NAME = 'Miguel Bogota';
 

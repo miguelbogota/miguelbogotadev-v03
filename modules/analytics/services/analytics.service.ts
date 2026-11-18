@@ -1,4 +1,4 @@
-import { SITE_URL } from '@/modules/seo';
+import { SITE_URL } from '@/modules/shared/config/constants';
 
 import { requiredFirebaseConfig } from '../config/constants';
 
