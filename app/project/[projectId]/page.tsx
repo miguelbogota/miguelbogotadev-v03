@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 
 import { ProjectInfo } from '@/modules/project';
 import { getCachedProject, getCachedProjects } from '@/modules/project/services/project.service';
+import { seoService } from '@/modules/seo';
 import { RequestError } from '@/modules/shared';
 
 /** Dynamic project route parameters supplied by the App Router. */
@@ -31,29 +32,8 @@ export async function generateMetadata(props: ProjectPageProps): Promise<Metadat
   const { params } = props;
   const { projectId } = await params;
   const project = await resolveProject(projectId);
-  const image = project.images[0];
-  const title = `${project.displayName} | Miguel Bogota`;
 
-  return {
-    title,
-    description: project.summary,
-    keywords: project.tags,
-    alternates: { canonical: `/project/${project.id}` },
-    openGraph: {
-      type: 'website',
-      url: `/project/${project.id}`,
-      siteName: 'Miguel Bogota',
-      title,
-      description: project.summary,
-      images: image ? [{ url: image.src, alt: image.alt }] : undefined,
-    },
-    twitter: {
-      card: image ? 'summary_large_image' : 'summary',
-      title,
-      description: project.summary,
-      images: image ? [image.src] : undefined,
-    },
-  };
+  return seoService.getProjectMetadata(project);
 }
 
 /**

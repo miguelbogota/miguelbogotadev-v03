@@ -1,3 +1,9 @@
+import './search-bar.styles.scss';
+
+import { useRef } from 'react';
+
+import { analyticsService } from '@/modules/analytics/services/analytics.service';
+
 /** Props for the SearchBar component. */
 export interface SearchBarProps {
   id?: string;
@@ -19,8 +25,23 @@ export function SearchBar(props: SearchBarProps) {
     label = 'Search works',
     placeholder = 'Search projects…',
   } = props;
+  const hasTrackedCurrentSearchRef = useRef(false);
 
   const inputId = `${id}-input`;
+
+  /** Reports search usage once per non-empty entry without exposing the query. */
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const nextValue = event.target.value;
+
+    if (nextValue && !hasTrackedCurrentSearchRef.current) {
+      analyticsService.trackSearchUse();
+      hasTrackedCurrentSearchRef.current = true;
+    } else if (!nextValue) {
+      hasTrackedCurrentSearchRef.current = false;
+    }
+
+    onChange(nextValue);
+  };
 
   return (
     <div id={id} className="search-bar">
@@ -31,9 +52,8 @@ export function SearchBar(props: SearchBarProps) {
         role="searchbox"
         value={value}
         placeholder={placeholder}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={handleChange}
       />
     </div>
   );
 }
-import './search-bar.styles.scss';

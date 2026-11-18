@@ -92,21 +92,6 @@ export function Drawer() {
     document.body.style.overflow = isDrawerOpen ? 'hidden' : 'auto';
   }, [isDrawerOpen]);
 
-  // Retained for parity with the legacy home route until the mobile workaround is removed in Phase 6.
-  useEffect(() => {
-    const handleTouchStart = (event: TouchEvent) => {
-      const target = event.target as HTMLElement;
-
-      if (target.tagName === 'BUTTON' || target.closest('button')) {
-        event.preventDefault();
-        target.click();
-      }
-    };
-
-    document.addEventListener('touchstart', handleTouchStart, { passive: false });
-    return () => document.removeEventListener('touchstart', handleTouchStart);
-  }, []);
-
   return (
     <>
       <div

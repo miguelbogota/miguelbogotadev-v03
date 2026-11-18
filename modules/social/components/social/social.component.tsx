@@ -1,7 +1,12 @@
+'use client';
+
 import './social.styles.scss';
+
+import { analyticsService } from '@/modules/analytics/services/analytics.service';
 
 /** Section renders the social information. */
 type SocialLink = {
+  id: 'email' | 'github' | 'instagram' | 'linkedin';
   label: string;
   icon: string;
   url: string;
@@ -10,21 +15,25 @@ type SocialLink = {
 /** Social links for the social section. */
 const socialLinks: SocialLink[] = [
   {
+    id: 'email',
     label: 'Email link',
     icon: 'bxf bx-envelope',
     url: 'mailto:contact@miguelbogota.dev',
   },
   {
+    id: 'github',
     label: 'GitHub profile link',
     icon: 'bxl bx-github',
     url: 'https://github.com/miguelbogota',
   },
   {
+    id: 'linkedin',
     label: 'LinkedIn profile link',
     icon: 'bxl bx-linkedin-square',
     url: 'https://linkedin.com/in/miguelbogota',
   },
   {
+    id: 'instagram',
     label: 'Instagram profile link',
     icon: 'bxl bx-instagram-alt',
     url: 'https://instagram.com/migue_bogota',
@@ -46,7 +55,7 @@ export function SocialSection() {
           </p>
 
           <div className="social-networks">
-            {socialLinks.map(({ label, icon, url }) => (
+            {socialLinks.map(({ id, label, icon, url }) => (
               <a
                 className="social-link"
                 key={label}
@@ -54,6 +63,7 @@ export function SocialSection() {
                 aria-label={label}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => analyticsService.trackLink('social', id)}
               >
                 <i className={icon} aria-hidden="true" />
               </a>

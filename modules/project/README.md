@@ -21,7 +21,7 @@ Server project-index access and browser Markdown loading use separate boundaries
 ## Files
 
 - `index.ts`: public singleton and type exports.
-- `components/drawer/*`: legacy client drawer retained until Phase 5 intercepted routing.
+- `components/drawer/*`: client drawer and browser-history navigation retained after the intercepted-route experiment was removed.
 - `components/project-error/*`: reusable not-found and unexpected-failure presentation.
 - `components/project-info/*`: shared drawer and canonical-route project presentation.
 - `config/constants.ts`: upstream API location imported only by the server service.
@@ -38,3 +38,5 @@ Server project-index access and browser Markdown loading use separate boundaries
 Raw HTML is not enabled in `react-markdown`; project content can use standard Markdown but cannot inject arbitrary HTML into the page.
 
 The internal project-content API is a backend-for-frontend boundary, not a secret URL. Browser users can see the local `/api/project/...` request, but they do not receive the upstream host, path structure, or upstream failure details from the client implementation.
+
+Project metadata is built by the `seo` module. It uses canonical project URLs and the first valid project image, falling back to the shared 1200×630 social card when artwork is unavailable.

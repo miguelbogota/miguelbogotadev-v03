@@ -13,6 +13,14 @@ vi.mock('@react-three/fiber', () => ({
   useLoader: vi.fn(() => ({ scene: {} })),
 }));
 
+vi.mock('@/modules/analytics/services/analytics.service', () => ({
+  analyticsService: {
+    trackLink: vi.fn(),
+    trackNavigation: vi.fn(),
+    trackTheme: vi.fn(),
+  },
+}));
+
 describe('components / CatModel', () => {
   afterEach(() => {
     vi.mocked(useLoader).mockReset();
