@@ -13,6 +13,8 @@ node_modules
 next-env.d.ts
 tsconfig.tsbuildinfo
 .output/
+.apphosting/
+coverage/
 .firebase/
 firebase-debug.log
 firebase-debug.*.log
