@@ -16,14 +16,14 @@ import { AnalyticsNotice, AnalyticsTracker, analyticsService } from '@/modules/a
 - Query strings and fragments are removed from paths.
 - Events use fixed names and allowlisted parameters.
 - Search text, DOM text, raw errors and stacks, complete outbound URLs, user IDs, exact coordinates, and user-entered values are never sent.
-- Exception events contain only a fixed application area and fatal flag. App Hosting logs provide server diagnostics.
+- Exception events contain only a fixed application area and fatal flag. Hosting logs provide server diagnostics.
 - The notice is informational and has one **OK** button; analytics does not wait for acceptance.
 
 In the linked GA4 web stream, keep Enhanced Measurement disabled for outbound clicks, site search, and form interactions. Those automatic events can include URLs or user-entered values that intentionally fall outside this module's allowlist. Automatic Firebase page views are disabled in code.
 
 ## Files
 
-- `index.ts`: public components, service, and event types.
+- `index.ts`: public components and service.
 - `config/constants.ts`: Firebase public environment mapping and notice storage key.
 - `services/analytics.service.ts`: browser initialization, sanitization, and typed event methods.
 - `services/firebase.client.ts`: production-only Firebase SDK adapter loaded on demand.
@@ -32,7 +32,7 @@ In the linked GA4 web stream, keep Enhanced Measurement disabled for outbound cl
 
 ## Environment
 
-Provide these values through local or Firebase App Hosting environment configuration:
+Provide these values through local or production environment configuration:
 
 - `NEXT_PUBLIC_FIREBASE_API_KEY`
 - `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`

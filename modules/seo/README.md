@@ -10,8 +10,8 @@ import { seoService } from '@/modules/seo';
 
 ## Files
 
-- `index.ts`: public constants and service exports.
-- `config/constants.ts`: canonical origin, site copy, and fallback social image path.
+- `index.ts`: public service export.
+- `config/constants.ts`: site copy and fallback social image path.
 - `services/seo.service.ts`: builds root, privacy, project, manifest, robots, and sitemap metadata.
 - `services/seo.service.test.ts`: metadata-route, canonical URL, sitemap, and image fallback coverage.
 

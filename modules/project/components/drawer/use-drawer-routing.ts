@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 import { useAppState } from '@/modules/shared';
 
-/** Subscribes to browser back and forward navigation for the legacy project drawer. */
+/** Subscribes the project drawer to browser back and forward navigation. */
 export function useDrawerRouting() {
   const { isDrawerOpen, setIsDrawerOpen } = useAppState();
 

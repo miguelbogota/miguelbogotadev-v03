@@ -8,7 +8,7 @@ My personal portfolio, built with Next.js 16, React 19, TypeScript, and an argua
 
 This repository contains the frontend for my portfolio. It introduces who I am, presents selected projects, provides searchable and paginated work history, and includes an interactive cat because every serious engineering portfolio needs at least one completely serious WebGL cat.
 
-The application is currently being migrated from a Vite/Nitro React application to the Next.js 16 App Router. The migration is intentionally split into phases so each piece can be reviewed, tested, and blamed independently.
+The application uses the Next.js 16 App Router at the repository root. It replaced the previous Vite/Nitro build without replacing the personality, which was apparently considered production-critical.
 
 ## Highlights
 
@@ -17,7 +17,7 @@ The application is currently being migrated from a Vite/Nitro React application 
 - Client-loaded Markdown when project details are opened.
 - Light, dark, and system themes persisted with a cookie.
 - Searchable and paginated project cards.
-- Drawer-based project navigation retained during the routing migration.
+- Drawer-based project navigation with canonical project URLs.
 - Canonical metadata, sitemap, robots, manifest, and 1200×630 social previews.
 - Privacy-limited Firebase Analytics with an informational notice and privacy page.
 - Responsive layouts for desktop and mobile.
@@ -53,6 +53,10 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000). If the page works on the first try, please remain calm; this is known to happen occasionally.
 
 Project metadata and Markdown are loaded from the companion [`miguelbogotadev-api`](https://github.com/miguelbogota/miguelbogotadev-api) repository. The portfolio still runs without local environment variables; Firebase Analytics stays disabled until the documented `NEXT_PUBLIC_FIREBASE_*` values are provided. The shared site URL uses localhost in development and the public domain in production without additional configuration. Copy `.env.example` to `.env.local` when configuring Firebase.
+
+## Deployment
+
+The production target is Firebase App Hosting. It detects the Next.js application from `package.json`, so this repository intentionally has no generated `.apphosting` bundle or custom `apphosting.yaml`. Build with `npm run build`; configure the public Analytics values in the hosting environment when analytics is required.
 
 ## Available commands
 
@@ -117,11 +121,9 @@ Husky runs the same lint, build, and test sequence before commits. GitHub Action
 
 ## Migration status
 
-This repository is actively moving to Next.js phase by phase. The home experience, root-level modules, canonical project routes, SEO metadata routes, privacy notice, and analytics foundation are migrated. The existing drawer remains intentionally simple; deployment polish and the remaining migration work are tracked in GitHub issues rather than hidden in a mysterious notebook nobody can find.
+The Next.js migration is complete in this branch. The original baseline remains under `docs/migration/baseline` as evidence, archaeology, and a warning to future civilizations.
 
 ## Find me around the web
-
-### Find me around the web
 
 <p>
   <a href="https://miguelbogota.dev" target="_blank">
