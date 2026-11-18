@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 
-import { ProjectError } from '@/modules/project';
+import { ErrorPage } from '@/modules/shared';
 
 /** Props supplied by the App Router project error boundary. */
 type ProjectRouteErrorProps = {
@@ -24,7 +24,7 @@ export default function ProjectRouteError(props: ProjectRouteErrorProps) {
   }, [error.digest]);
 
   return (
-    <ProjectError
+    <ErrorPage
       title="This project could not be loaded"
       message="Something went wrong while loading the project. Please try again."
       action={<button onClick={reset}>Try again</button>}

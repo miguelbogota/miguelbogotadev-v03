@@ -6,6 +6,8 @@ import { useEffect } from 'react';
 
 import { analyticsService } from '@/modules/analytics/services/analytics.service';
 
+import { ErrorPage } from '../error-page';
+
 /** Props supplied by Next.js when the root application boundary fails. */
 export type GlobalErrorProps = {
   error: Error & { digest?: string };
@@ -23,13 +25,15 @@ export function GlobalError(props: GlobalErrorProps) {
   return (
     <html lang="en">
       <body className="global-error">
-        <main>
-          <p>Something went wrong.</p>
-          <h1>The portfolio hit an unexpected problem.</h1>
-          <button type="button" onClick={reset}>
-            Try again
-          </button>
-        </main>
+        <ErrorPage
+          title="The portfolio hit an unexpected problem"
+          message="Something interrupted the page. Try again, or return to the portfolio."
+          action={
+            <button type="button" onClick={reset}>
+              Try again
+            </button>
+          }
+        />
       </body>
     </html>
   );

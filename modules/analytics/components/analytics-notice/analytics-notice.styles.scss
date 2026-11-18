@@ -4,46 +4,69 @@
   bottom: var(--space-3);
   left: var(--space-3);
   z-index: var(--snackbar);
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
   max-width: 760px;
   margin: 0 auto;
-  padding: var(--space-2) var(--space-3);
   color: var(--text-primary);
-  background: var(--background-sheet);
+  background-color: color-mix(in srgb, var(--background-main) 92%, transparent);
   border: 1px solid var(--background-border);
-  border-radius: 12px;
-  box-shadow: 0 12px 32px color-mix(in srgb, var(--black) 22%, transparent);
+  box-shadow: 0 5px 25px color-mix(in srgb, var(--black) 10%, transparent);
+  backdrop-filter: blur(6px);
 
-  p {
-    flex: 1;
-    margin: 0;
-    font-size: 0.9rem;
-    line-height: 1.35rem;
-  }
+  & > div {
+    display: flex;
+    min-height: 72px;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-3);
 
-  a {
-    color: var(--primary);
-  }
+    & > p {
+      flex: 1;
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.35rem;
 
-  button {
-    padding: var(--space-1) var(--space-2);
-    color: var(--text-inverted);
-    font: inherit;
-    font-weight: 600;
-    background: var(--text-primary);
-    border: 0;
-    border-radius: 8px;
-    cursor: pointer;
-  }
+      & > a {
+        color: var(--primary);
+        text-underline-offset: 0.2em;
+      }
+    }
 
-  @media (max-width: 600px) {
-    align-items: stretch;
-    flex-direction: column;
+    & > button {
+      display: inline-flex;
+      min-width: 64px;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-1) var(--space-2);
+      color: var(--text-inverted);
+      font: inherit;
+      font-weight: 600;
+      background: var(--text-primary);
+      border: 1px solid var(--text-primary);
+      cursor: pointer;
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease;
 
-    button {
-      align-self: flex-end;
+      &:hover {
+        color: var(--black);
+        background-color: var(--primary);
+        border-color: var(--primary);
+      }
+    }
+
+    @media (width <= 600px) {
+      min-height: 0;
+      align-items: flex-start;
+      flex-direction: column;
+      gap: var(--space-1);
+      padding: var(--space-2) var(--space-3);
+
+      & > button {
+        align-self: flex-end;
+      }
     }
   }
 }

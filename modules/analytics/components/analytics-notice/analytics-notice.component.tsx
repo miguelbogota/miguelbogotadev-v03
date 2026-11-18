@@ -27,17 +27,19 @@ export function AnalyticsNotice() {
   }
 
   return (
-    <aside className="analytics-notice" aria-label="Analytics notice">
-      <p>
-        This site uses pseudonymous analytics to understand navigation, interactions, and basic
-        errors. Search text and personal information are not collected.{' '}
-        <Link href="/privacy" onClick={() => analyticsService.trackLink('privacy', 'notice')}>
-          Privacy details
-        </Link>
-      </p>
-      <button type="button" onClick={handleDismiss}>
-        OK
-      </button>
+    <aside className="analytics-notice" aria-label="Analytics notice" role="status">
+      <div>
+        <p>
+          This site uses pseudonymous analytics to understand navigation, interactions, and basic
+          errors. Search text and personal information are not collected.{' '}
+          <Link href="/privacy" onClick={() => analyticsService.trackLink('privacy', 'notice')}>
+            Privacy details
+          </Link>
+        </p>
+        <button type="button" onClick={handleDismiss}>
+          OK
+        </button>
+      </div>
     </aside>
   );
 }

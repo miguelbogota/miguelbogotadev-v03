@@ -20,9 +20,8 @@ Server project-index access and browser Markdown loading use separate boundaries
 
 ## Files
 
-- `index.ts`: public drawer, project presentation, error presentation, and project type exports.
+- `index.ts`: public drawer, project presentation, and project type exports.
 - `components/drawer/*`: client drawer and browser-history navigation retained after the intercepted-route experiment was removed.
-- `components/project-error/*`: reusable not-found and unexpected-failure presentation.
 - `components/project-info/*`: shared drawer and canonical-route project presentation.
 - `config/constants.ts`: upstream API location imported only by the server service.
 - `services/project.client.ts`: browser-only access to the internal project-content API.

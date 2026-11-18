@@ -27,6 +27,7 @@ throw new RequestError({
 
 - `index.ts`: public exports for the shared module.
 - `components/container/*`: polymorphic layout wrapper, styles, and tests.
+- `components/error-page/*`: shared full-page not-found and recovery presentation.
 - `components/navigation/*`: responsive home navigation, active-section hook, styles, and tests.
 - `components/footer/*`: shared footer, styles, and tests.
 - `components/global-error/*`: root application failure presentation, styles, and tests.
