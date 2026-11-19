@@ -255,7 +255,7 @@ The system is flat by default. Structure comes from neutral contrast, hairline b
 - **Cat halo:** A radial tonal gradient grounds the 3D model without creating a rectangular container.
 - **Project loading/error artwork:** Blurred internal color fields temporarily hold the thumbnail plane without entering interface chrome.
 
-Layer order is deliberate: navigation 1100, drawer 1200, modal 1300, analytics/snackbar 1400, tooltip 1500. New overlays must use the semantic stack instead of arbitrary large z-index values.
+Layer order is deliberate: navigation 1100, drawer 1200, modal 1300, analytics/snackbar 1400, tooltip 1500. The analytics notice remains operable above the drawer and participates in its focus loop while ordinary page content is inert. New overlays must use the semantic stack instead of arbitrary large z-index values.
 
 **The Flat-by-Default Rule.** Shadows indicate a floating or transient layer. Static content and ordinary cards stay flat.
 
@@ -321,7 +321,7 @@ The drawer enters from below with opacity and translation over 700ms and exits t
 
 ### Project details and Markdown
 
-The required wide artwork opens the project surface as a 1200:630 banner. The project header then uses italic date, heavy title, role, and compact icon links. Summary and technology tags establish context before long-form content. Markdown uses a 1rem reading size, 1.75 line height, mixed-case headings, amber links and list markers, sheet-backed blockquotes/code, bordered code blocks, and horizontally contained tables. Gallery images are centered and subtly rounded.
+The required 1200:630 artwork opens the project surface inside a shallow 4:1 desktop banner and a 3:2 mobile banner. `object-fit: cover` with centered positioning balances the crop across the top and bottom instead of anchoring it to one edge. The project header then uses italic date, heavy title, role, and compact icon links. Summary and technology tags establish context before long-form content. Markdown uses a 1rem reading size, 1.75 line height, mixed-case headings, amber links and list markers, sheet-backed blockquotes/code, bordered code blocks, and horizontally contained tables. Gallery images are centered and subtly rounded.
 
 The content skeleton is a 72-character measure of neutral bars with a 1.4s shimmer. It is announced as a polite loading status and becomes static under reduced motion. Content failures replace only this region. The gallery uses a square main image and centered thumbnails; hover scales thumbnails to 1.05 and active/hover borders turn amber.
 

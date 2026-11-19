@@ -18,6 +18,7 @@ import { AnalyticsNotice, AnalyticsTracker, analyticsService } from '@/modules/a
 - Search text, DOM text, raw errors and stacks, complete outbound URLs, user IDs, exact coordinates, and user-entered values are never sent.
 - Exception events contain only a fixed application area and fatal flag. Hosting logs provide server diagnostics.
 - The notice is informational and has one **OK** button; analytics does not wait for acceptance.
+- The notice remains interactive above an open project drawer and participates in its keyboard focus loop.
 
 In the linked GA4 web stream, keep Enhanced Measurement disabled for outbound clicks, site search, and form interactions. Those automatic events can include URLs or user-entered values that intentionally fall outside this module's allowlist. Automatic Firebase page views are disabled in code.
 

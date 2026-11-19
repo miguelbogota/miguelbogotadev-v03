@@ -40,4 +40,6 @@ Raw HTML is not enabled in `react-markdown`; project content can use standard Ma
 
 The internal project-content API is a backend-for-frontend boundary, not a secret URL. Browser users can see the local `/api/project/...` request, but they do not receive the upstream host, path structure, or upstream failure details from the client implementation.
 
+The drawer makes ordinary page siblings inert while open. Higher transient overlays marked with `data-inert-exempt`, such as the analytics notice, remain operable and join the drawer's keyboard focus loop.
+
 Project metadata is built by the `seo` module. It uses canonical project URLs and the required project artwork. The same artwork appears as the banner above project details; gallery images remain independent.

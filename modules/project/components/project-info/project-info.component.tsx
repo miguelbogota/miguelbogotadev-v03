@@ -122,13 +122,7 @@ export function ProjectInfo(props: ProjectInfoProps) {
         <div className="action">{closeButton}</div>
       </Container>
 
-      <Container className="project-info" maxWidth="900px">
-        <div className="artwork">
-          {/* Project media uses remote URLs that are not configured for Next image optimization. */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={artwork.src} alt={artwork.alt} width={1200} height={630} fetchPriority="high" />
-        </div>
-
+      <Container className="project-info" maxWidth="1000px">
         {/* Project header */}
         <div className="header">
           <p>{startedAt}</p>
@@ -166,6 +160,12 @@ export function ProjectInfo(props: ProjectInfoProps) {
               ))}
             </div>
           </div>
+        </div>
+
+        <div className="artwork">
+          {/* Project media uses remote URLs that are not configured for Next image optimization. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={artwork.src} alt={artwork.alt} width={1200} height={630} fetchPriority="high" />
         </div>
 
         {isLoadingContent ? (

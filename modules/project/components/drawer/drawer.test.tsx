@@ -48,6 +48,40 @@ describe('components / Drawer', () => {
     expect(screen.getByTestId('background')).toHaveAttribute('inert');
   });
 
+  it('should keep a higher overlay interactive while the page background is inert', () => {
+    render(
+      <>
+        <main data-testid="background">Portfolio</main>
+        <aside data-inert-exempt>
+          <button type="button">OK</button>
+        </aside>
+        <Drawer />
+      </>,
+    );
+
+    expect(screen.getByTestId('background')).toHaveAttribute('inert');
+    expect(screen.getByRole('button', { name: 'OK' }).parentElement).not.toHaveAttribute('inert');
+  });
+
+  it('should include a higher overlay in the drawer focus loop', () => {
+    render(
+      <>
+        <aside data-inert-exempt>
+          <button type="button">OK</button>
+        </aside>
+        <Drawer />
+      </>,
+    );
+
+    const closeButton = screen.getByRole('button', { name: 'Close project details' });
+    const noticeButton = screen.getByRole('button', { name: 'OK' });
+
+    closeButton.focus();
+    fireEvent.keyDown(closeButton, { key: 'Tab', shiftKey: true });
+
+    expect(noticeButton).toHaveFocus();
+  });
+
   it('should close with Escape and clear the active project', () => {
     render(<Drawer />);
 

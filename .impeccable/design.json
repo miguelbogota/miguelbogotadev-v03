@@ -428,7 +428,7 @@
       "name": "Analytics Notice",
       "kind": "custom",
       "refersTo": "analytics-notice",
-      "description": "Highly legible floating glass disclosure with a solid acknowledgment action.",
+      "description": "Highly legible floating glass disclosure with a solid acknowledgment action that remains operable above the project drawer.",
       "html": "<aside class=\"ds-notice\"><p>This site uses pseudonymous analytics. <a href=\"#\">Privacy details</a></p><button type=\"button\">OK</button></aside>",
       "css": ".ds-notice { display: flex; max-width: 760px; min-height: 72px; align-items: center; gap: 1.25rem; padding: .9rem 1.25rem; color: #f6f6f6; background: rgb(0 0 0 / .92); border: 1px solid #3b3b3b; border-radius: 0; box-shadow: 0 5px 25px rgb(0 0 0 / .1); backdrop-filter: blur(6px); font-family: Barlow, 'Segoe UI', sans-serif; } .ds-notice p { flex: 1; margin: 0; color: #7f7f7f; font-size: .9rem; line-height: 1.35rem; } .ds-notice a { color: #daa520; } .ds-notice button { min-width: 64px; min-height: 44px; color: #000; background: #f6f6f6; border: 1px solid #f6f6f6; border-radius: 0; font-weight: 600; } .ds-notice button:hover { background: #daa520; border-color: #daa520; } .ds-notice a:focus-visible, .ds-notice button:focus-visible { outline: 2px solid #daa520; outline-offset: 2px; }"
     },

@@ -145,6 +145,7 @@ Project drawer navigation deliberately does not use intercepted App Router route
 - a project card prevents the normal link transition, pushes `/project/{id}` into browser history, and opens the matching project in the drawer;
 - `useDrawerRouting()` synchronizes drawer state with browser back and forward events;
 - closing the drawer navigates to `/` and restores focus to the previously active element;
+- the page behind the drawer becomes inert, while the higher analytics notice remains interactive and joins the drawer focus loop;
 - the canonical route remains a normal directly accessible page;
 - links returning home preserve `scroll={false}` where browser restoration caused unwanted movement.
 
