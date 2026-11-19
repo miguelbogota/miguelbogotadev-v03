@@ -1,0 +1,553 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-18T00:00:00.000Z",
+  "title": "Design System: MiguelBogotaDev",
+  "extensions": {
+    "colorMeta": {
+      "signature-amber": {
+        "role": "primary",
+        "displayName": "Signature Amber",
+        "canonical": "#daa520",
+        "tonalRamp": [
+          "#2d2105",
+          "#59420a",
+          "#85630f",
+          "#b18416",
+          "#daa520",
+          "#e5be58",
+          "#efd78f",
+          "#f9efcf"
+        ]
+      },
+      "paper-white": {
+        "role": "neutral",
+        "displayName": "Paper White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#212121",
+          "#3b3b3b",
+          "#5a5a5a",
+          "#7f7f7f",
+          "#bbbbbb",
+          "#dedede",
+          "#f6f6f6",
+          "#ffffff"
+        ]
+      },
+      "ink-black": {
+        "role": "neutral",
+        "displayName": "Ink Black",
+        "canonical": "#000000",
+        "tonalRamp": [
+          "#000000",
+          "#212121",
+          "#3b3b3b",
+          "#5a5a5a",
+          "#7f7f7f",
+          "#bbbbbb",
+          "#dedede",
+          "#f6f6f6"
+        ]
+      },
+      "paper-soft": {
+        "role": "neutral",
+        "displayName": "Paper Soft",
+        "canonical": "#f6f6f6",
+        "tonalRamp": [
+          "#212121",
+          "#3b3b3b",
+          "#5a5a5a",
+          "#7f7f7f",
+          "#bbbbbb",
+          "#dedede",
+          "#f6f6f6",
+          "#ffffff"
+        ]
+      },
+      "mist-gray": {
+        "role": "neutral",
+        "displayName": "Mist Gray",
+        "canonical": "#dedede",
+        "tonalRamp": [
+          "#212121",
+          "#3b3b3b",
+          "#5a5a5a",
+          "#7f7f7f",
+          "#bbbbbb",
+          "#dedede",
+          "#f6f6f6",
+          "#ffffff"
+        ]
+      },
+      "quiet-gray": {
+        "role": "neutral",
+        "displayName": "Quiet Gray",
+        "canonical": "#bbbbbb",
+        "tonalRamp": [
+          "#212121",
+          "#3b3b3b",
+          "#5a5a5a",
+          "#7f7f7f",
+          "#bbbbbb",
+          "#dedede",
+          "#f6f6f6",
+          "#ffffff"
+        ]
+      },
+      "middle-gray": {
+        "role": "neutral",
+        "displayName": "Middle Gray",
+        "canonical": "#7f7f7f",
+        "tonalRamp": [
+          "#212121",
+          "#3b3b3b",
+          "#5a5a5a",
+          "#7f7f7f",
+          "#bbbbbb",
+          "#dedede",
+          "#f6f6f6",
+          "#ffffff"
+        ]
+      },
+      "light-secondary-gray": {
+        "role": "neutral",
+        "displayName": "Light Secondary Gray",
+        "canonical": "#6b6b6b",
+        "tonalRamp": [
+          "#212121",
+          "#3b3b3b",
+          "#5a5a5a",
+          "#6b6b6b",
+          "#7f7f7f",
+          "#bbbbbb",
+          "#dedede",
+          "#ffffff"
+        ]
+      },
+      "graphite-gray": {
+        "role": "neutral",
+        "displayName": "Graphite Gray",
+        "canonical": "#5a5a5a",
+        "tonalRamp": [
+          "#212121",
+          "#3b3b3b",
+          "#5a5a5a",
+          "#7f7f7f",
+          "#bbbbbb",
+          "#dedede",
+          "#f6f6f6",
+          "#ffffff"
+        ]
+      },
+      "charcoal-gray": {
+        "role": "neutral",
+        "displayName": "Charcoal Gray",
+        "canonical": "#3b3b3b",
+        "tonalRamp": [
+          "#212121",
+          "#3b3b3b",
+          "#5a5a5a",
+          "#7f7f7f",
+          "#bbbbbb",
+          "#dedede",
+          "#f6f6f6",
+          "#ffffff"
+        ]
+      },
+      "near-black": {
+        "role": "neutral",
+        "displayName": "Near Black",
+        "canonical": "#212121",
+        "tonalRamp": [
+          "#212121",
+          "#3b3b3b",
+          "#5a5a5a",
+          "#7f7f7f",
+          "#bbbbbb",
+          "#dedede",
+          "#f6f6f6",
+          "#ffffff"
+        ]
+      },
+      "secondary-slate": {
+        "role": "secondary",
+        "displayName": "Secondary Slate",
+        "canonical": "#455a64",
+        "tonalRamp": [
+          "#11181b",
+          "#223036",
+          "#33484f",
+          "#455a64",
+          "#657983",
+          "#8999a1",
+          "#b7c1c6",
+          "#e8edef"
+        ]
+      },
+      "information-blue": {
+        "role": "tertiary",
+        "displayName": "Information Blue",
+        "canonical": "#1976d2",
+        "tonalRamp": [
+          "#071d33",
+          "#0c3a67",
+          "#11579b",
+          "#1976d2",
+          "#4a94dc",
+          "#7bb2e7",
+          "#add0f1",
+          "#deedfa"
+        ]
+      },
+      "success-green": {
+        "role": "tertiary",
+        "displayName": "Success Green",
+        "canonical": "#388e3c",
+        "tonalRamp": [
+          "#0e2410",
+          "#1c471e",
+          "#2a6b2d",
+          "#388e3c",
+          "#62a965",
+          "#8bc38d",
+          "#b7ddb8",
+          "#e3f3e4"
+        ]
+      },
+      "error-red": {
+        "role": "tertiary",
+        "displayName": "Error Red",
+        "canonical": "#d32f2f",
+        "tonalRamp": [
+          "#350c0c",
+          "#6a1818",
+          "#9f2323",
+          "#d32f2f",
+          "#dd5c5c",
+          "#e88989",
+          "#f1b8b8",
+          "#fae5e5"
+        ]
+      },
+      "artwork-amber-light": {
+        "role": "tertiary",
+        "displayName": "Artwork Amber Light",
+        "canonical": "#f4d7a1",
+        "tonalRamp": [
+          "#322711",
+          "#5d491f",
+          "#896d31",
+          "#b4934d",
+          "#d1b778",
+          "#e5cea4",
+          "#f4e2c3",
+          "#fcf5e8"
+        ]
+      },
+      "artwork-amber": {
+        "role": "tertiary",
+        "displayName": "Artwork Amber",
+        "canonical": "#e8a665",
+        "tonalRamp": [
+          "#311d0c",
+          "#5e3818",
+          "#8c5425",
+          "#ba7336",
+          "#e8a665",
+          "#efbd8b",
+          "#f5d5b4",
+          "#fbede1"
+        ]
+      },
+      "artwork-rose-light": {
+        "role": "tertiary",
+        "displayName": "Artwork Rose Light",
+        "canonical": "#d58287",
+        "tonalRamp": [
+          "#2e1518",
+          "#592c31",
+          "#84434a",
+          "#ad6067",
+          "#d58287",
+          "#e09fa3",
+          "#ebbfc2",
+          "#f7e4e5"
+        ]
+      },
+      "artwork-rose": {
+        "role": "tertiary",
+        "displayName": "Artwork Rose",
+        "canonical": "#a75468",
+        "tonalRamp": [
+          "#271016",
+          "#4d222d",
+          "#733443",
+          "#98475a",
+          "#b86c7d",
+          "#cf95a1",
+          "#e4bec5",
+          "#f7e8eb"
+        ]
+      },
+      "artwork-teal-light": {
+        "role": "tertiary",
+        "displayName": "Artwork Teal Light",
+        "canonical": "#428d91",
+        "tonalRamp": [
+          "#0d2223",
+          "#1b4446",
+          "#28676a",
+          "#428d91",
+          "#6ba8ab",
+          "#94c2c4",
+          "#bfdddd",
+          "#e8f2f2"
+        ]
+      },
+      "artwork-teal": {
+        "role": "tertiary",
+        "displayName": "Artwork Teal",
+        "canonical": "#244d60",
+        "tonalRamp": [
+          "#09171d",
+          "#122d38",
+          "#1b4353",
+          "#245a70",
+          "#4b7889",
+          "#7799a5",
+          "#a9c0c8",
+          "#dce8eb"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Editorial Display",
+        "purpose": "Full-page recovery statements only."
+      },
+      "headline": {
+        "displayName": "Primary Headline",
+        "purpose": "Profile statement and route-level project titles."
+      },
+      "title": {
+        "displayName": "Section Title",
+        "purpose": "Uppercase chapter labels and compact content titles."
+      },
+      "body": {
+        "displayName": "Editorial Body",
+        "purpose": "Introductions and supporting portfolio copy."
+      },
+      "label": {
+        "displayName": "Interface Label",
+        "purpose": "Navigation, metadata, search labels, and actions."
+      }
+    },
+    "shadows": [
+      {
+        "name": "notice-float",
+        "value": "0 5px 25px color-mix(in srgb, var(--black) 10%, transparent)",
+        "purpose": "Separates the analytics notice from content beneath it."
+      },
+      {
+        "name": "menu-compact",
+        "value": "0 10px 15px -3px #0000001a",
+        "purpose": "Conventional compact elevation for the theme menu."
+      }
+    ],
+    "motion": [
+      {
+        "name": "state-fast",
+        "value": "0.2s ease",
+        "purpose": "Color, border, background, and compact control feedback."
+      },
+      {
+        "name": "navigation-standard",
+        "value": "0.3s ease",
+        "purpose": "Navigation links, active indicator, and wordmark expansion."
+      },
+      {
+        "name": "media-zoom",
+        "value": "0.5s ease",
+        "purpose": "Published project image zoom on card hover."
+      },
+      {
+        "name": "drawer-spatial",
+        "value": "0.7s allow-discrete",
+        "purpose": "Drawer and backdrop entry/exit continuity."
+      },
+      {
+        "name": "skeleton-progress",
+        "value": "1.4s ease-in-out infinite",
+        "purpose": "Progressive Markdown loading indicator; disabled for reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact",
+        "value": "750px"
+      },
+      {
+        "name": "notice-stack",
+        "value": "600px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Solid Acknowledgment Button",
+      "kind": "button",
+      "refersTo": "button-solid",
+      "description": "Square, explicit action used by the analytics notice.",
+      "html": "<button class=\"ds-button-solid\" type=\"button\">OK</button>",
+      "css": ".ds-button-solid { display: inline-flex; min-width: 64px; min-height: 44px; align-items: center; justify-content: center; padding: .45rem .9rem; color: #f6f6f6; font: 600 .9rem/1.5 Barlow, 'Segoe UI', sans-serif; background: #212121; border: 1px solid #212121; border-radius: 0; cursor: pointer; transition: color .2s ease, background-color .2s ease, border-color .2s ease; } .ds-button-solid:hover { color: #000; background: #daa520; border-color: #daa520; } .ds-button-solid:focus-visible { outline: 2px solid #daa520; outline-offset: 2px; }"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "input-search",
+      "description": "Visible uppercase label with a full-width 44px project filter.",
+      "html": "<label class=\"ds-search\">SEARCH WORKS<input type=\"search\" placeholder=\"Search projects…\"></label>",
+      "css": ".ds-search { display: grid; gap: .9rem; color: #7f7f7f; font: 500 .9rem/1.5 Barlow, 'Segoe UI', sans-serif; letter-spacing: .08rem; } .ds-search input { width: 100%; height: 44px; box-sizing: border-box; padding: .9rem 1.25rem; color: #212121; background: #f6f6f6; border: 1px solid #dedede; border-radius: .45rem; font: 300 1rem/1.5 Barlow, 'Segoe UI', sans-serif; } .ds-search input:focus-visible { outline: 2px solid #daa520; outline-offset: 2px; }"
+    },
+    {
+      "name": "Project Card",
+      "kind": "card",
+      "refersTo": "project-card",
+      "description": "Flat asymmetric content band with media-led hover feedback.",
+      "html": "<a class=\"ds-project-card\" href=\"#\"><span class=\"ds-project-media\" aria-hidden=\"true\"></span><span class=\"ds-project-copy\"><small>ENGINEERING — 2026</small><strong>PROJECT NAME</strong><span>Evidence-led project summary.</span><b>VIEW DETAILS</b></span></a>",
+      "css": ".ds-project-card { display: grid; grid-template-columns: 60fr 40fr; gap: 2rem; color: #212121; text-decoration: none; border-radius: 0; overflow: hidden; transition: background-color .2s ease; } .ds-project-media { min-height: 220px; background: linear-gradient(135deg, #f4d7a1, #a75468 58%, #244d60); } .ds-project-copy { display: flex; flex-direction: column; gap: .9rem; padding: 2rem; font-family: Barlow, 'Segoe UI', sans-serif; } .ds-project-copy small { letter-spacing: .03rem; } .ds-project-copy strong { font-size: 2rem; line-height: 1.1; } .ds-project-copy b { margin-top: auto; letter-spacing: .1rem; } .ds-project-card:hover { background: #f6f6f6; } .ds-project-card:hover b { color: #daa520; text-decoration: underline; } .ds-project-card:focus-visible { outline: 2px solid #daa520; outline-offset: 2px; }"
+    },
+    {
+      "name": "Portfolio Navigation",
+      "kind": "nav",
+      "description": "Fixed translucent navigation with one amber active marker.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\">MB</a><span><a class=\"ds-active\" href=\"#\">PROFILE</a><a href=\"#\">WORK</a><a href=\"#\">SOCIAL</a></span><a href=\"#\">RESUME</a></nav>",
+      "css": ".ds-nav { display: flex; height: 64px; align-items: center; justify-content: space-between; padding: 0 1.25rem; color: #f6f6f6; background: rgb(0 0 0 / .8); backdrop-filter: saturate(20%) blur(10px); font: 500 1.05rem/1 Barlow, 'Segoe UI', sans-serif; } .ds-nav span { display: flex; gap: .9rem; } .ds-nav a { position: relative; padding: .9rem; color: inherit; text-decoration: none; transition: color .3s ease; } .ds-nav a:hover, .ds-nav a.ds-active { color: #daa520; } .ds-nav a.ds-active::after { content: ''; position: absolute; right: .9rem; bottom: 0; left: .9rem; height: 2px; background: #daa520; } .ds-nav a:focus-visible { outline: 2px solid #daa520; outline-offset: 2px; }"
+    },
+    {
+      "name": "Analytics Notice",
+      "kind": "custom",
+      "refersTo": "analytics-notice",
+      "description": "Highly legible floating glass disclosure with a solid acknowledgment action.",
+      "html": "<aside class=\"ds-notice\"><p>This site uses pseudonymous analytics. <a href=\"#\">Privacy details</a></p><button type=\"button\">OK</button></aside>",
+      "css": ".ds-notice { display: flex; max-width: 760px; min-height: 72px; align-items: center; gap: 1.25rem; padding: .9rem 1.25rem; color: #f6f6f6; background: rgb(0 0 0 / .92); border: 1px solid #3b3b3b; border-radius: 0; box-shadow: 0 5px 25px rgb(0 0 0 / .1); backdrop-filter: blur(6px); font-family: Barlow, 'Segoe UI', sans-serif; } .ds-notice p { flex: 1; margin: 0; color: #7f7f7f; font-size: .9rem; line-height: 1.35rem; } .ds-notice a { color: #daa520; } .ds-notice button { min-width: 64px; min-height: 44px; color: #000; background: #f6f6f6; border: 1px solid #f6f6f6; border-radius: 0; font-weight: 600; } .ds-notice button:hover { background: #daa520; border-color: #daa520; } .ds-notice a:focus-visible, .ds-notice button:focus-visible { outline: 2px solid #daa520; outline-offset: 2px; }"
+    },
+    {
+      "name": "Editorial Recovery Action",
+      "kind": "button",
+      "description": "Text-first error recovery control defined by an underline rather than a container.",
+      "html": "<button class=\"ds-recovery\" type=\"button\">TRY AGAIN</button>",
+      "css": ".ds-recovery { display: inline-flex; min-height: 44px; align-items: center; padding: .45rem 0; color: #212121; background: transparent; border: 0; border-bottom: 1px solid #dedede; border-radius: 0; font: 500 1rem/1.5 Barlow, 'Segoe UI', sans-serif; cursor: pointer; transition: color .2s ease, border-color .2s ease; } .ds-recovery:hover { color: #daa520; border-color: #daa520; } .ds-recovery:focus-visible { outline: 2px solid #daa520; outline-offset: 2px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Engineer's Gallery",
+    "overview": "The portfolio behaves like a quiet gallery assembled by an engineer: the shell is disciplined, high-contrast, and deliberately recessive, while project evidence occupies the visual foreground. Generous empty space, a strict sans-serif hierarchy, and square-edged surfaces create technical credibility without imitating a dashboard. Amber is used sparingly as a curatorial mark—showing selection, focus, and action rather than decorating the page. Personality is concentrated in Miguel's portrait, expanding wordmark, rotatable cat, alternating project layouts, drawer transition, and dry copy.",
+    "keyCharacteristics": [
+      "Monochrome light and dark worlds with one scarce amber signal.",
+      "Editorial-scale type, long vertical rhythm, and intentional negative space.",
+      "Flat, square-edged structure; rounding is reserved for functional or physical forms.",
+      "Project media and case-study content lead; chrome remains quiet.",
+      "Small moments of personality rather than continuous visual spectacle.",
+      "Equivalent desktop, mobile, keyboard, and reduced-motion experiences."
+    ],
+    "rules": [
+      {
+        "name": "The Amber Annotation Rule",
+        "body": "Amber marks attention, selection, or movement. If an element is neither interactive nor meaningfully selected, it normally should not be amber.",
+        "section": "colors"
+      },
+      {
+        "name": "The Neutral Canvas Rule",
+        "body": "Large surfaces remain paper or ink. Do not introduce colored page panels to make an empty area feel busier; the negative space is structural.",
+        "section": "colors"
+      },
+      {
+        "name": "The Artwork Containment Rule",
+        "body": "The rose/teal/amber fallback palette stays inside project artwork.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Family Rule",
+        "body": "Barlow is the voice of the interface. Add another family only for a genuine content requirement, never to manufacture variety.",
+        "section": "typography"
+      },
+      {
+        "name": "The Weight Is Hierarchy Rule",
+        "body": "Light body copy and strong headings create the signature contrast; avoid collapsing everything to regular or semibold.",
+        "section": "typography"
+      },
+      {
+        "name": "The Case Study Is Reading Rule",
+        "body": "Markdown headings are deliberately smaller, mixed case, and more closely spaced than landing-page headings because the user has entered a reading surface.",
+        "section": "typography"
+      },
+      {
+        "name": "The Long Page Rule",
+        "body": "Each home section gets enough vertical room to read as a chapter; do not pack profile, work, and social into a dashboard grid.",
+        "section": "layout"
+      },
+      {
+        "name": "The Same Story Rule",
+        "body": "Drawer and canonical project surfaces share content structure and component behavior rather than drifting into separate designs.",
+        "section": "layout"
+      },
+      {
+        "name": "The Mobile Reflow Rule",
+        "body": "Reorder into a clear reading sequence; do not horizontally squeeze the desktop composition or introduce page-level horizontal scrolling.",
+        "section": "layout"
+      },
+      {
+        "name": "The Flat-by-Default Rule",
+        "body": "Shadows indicate a floating or transient layer. Static content and ordinary cards stay flat.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Legible Glass Rule",
+        "body": "Transparency is never allowed to make foreground and background copy compete. Increase surface opacity before increasing blur.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Structural Backdrop Rule",
+        "body": "The drawer backdrop explains modality and blocks background interaction; it is not decorative haze.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Radius Has Meaning Rule",
+        "body": "Do not round a surface merely to make it feel modern. Use rounding for physical forms, compact controls, clipped media, or the bottom-sheet metaphor.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Border Before Shadow Rule",
+        "body": "Prefer a neutral hairline or tonal shift when a flat surface needs separation.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do let projects, portrait, and the cat provide visual interest while interface chrome stays monochrome and quiet.",
+      "Do use semantic theme variables and verify light, dark, and system appearances.",
+      "Do reserve amber for focus, selection, links, and meaningful interaction feedback.",
+      "Do preserve the generous vertical rhythm and 970px home reading width.",
+      "Do keep project cards flat, media-led, and alternating on desktop.",
+      "Do use the established spacing scale and recurring 750px responsive breakpoint.",
+      "Do keep body copy readable, light in weight, and constrained to useful line lengths.",
+      "Do maintain 44px targets for primary compact controls and visible keyboard focus everywhere.",
+      "Do provide reduced-motion behavior for continuous or decorative animation.",
+      "Do treat the drawer and canonical project page as two presentations of the same story.",
+      "Do verify floating glass over real text in both themes; opacity protects readability.",
+      "Do update this document and `.impeccable/design.json` when durable visual tokens or patterns change."
+    ],
+    "donts": [
+      "Don't add gradients, background lines, blobs, or color fields to page chrome merely to fill negative space.",
+      "Don't turn sections, project cards, errors, or privacy content into generic rounded cards.",
+      "Don't introduce pills, badge clouds, glass on every surface, or large soft shadows.",
+      "Don't use amber as a large background or a second body-text color; its scarcity is the point.",
+      "Don't introduce another font family or replace Barlow without an explicit identity decision.",
+      "Don't make Markdown headings compete with the project title or landing-page headline.",
+      "Don't hide critical behavior behind hover or remove the global focus treatment.",
+      "Don't squeeze the alternating desktop grid onto mobile; reflow it to one reading column.",
+      "Don't animate without purpose or ignore `prefers-reduced-motion` for continuous effects.",
+      "Don't replace the portrait, cat, drawer, monochrome/amber language, or authored personality with a generic portfolio template."
+    ]
+  }
+}

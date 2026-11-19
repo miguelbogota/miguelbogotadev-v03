@@ -1,0 +1,19 @@
+.global-error {
+  --text-primary: #f6f6f6;
+  --text-secondary: #bbbbbb;
+  --background-main: #000000;
+  --background-border: #3b3b3b;
+  --primary: #daa520;
+  --space-1: 0.45rem;
+  --space-3: 1.25rem;
+  --space-4: 2rem;
+  --space-5: 3.3rem;
+  --space-6: 5rem;
+  --space-7: 7rem;
+  --navigation-height: 64px;
+
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text-primary);
+  background: var(--background-main);
+}

@@ -1,0 +1,35 @@
+.privacy-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  color: var(--text-primary);
+  background: var(--background-main);
+
+  main {
+    flex: 1;
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-5);
+
+    & > a,
+    & a {
+      color: var(--primary);
+    }
+
+    & > a {
+      display: inline-block;
+      margin-bottom: var(--space-4);
+    }
+  }
+
+  h1 {
+    white-space: normal;
+  }
+
+  h2 {
+    margin-top: var(--space-4);
+  }
+
+  footer {
+    margin-top: 0;
+  }
+}

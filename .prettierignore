@@ -1,0 +1,19 @@
+# Dependencies and generated output
+node_modules/
+.next/
+.output/
+.apphosting/
+coverage/
+next-env.d.ts
+tsconfig.tsbuildinfo
+
+# Environment and tool output
+.env*
+!.env.example
+.firebase/
+firebase-debug*.log
+
+# Binary and static assets
+public/favicon.ico
+public/images/
+docs/migration/baseline/screenshots/

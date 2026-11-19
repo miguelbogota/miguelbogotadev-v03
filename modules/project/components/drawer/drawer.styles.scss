@@ -1,0 +1,88 @@
+// Backdrop overlay
+.drawer-backdrop {
+  position: fixed;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  backdrop-filter: saturate(20%) blur(10px);
+  z-index: calc(var(--drawer) - 1);
+  transition:
+    opacity 0.7s allow-discrete,
+    visibility 0.7s allow-discrete;
+}
+
+.drawer {
+  position: fixed;
+  top: calc(env(safe-area-inset-top) + 10dvh);
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 100svw;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  visibility: hidden;
+  z-index: var(--drawer);
+  opacity: 0;
+  transform: translateY(200%);
+  background-color: var(--background-sheet);
+  border-radius: 20px 20px 0 0;
+  border: 0;
+  transition:
+    opacity 0.7s allow-discrete,
+    transform 0.7s allow-discrete,
+    visibility 0.7s allow-discrete;
+
+  &[data-open='true'] {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+
+    @starting-style {
+      opacity: 0;
+      transform: translateY(200%);
+    }
+
+    & ~ .drawer-backdrop {
+      opacity: 1;
+      visibility: visible;
+
+      @starting-style {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+  }
+}
+
+html[data-theme='light'] {
+  .drawer-backdrop {
+    background-color: color-mix(in srgb, var(--dark) 70%, transparent 70%);
+  }
+}
+
+html[data-theme='dark'] {
+  .drawer-backdrop {
+    background-color: color-mix(in srgb, var(--black) 70%, transparent 70%);
+  }
+}
+
+html[data-theme='system'] {
+  @media (prefers-color-scheme: light) {
+    .drawer-backdrop {
+      background-color: color-mix(in srgb, var(--dark) 70%, transparent 70%);
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .drawer-backdrop {
+      background-color: color-mix(in srgb, var(--black) 70%, transparent 70%);
+    }
+  }
+}
