@@ -5,11 +5,11 @@
   --dark: #4b4b4b;
   --black: #000000;
   --scale-1: #f6f6f6;
-  --scale-2: #dedede;
+  --scale-2: #d6d6d6;
   --scale-3: #bbbbbb;
   --scale-4: #7f7f7f;
   --scale-5: #5a5a5a;
-  --scale-6: #3b3b3b;
+  --scale-6: #313131;
   --scale-7: #212121;
 
   // Semantic colors
@@ -19,7 +19,7 @@
   --success: #388e3c;
   --error: #d32f2f;
 
-  // Project artwork palette (shared across light and dark themes)
+  // Project-card loading and error artwork palette
   --artwork-background: var(--background-sheet);
   --artwork-amber-light: #f4d7a1;
   --artwork-amber: #e8a665;
@@ -76,8 +76,8 @@ html[data-theme='system'] {
   color-scheme: light dark;
 
   @media (prefers-color-scheme: light) {
-    --text-primary: var(--scale-7);
-    --text-secondary: #6b6b6b;
+    --text-primary: var(--scale-6);
+    --text-secondary: var(--scale-4);
     --text-disabled: var(--scale-3);
     --text-inverted: var(--scale-2);
     --background-main: var(--white);
@@ -86,7 +86,7 @@ html[data-theme='system'] {
   }
 
   @media (prefers-color-scheme: dark) {
-    --text-primary: var(--scale-1);
+    --text-primary: var(--scale-2);
     --text-secondary: var(--scale-4);
     --text-disabled: var(--scale-5);
     --text-inverted: var(--scale-6);

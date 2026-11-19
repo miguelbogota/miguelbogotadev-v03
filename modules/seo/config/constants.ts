@@ -1,6 +1,3 @@
-/** Human-readable portfolio name used by search and social metadata. */
-export const SITE_NAME = 'Miguel Bogota';
-
 /** Default description used when a route has no more specific summary. */
 export const SITE_DESCRIPTION = 'Portfolio of Miguel Bogota, software engineer.';
 

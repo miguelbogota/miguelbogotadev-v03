@@ -24,6 +24,14 @@ export const projectFixture: Project = {
   companyName: 'Personal Project',
   industry: 'Developer Tools',
   tags: ['Next.js', 'TypeScript'],
+  thumbnail: {
+    src: 'https://example.com/project-thumbnail.png',
+    alt: 'Portfolio project thumbnail',
+  },
+  artwork: {
+    src: 'https://example.com/project-artwork.png',
+    alt: 'Portfolio project artwork',
+  },
   images: [
     {
       src: 'https://example.com/project.png',

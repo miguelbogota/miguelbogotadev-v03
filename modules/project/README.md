@@ -5,6 +5,7 @@ Owns the portfolio project domain, project-index access, and browser Markdown lo
 ## Interface
 
 - `Project` is the single project data shape used throughout the application.
+- `thumbnail` is the required 3:2 project-card image, `artwork` is the required 1200:630 details and social image, and `images` remains the gallery.
 - `getCachedProjects()` returns the published index through the named Next.js cache profile.
 - `getCachedProject(id)` returns one cached project and throws `RequestError` when it is not published.
 - `projectClient.getContent(project)` loads sanitized Markdown through the internal browser API.
@@ -39,4 +40,6 @@ Raw HTML is not enabled in `react-markdown`; project content can use standard Ma
 
 The internal project-content API is a backend-for-frontend boundary, not a secret URL. Browser users can see the local `/api/project/...` request, but they do not receive the upstream host, path structure, or upstream failure details from the client implementation.
 
-Project metadata is built by the `seo` module. It uses canonical project URLs and the first project image, falling back to the shared 1200×630 social card when artwork is unavailable.
+The drawer makes ordinary page siblings inert while open. Higher transient overlays marked with `data-inert-exempt`, such as the analytics notice, remain operable and join the drawer's keyboard focus loop.
+
+Project metadata is built by the `seo` module. It uses canonical project URLs and the required project artwork. The same artwork appears as the banner above project details; gallery images remain independent.

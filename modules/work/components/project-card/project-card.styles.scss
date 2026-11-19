@@ -26,10 +26,16 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.5s ease;
+        transition:
+          opacity 0.2s ease,
+          transform 0.5s ease;
+
+        &[data-loaded='false'] {
+          opacity: 0;
+        }
       }
 
-      // This class distinguishes generated artwork from a project image.
+      // Generated artwork remains visible only while the required thumbnail loads or fails.
       & > .project-artwork {
         position: absolute;
         inset: 0;

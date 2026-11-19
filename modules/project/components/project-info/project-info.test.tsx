@@ -25,6 +25,12 @@ describe('ProjectInfo', () => {
     getProjectContentMock.mockReturnValue(new Promise(() => {}));
   });
 
+  it('should use the canonical project title format when shown in the drawer', () => {
+    render(<ProjectInfo project={projectFixture} />);
+
+    expect(document.title).toBe(`${projectFixture.displayName} | Miguel Bogota`);
+  });
+
   it('renders project links using their supplied labels, icons, and URLs', () => {
     const project = {
       ...projectFixture,
@@ -61,6 +67,15 @@ describe('ProjectInfo', () => {
     render(<ProjectInfo project={mockProject} />);
 
     expect(screen.getByText(mockProject.summary)).toBeInTheDocument();
+  });
+
+  it('should render the required project artwork as the details banner', () => {
+    render(<ProjectInfo project={projectFixture} />);
+
+    expect(screen.getByRole('img', { name: projectFixture.artwork.alt })).toHaveAttribute(
+      'src',
+      projectFixture.artwork.src,
+    );
   });
 
   it('should render project date and role', () => {

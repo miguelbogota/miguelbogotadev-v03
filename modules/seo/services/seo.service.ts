@@ -1,9 +1,9 @@
 import { type Metadata, type MetadataRoute } from 'next';
 
 import { type Project } from '@/modules/project';
-import { SITE_URL } from '@/modules/shared';
+import { SITE_NAME, SITE_URL } from '@/modules/shared';
 
-import { DEFAULT_SOCIAL_IMAGE, SITE_DESCRIPTION, SITE_NAME } from '../config/constants';
+import { DEFAULT_SOCIAL_IMAGE, SITE_DESCRIPTION } from '../config/constants';
 
 /** Creates consistent canonical, search, and social metadata for portfolio routes. */
 class SeoService {
@@ -70,7 +70,7 @@ class SeoService {
   }
 
   /**
-   * Builds project-specific metadata using the first artwork entry or the fallback image.
+   * Builds project-specific metadata using the project's required wide artwork.
    *
    * @param project - Published project used to populate metadata.
    * @returns Canonical search and social metadata for the project.
@@ -80,20 +80,10 @@ class SeoService {
       title: `${project.displayName} | ${SITE_NAME}`,
       description: project.summary,
       path: `/project/${project.id}`,
-      image: this.getProjectImage(project),
-      imageAlt: project.images[0]?.alt,
+      image: project.artwork.src,
+      imageAlt: project.artwork.alt,
       keywords: project.tags,
     });
-  }
-
-  /**
-   * Returns the first project image or the site fallback.
-   *
-   * @param project - Project whose artwork should be inspected.
-   * @returns The project image source or local fallback path.
-   */
-  getProjectImage(project: Pick<Project, 'images'>): string {
-    return project.images[0]?.src ?? DEFAULT_SOCIAL_IMAGE;
   }
 
   /**
@@ -111,10 +101,7 @@ class SeoService {
     keywords?: string[];
   }): Metadata {
     const { title, description, path, image, imageAlt = `${SITE_NAME} portfolio`, keywords } = data;
-    const isFallbackImage = image === DEFAULT_SOCIAL_IMAGE;
-    const socialImage = isFallbackImage
-      ? { url: image, width: 1200, height: 630, alt: imageAlt }
-      : { url: image, alt: imageAlt };
+    const socialImage = { url: image, width: 1200, height: 630, alt: imageAlt };
 
     return {
       title,

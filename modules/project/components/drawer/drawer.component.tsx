@@ -10,6 +10,27 @@ import { ProjectInfo } from '../project-info';
 import { useDrawerNavigation } from './use-drawer-navigation';
 import { useDrawerRouting } from './use-drawer-routing';
 
+/** Selector for controls that participate in the drawer focus loop. */
+const FOCUSABLE_SELECTOR =
+  'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+/**
+ * Returns focusable controls from the drawer and any higher interactive overlay.
+ *
+ * @param dialogElement - Open project drawer element.
+ * @returns Controls ordered for forward and backward keyboard navigation.
+ */
+function getFocusableElements(dialogElement: HTMLElement) {
+  const drawerElements = Array.from(
+    dialogElement.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
+  );
+  const overlayElements = Array.from(
+    document.querySelectorAll<HTMLElement>('[data-inert-exempt]'),
+  ).flatMap((element) => Array.from(element.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)));
+
+  return [...drawerElements, ...overlayElements];
+}
+
 /**
  * Drawer component.
  * Displays project details in a slide-up drawer with backdrop and close functionality.
@@ -54,11 +75,7 @@ export function Drawer() {
         return;
       }
 
-      const focusableElements = dialogElement.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-      ) as NodeListOf<HTMLElement>;
-      const firstElement = focusableElements[0];
-      const lastElement = focusableElements[focusableElements.length - 1];
+      const firstElement = getFocusableElements(dialogElement)[0];
 
       setTimeout(() => {
         firstElement?.focus();
@@ -66,18 +83,22 @@ export function Drawer() {
 
       const handleTabKeyPress = (event: KeyboardEvent) => {
         if (event.key === 'Tab') {
-          if (event.shiftKey && document.activeElement === firstElement) {
+          const focusableElements = getFocusableElements(dialogElement);
+          const currentFirstElement = focusableElements[0];
+          const lastElement = focusableElements[focusableElements.length - 1];
+
+          if (event.shiftKey && document.activeElement === currentFirstElement) {
             event.preventDefault();
             lastElement?.focus();
           } else if (!event.shiftKey && document.activeElement === lastElement) {
             event.preventDefault();
-            firstElement?.focus();
+            currentFirstElement?.focus();
           }
         }
       };
 
-      dialogElement.addEventListener('keydown', handleTabKeyPress);
-      return () => dialogElement.removeEventListener('keydown', handleTabKeyPress);
+      document.addEventListener('keydown', handleTabKeyPress);
+      return () => document.removeEventListener('keydown', handleTabKeyPress);
     }
 
     setTimeout(() => {
@@ -114,7 +135,8 @@ export function Drawer() {
       (element): element is HTMLElement =>
         element instanceof HTMLElement &&
         element !== dialogElement &&
-        element !== backdropElement,
+        element !== backdropElement &&
+        !element.hasAttribute('data-inert-exempt'),
     );
     const previousInertState = new Map(
       siblings.map((element) => [element, element.hasAttribute('inert')]),

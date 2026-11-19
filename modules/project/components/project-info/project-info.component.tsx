@@ -7,7 +7,8 @@ import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 import { analyticsService } from '@/modules/analytics';
-import { Container, Footer, RequestError } from '@/modules/shared';
+import { seoService } from '@/modules/seo';
+import { Container, Footer, RequestError, SITE_NAME } from '@/modules/shared';
 
 import { projectClient } from '../../services/project.client';
 import { type Project } from '../../types/project.type';
@@ -50,7 +51,8 @@ export type ProjectInfoProps = {
  */
 export function ProjectInfo(props: ProjectInfoProps) {
   const { project, backButton, closeButton, manageDocumentTitle = true } = props;
-  const { id, displayName, summary, industry, startedAt, role, tags, images, links } = project;
+  const { id, displayName, summary, industry, startedAt, role, tags, artwork, images, links } =
+    project;
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [content, setContent] = useState<string | null>(null);
   const [contentError, setContentError] = useState<RequestError | null>(null);
@@ -67,11 +69,11 @@ export function ProjectInfo(props: ProjectInfoProps) {
       return undefined;
     }
 
-    document.title = `Miguel Bogota - ${displayName}`;
+    document.title = seoService.getProjectMetadata(project).title?.toString() ?? SITE_NAME;
     return () => {
-      document.title = 'Miguel Bogota';
+      document.title = SITE_NAME;
     };
-  }, [displayName, manageDocumentTitle]);
+  }, [project, manageDocumentTitle]);
 
   // Project metadata is rendered immediately; the long-form content is always loaded in-browser.
   useEffect(() => {
@@ -120,7 +122,7 @@ export function ProjectInfo(props: ProjectInfoProps) {
         <div className="action">{closeButton}</div>
       </Container>
 
-      <Container className="project-info" maxWidth="900px">
+      <Container className="project-info" maxWidth="1000px">
         {/* Project header */}
         <div className="header">
           <p>{startedAt}</p>
@@ -158,6 +160,12 @@ export function ProjectInfo(props: ProjectInfoProps) {
               ))}
             </div>
           </div>
+        </div>
+
+        <div className="artwork">
+          {/* Project media uses remote URLs that are not configured for Next image optimization. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={artwork.src} alt={artwork.alt} width={1200} height={630} fetchPriority="high" />
         </div>
 
         {isLoadingContent ? (

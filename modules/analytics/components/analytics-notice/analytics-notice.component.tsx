@@ -36,7 +36,12 @@ export function AnalyticsNotice() {
   }
 
   return (
-    <aside className="analytics-notice" aria-label="Analytics notice" role="status">
+    <aside
+      className="analytics-notice"
+      aria-label="Analytics notice"
+      role="status"
+      data-inert-exempt
+    >
       <div>
         <p>
           This site uses pseudonymous analytics to understand navigation, interactions, and basic

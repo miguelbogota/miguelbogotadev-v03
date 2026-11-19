@@ -107,6 +107,8 @@ The root and home exports set `instant = false` because their document shell dep
 
 The Next.js cache is the authoritative project-index cache. Do not add a parallel client fetch for the index or an extra in-memory cache without evidence that the framework cache is insufficient.
 
+`API_URL` selects the separate content repository's origin from Next.js build mode. Development uses its local server at `http://127.0.0.1:4173`; production uses the published GitHub Pages origin. Run `npm run dev` in both repositories when previewing API changes locally.
+
 ### Canonical project request
 
 1. `generateStaticParams()` returns IDs from the current cached project index.
@@ -143,6 +145,7 @@ Project drawer navigation deliberately does not use intercepted App Router route
 - a project card prevents the normal link transition, pushes `/project/{id}` into browser history, and opens the matching project in the drawer;
 - `useDrawerRouting()` synchronizes drawer state with browser back and forward events;
 - closing the drawer navigates to `/` and restores focus to the previously active element;
+- the page behind the drawer becomes inert, while the higher analytics notice remains interactive and joins the drawer focus loop;
 - the canonical route remains a normal directly accessible page;
 - links returning home preserve `scroll={false}` where browser restoration caused unwanted movement.
 
@@ -183,7 +186,7 @@ Do not expose upstream response bodies, paths, error messages, stacks, or user-e
 - Robots allow public crawling and publish the canonical sitemap and host.
 - Manifest colors are a white background and black theme, matching the core monochrome identity.
 
-When project data changes, verify its ID, summary, tags, first image, image alternative, and dates; all of them affect routing, discovery, or social previews.
+When project data changes, verify its ID, summary, tags, required 3:2 thumbnail, required 1200:630 artwork, gallery images, alternatives, and dates; all of them affect routing, presentation, discovery, or social previews. The thumbnail belongs to project cards, artwork belongs to SEO and the details banner, and gallery images remain independent.
 
 ## Analytics and privacy boundary
 
@@ -227,7 +230,7 @@ They identify the Firebase web application; they are not server secrets. Do not 
 - Controls use labels or accessible names; decorative icons are hidden from assistive technology.
 - The cat supports horizontal drag, touch activation, and Left/Right arrow rotation.
 - Critical behavior may not depend on hover; touch and mobile treatments must remain usable.
-- Project artwork and content skeleton animation stop under `prefers-reduced-motion: reduce`.
+- Project-card loading/error artwork and content skeleton animation stop under `prefers-reduced-motion: reduce`.
 - Published project and profile images need useful alternative text.
 - Layouts must remain readable without horizontal page scrolling. Wide Markdown tables may scroll inside their own region.
 
