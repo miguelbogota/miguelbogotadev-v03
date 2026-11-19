@@ -45,9 +45,16 @@ describe('services / SeoService', () => {
       ],
     };
 
+    const metadata = seoService.getProjectMetadata(project);
+
     expect(seoService.getProjectImage(project)).toBe('https://example.com/project.png');
-    expect(seoService.getProjectMetadata(project).alternates).toEqual({
+    expect(metadata.alternates).toEqual({
       canonical: `/project/${project.id}`,
+    });
+    expect(metadata.title).toBe(`${project.displayName} | Miguel Bogota`);
+    expect(metadata.twitter).toMatchObject({
+      card: 'summary',
+      images: [project.images[0]?.src],
     });
   });
 

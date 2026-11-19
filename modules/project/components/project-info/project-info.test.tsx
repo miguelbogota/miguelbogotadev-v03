@@ -25,6 +25,12 @@ describe('ProjectInfo', () => {
     getProjectContentMock.mockReturnValue(new Promise(() => {}));
   });
 
+  it('should use the canonical project title format when shown in the drawer', () => {
+    render(<ProjectInfo project={projectFixture} />);
+
+    expect(document.title).toBe(`${projectFixture.displayName} | Miguel Bogota`);
+  });
+
   it('renders project links using their supplied labels, icons, and URLs', () => {
     const project = {
       ...projectFixture,

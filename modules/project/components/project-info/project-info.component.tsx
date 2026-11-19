@@ -7,7 +7,8 @@ import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 import { analyticsService } from '@/modules/analytics';
-import { Container, Footer, RequestError } from '@/modules/shared';
+import { seoService } from '@/modules/seo';
+import { Container, Footer, RequestError, SITE_NAME } from '@/modules/shared';
 
 import { projectClient } from '../../services/project.client';
 import { type Project } from '../../types/project.type';
@@ -67,11 +68,11 @@ export function ProjectInfo(props: ProjectInfoProps) {
       return undefined;
     }
 
-    document.title = `Miguel Bogota - ${displayName}`;
+    document.title = seoService.getProjectMetadata(project).title?.toString() ?? SITE_NAME;
     return () => {
-      document.title = 'Miguel Bogota';
+      document.title = SITE_NAME;
     };
-  }, [displayName, manageDocumentTitle]);
+  }, [project, manageDocumentTitle]);
 
   // Project metadata is rendered immediately; the long-form content is always loaded in-browser.
   useEffect(() => {

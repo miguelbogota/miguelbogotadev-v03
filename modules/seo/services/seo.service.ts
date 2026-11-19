@@ -1,9 +1,9 @@
 import { type Metadata, type MetadataRoute } from 'next';
 
 import { type Project } from '@/modules/project';
-import { SITE_URL } from '@/modules/shared';
+import { SITE_NAME, SITE_URL } from '@/modules/shared';
 
-import { DEFAULT_SOCIAL_IMAGE, SITE_DESCRIPTION, SITE_NAME } from '../config/constants';
+import { DEFAULT_SOCIAL_IMAGE, SITE_DESCRIPTION } from '../config/constants';
 
 /** Creates consistent canonical, search, and social metadata for portfolio routes. */
 class SeoService {
@@ -130,7 +130,7 @@ class SeoService {
         images: [socialImage],
       },
       twitter: {
-        card: 'summary_large_image',
+        card: isFallbackImage ? 'summary_large_image' : 'summary',
         title,
         description,
         images: [image],
