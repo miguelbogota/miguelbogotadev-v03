@@ -1,5 +1,5 @@
 /** Base URL for the GitHub API to fetch project data. */
-export const API_URL = 'http://127.0.0.1:4173';
+export const API_URL = 'https://miguelbogota.github.io/miguelbogotadev-api';
 
 /** Human-readable portfolio name shared by document and social metadata. */
 export const SITE_NAME = 'Miguel Bogota';
