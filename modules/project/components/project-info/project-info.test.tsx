@@ -69,6 +69,15 @@ describe('ProjectInfo', () => {
     expect(screen.getByText(mockProject.summary)).toBeInTheDocument();
   });
 
+  it('should render the required project artwork as the details banner', () => {
+    render(<ProjectInfo project={projectFixture} />);
+
+    expect(screen.getByRole('img', { name: projectFixture.artwork.alt })).toHaveAttribute(
+      'src',
+      projectFixture.artwork.src,
+    );
+  });
+
   it('should render project date and role', () => {
     const mockProject = projectFixture;
 

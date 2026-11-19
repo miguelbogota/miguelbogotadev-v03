@@ -413,9 +413,9 @@
       "name": "Project Card",
       "kind": "card",
       "refersTo": "project-card",
-      "description": "Flat asymmetric content band with media-led hover feedback.",
-      "html": "<a class=\"ds-project-card\" href=\"#\"><span class=\"ds-project-media\" aria-hidden=\"true\"></span><span class=\"ds-project-copy\"><small>ENGINEERING — 2026</small><strong>PROJECT NAME</strong><span>Evidence-led project summary.</span><b>VIEW DETAILS</b></span></a>",
-      "css": ".ds-project-card { display: grid; grid-template-columns: 60fr 40fr; gap: 2rem; color: #212121; text-decoration: none; border-radius: 0; overflow: hidden; transition: background-color .2s ease; } .ds-project-media { min-height: 220px; background: linear-gradient(135deg, #f4d7a1, #a75468 58%, #244d60); } .ds-project-copy { display: flex; flex-direction: column; gap: .9rem; padding: 2rem; font-family: Barlow, 'Segoe UI', sans-serif; } .ds-project-copy small { letter-spacing: .03rem; } .ds-project-copy strong { font-size: 2rem; line-height: 1.1; } .ds-project-copy b { margin-top: auto; letter-spacing: .1rem; } .ds-project-card:hover { background: #f6f6f6; } .ds-project-card:hover b { color: #daa520; text-decoration: underline; } .ds-project-card:focus-visible { outline: 2px solid #daa520; outline-offset: 2px; }"
+      "description": "Flat asymmetric content band led by the required project thumbnail, with generated artwork during loading and image errors.",
+      "html": "<a class=\"ds-project-card\" href=\"#\"><span class=\"ds-project-media\"><span class=\"ds-project-artwork\" aria-hidden=\"true\"></span><img src=\"project-thumbnail.jpg\" alt=\"Project interface preview\"></span><span class=\"ds-project-copy\"><small>ENGINEERING — 2026</small><strong>PROJECT NAME</strong><span>Evidence-led project summary.</span><b>VIEW DETAILS</b></span></a>",
+      "css": ".ds-project-card { display: grid; grid-template-columns: 60fr 40fr; gap: 2rem; color: #212121; text-decoration: none; border-radius: 0; overflow: hidden; transition: background-color .2s ease; } .ds-project-media { position: relative; min-height: 220px; overflow: hidden; background: #f6f6f6; } .ds-project-media img, .ds-project-artwork { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; } .ds-project-artwork { background: linear-gradient(135deg, #f4d7a1, #a75468 58%, #244d60); } .ds-project-copy { display: flex; flex-direction: column; gap: .9rem; padding: 2rem; font-family: Barlow, 'Segoe UI', sans-serif; } .ds-project-copy small { letter-spacing: .03rem; } .ds-project-copy strong { font-size: 2rem; line-height: 1.1; } .ds-project-copy b { margin-top: auto; letter-spacing: .1rem; } .ds-project-card:hover { background: #f6f6f6; } .ds-project-card:hover img { transform: scale(1.05); } .ds-project-card:hover b { color: #daa520; text-decoration: underline; } .ds-project-card:focus-visible { outline: 2px solid #daa520; outline-offset: 2px; }"
     },
     {
       "name": "Portfolio Navigation",
@@ -464,7 +464,7 @@
       },
       {
         "name": "The Artwork Containment Rule",
-        "body": "The rose/teal/amber fallback palette stays inside project artwork.",
+        "body": "The rose/teal/amber generated palette stays inside project-card loading and image-error states.",
         "section": "colors"
       },
       {

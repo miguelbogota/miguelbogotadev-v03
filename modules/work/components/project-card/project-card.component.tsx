@@ -3,7 +3,7 @@
 import './project-card.styles.scss';
 
 import Link from 'next/link';
-import { type CSSProperties } from 'react';
+import { type CSSProperties, useLayoutEffect, useRef, useState } from 'react';
 
 import { analyticsService } from '@/modules/analytics';
 import { type Project, useDrawerNavigation } from '@/modules/project';
@@ -12,6 +12,9 @@ import { type Project, useDrawerNavigation } from '@/modules/project';
 export type ProjectCardProps = {
   project: Project;
 };
+
+/** Thumbnail URLs successfully loaded during the current browser session. */
+const loadedThumbnailSources = new Set<string>();
 
 /**
  * Work project card component.
@@ -24,9 +27,12 @@ export type ProjectCardProps = {
 export function ProjectCard(props: ProjectCardProps) {
   const { project } = props;
 
-  const { id, displayName, summary, industry, startedAt, images } = project;
+  const { id, displayName, summary, industry, startedAt, thumbnail } = project;
   const year = startedAt.split('-')[0] ?? '';
-  const heroImage = images[0];
+  const [isThumbnailLoaded, setIsThumbnailLoaded] = useState(() =>
+    loadedThumbnailSources.has(thumbnail.src),
+  );
+  const thumbnailRef = useRef<HTMLImageElement>(null);
   // Stable across server rendering, filtering, and pagination. A negative delay
   // starts each artwork partway through its full eight-second alternate cycle.
   const animationSeed = Array.from(id).reduce(
@@ -34,6 +40,15 @@ export function ProjectCard(props: ProjectCardProps) {
     0,
   );
   const navigate = useDrawerNavigation();
+
+  useLayoutEffect(() => {
+    const thumbnailElement = thumbnailRef.current;
+
+    if (thumbnailElement?.complete && thumbnailElement.naturalWidth > 0) {
+      loadedThumbnailSources.add(thumbnail.src);
+      setIsThumbnailLoaded(true);
+    }
+  }, [thumbnail.src]);
 
   const handleCardClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
@@ -55,13 +70,7 @@ export function ProjectCard(props: ProjectCardProps) {
     >
       <article>
         <div>
-          {heroImage ? (
-            <>
-              {/* Project media uses remote URLs that are not configured for Next image optimization yet. */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={heroImage.src} alt={heroImage.alt} loading="lazy" />
-            </>
-          ) : (
+          {!isThumbnailLoaded && (
             <div
               className="project-artwork"
               style={
@@ -72,6 +81,25 @@ export function ProjectCard(props: ProjectCardProps) {
               aria-hidden="true"
             />
           )}
+          {/* Project media uses remote URLs that are not configured for Next image optimization. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            ref={thumbnailRef}
+            src={thumbnail.src}
+            alt={thumbnail.alt}
+            width={1200}
+            height={800}
+            loading="lazy"
+            data-loaded={isThumbnailLoaded}
+            onLoad={() => {
+              loadedThumbnailSources.add(thumbnail.src);
+              setIsThumbnailLoaded(true);
+            }}
+            onError={() => {
+              loadedThumbnailSources.delete(thumbnail.src);
+              setIsThumbnailLoaded(false);
+            }}
+          />
         </div>
 
         <div>

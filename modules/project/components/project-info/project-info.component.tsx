@@ -51,7 +51,8 @@ export type ProjectInfoProps = {
  */
 export function ProjectInfo(props: ProjectInfoProps) {
   const { project, backButton, closeButton, manageDocumentTitle = true } = props;
-  const { id, displayName, summary, industry, startedAt, role, tags, images, links } = project;
+  const { id, displayName, summary, industry, startedAt, role, tags, artwork, images, links } =
+    project;
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [content, setContent] = useState<string | null>(null);
   const [contentError, setContentError] = useState<RequestError | null>(null);
@@ -122,6 +123,12 @@ export function ProjectInfo(props: ProjectInfoProps) {
       </Container>
 
       <Container className="project-info" maxWidth="900px">
+        <div className="artwork">
+          {/* Project media uses remote URLs that are not configured for Next image optimization. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={artwork.src} alt={artwork.alt} width={1200} height={630} fetchPriority="high" />
+        </div>
+
         {/* Project header */}
         <div className="header">
           <p>{startedAt}</p>

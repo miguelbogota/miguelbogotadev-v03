@@ -1,3 +1,11 @@
+/** Image asset used by a portfolio project. */
+export type ProjectMedia = {
+  /** Image file path or URL. */
+  src: string;
+  /** Accessible text describing the image. */
+  alt: string;
+};
+
 /**
  * Represents a portfolio project with comprehensive details about
  * its scope, implementation, and resources.
@@ -27,13 +35,12 @@ export type Project = {
   industry: string;
   /** Technology stack and relevant keywords. */
   tags: string[];
+  /** Compact image used by project cards. */
+  thumbnail: ProjectMedia;
+  /** Wide project artwork used by social previews and the details banner. */
+  artwork: ProjectMedia;
   /** Project showcase images. */
-  images: {
-    /** Image file path or URL. */
-    src: string;
-    /** Accessible text describing the image. */
-    alt: string;
-  }[];
+  images: ProjectMedia[];
   /** External resources related to the project. */
   links: {
     /** Display text and accessible name for the link. */

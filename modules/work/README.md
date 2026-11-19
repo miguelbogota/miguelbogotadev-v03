@@ -20,9 +20,9 @@ Projects are supplied by the server route. The module does not read project data
 - `components/work/work.styles.scss`: work-section layout, results, empty-state, and pagination styles.
 - `components/work/work.test.tsx`: work-section behavior tests.
 - `components/project-card/index.ts`: internal project-card export.
-- `components/project-card/project-card.component.tsx`: project summary and internal navigation link.
+- `components/project-card/project-card.component.tsx`: required project thumbnail with browser-session load memory and cached-image synchronization, generated loading/error artwork, summary, and internal navigation link.
 - `components/project-card/project-card.styles.scss`: styles scoped to the project-card structure.
-- `components/project-card/project-card.test.tsx`: image and fallback-artwork tests.
+- `components/project-card/project-card.test.tsx`: required-thumbnail, cached/load/error artwork, and navigation tests.
 - `components/search-bar/index.ts`: internal search-input export.
 - `components/search-bar/search-bar.component.tsx`: accessible controlled search field.
 - `components/search-bar/search-bar.styles.scss`: styles scoped to the search field structure.

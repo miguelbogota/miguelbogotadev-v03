@@ -147,9 +147,9 @@ The palette is ink, paper, and graphite, punctuated by a warm amber annotation. 
 - **Mist, Quiet, Middle, Graphite, and Charcoal Grays:** Borders, secondary copy, disabled states, and tonal separation. Semantic variables decide which step applies in each theme.
 - **Light Secondary Gray:** The contrast-safe secondary-copy tone used on white and soft-paper surfaces.
 
-### Project artwork palette
+### Project loading and error artwork
 
-Amber, rose, and teal artwork colors belong only to the generated fallback artwork inside project cards. Their blurred fields create a content-like visual when a project has no published image. They are not general interface colors and should not migrate into navigation, buttons, or page backgrounds.
+Amber, rose, and teal artwork colors belong only to the generated layer shown while a required project thumbnail loads or when its request fails. They are not a substitute for the required thumbnail contract and must not migrate into interface chrome.
 
 ### Theme roles
 
@@ -169,7 +169,7 @@ Amber, rose, and teal artwork colors belong only to the generated fallback artwo
 
 **The Neutral Canvas Rule.** Large surfaces remain paper or ink. Do not introduce colored page panels to make an empty area feel busier; the negative space is structural.
 
-**The Artwork Containment Rule.** The rose/teal/amber fallback palette stays inside project artwork.
+**The Artwork Containment Rule.** The rose/teal/amber generated palette stays inside project-card loading and image-error states.
 
 ## Typography
 
@@ -253,7 +253,7 @@ The system is flat by default. Structure comes from neutral contrast, hairline b
 - **Theme menu:** A sheet-colored surface with a border and conventional compact menu shadow.
 - **Drawer:** A solid sheet rising above a large blurred, desaturated backdrop. Its elevation is primarily spatial and animated rather than shadow-based.
 - **Cat halo:** A radial tonal gradient grounds the 3D model without creating a rectangular container.
-- **Project fallback artwork:** Blurred internal color fields create atmospheric depth inside the image plane, never in the interface chrome.
+- **Project loading/error artwork:** Blurred internal color fields temporarily hold the thumbnail plane without entering interface chrome.
 
 Layer order is deliberate: navigation 1100, drawer 1200, modal 1300, analytics/snackbar 1400, tooltip 1500. New overlays must use the semantic stack instead of arbitrary large z-index values.
 
@@ -273,9 +273,9 @@ Rounding communicates one of three specific ideas:
 - **Compact control:** Search input, icon actions, code, images, and thumbnails use subtle radii from 0.375rem to 0.9rem to soften small hit targets or clipped media.
 - **Spatial sheet:** The drawer alone uses pronounced 20px top corners because it visibly rises from the bottom edge.
 
-The fallback artwork is a rectangular frame containing organic blurred forms. This contrast—strict outer geometry, expressive inner material—is part of the signature.
-
 Borders are normally one neutral pixel. The active gallery thumbnail uses two amber pixels. Error and secondary actions often use a bottom border instead of a containing box. Avoid pills; the system has no pill-shaped tags or actions.
+
+The generated project artwork is a rectangular frame containing organic blurred forms. It is visible only while the required thumbnail loads or after that image request fails.
 
 **The Radius Has Meaning Rule.** Do not round a surface merely to make it feel modern. Use rounding for physical forms, compact controls, clipped media, or the bottom-sheet metaphor.
 
@@ -309,7 +309,7 @@ The search label is visible, uppercase, tracked, and secondary. The field is 44p
 
 Project cards are content bands, not contained tiles. Media and text share an alternating asymmetric grid with no outer radius or shadow. The metadata line is small uppercase text; the title is large, uppercase, and compact; the summary clamps to four lines; “VIEW DETAILS” is the final action cue.
 
-On hover the band receives a faint sheet tone, published imagery scales to 1.05 over 500ms, and the action turns amber with an underline. When imagery is absent, a deterministic animated artwork fills the media region. Its two-second alternate drift stops for reduced motion.
+On hover the band receives a faint sheet tone, the required project thumbnail scales to 1.05 over 500ms, and the action turns amber with an underline. Thumbnail alternative text describes the project preview rather than repeating the title. Generated artwork occupies the same plane while the thumbnail loads or if its request fails; its motion stops under reduced motion.
 
 ### Pagination and empty state
 
@@ -321,7 +321,7 @@ The drawer enters from below with opacity and translation over 700ms and exits t
 
 ### Project details and Markdown
 
-The project header uses italic date, heavy title, role, and compact icon links. Summary and technology tags establish context before long-form content. Markdown uses a 1rem reading size, 1.75 line height, mixed-case headings, amber links and list markers, sheet-backed blockquotes/code, bordered code blocks, and horizontally contained tables. Images are centered and subtly rounded.
+The required wide artwork opens the project surface as a 1200:630 banner. The project header then uses italic date, heavy title, role, and compact icon links. Summary and technology tags establish context before long-form content. Markdown uses a 1rem reading size, 1.75 line height, mixed-case headings, amber links and list markers, sheet-backed blockquotes/code, bordered code blocks, and horizontally contained tables. Gallery images are centered and subtly rounded.
 
 The content skeleton is a 72-character measure of neutral bars with a 1.4s shimmer. It is announced as a polite loading status and becomes static under reduced motion. Content failures replace only this region. The gallery uses a square main image and centered thumbnails; hover scales thumbnails to 1.05 and active/hover borders turn amber.
 
@@ -360,7 +360,7 @@ Most state transitions use 200–300ms easing. Media zoom uses 500ms; the spatia
 
 ### Don't:
 
-- **Don't** add gradients, background lines, blobs, or color fields to page chrome merely to fill negative space. Project fallback artwork is the scoped exception.
+- **Don't** add gradients, background lines, blobs, or color fields to page chrome merely to fill negative space. The project-card loading/error artwork is the scoped exception.
 - **Don't** turn sections, project cards, errors, or privacy content into generic rounded cards.
 - **Don't** introduce pills, badge clouds, glass on every surface, or large soft shadows.
 - **Don't** use amber as a large background or a second body-text color; its scarcity is the point.

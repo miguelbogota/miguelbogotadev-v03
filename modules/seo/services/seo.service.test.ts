@@ -1,7 +1,6 @@
 import { SITE_URL } from '@/modules/shared';
 import { projectFixture } from '@/testing';
 
-import { DEFAULT_SOCIAL_IMAGE } from '../config/constants';
 import { seoService } from './seo.service';
 
 describe('services / SeoService', () => {
@@ -36,31 +35,31 @@ describe('services / SeoService', () => {
     );
   });
 
-  it('should use the first project image', () => {
+  it('should use the required project artwork for social metadata', () => {
     const project = {
       ...projectFixture,
-      images: [
-        { src: 'https://example.com/project.png', alt: 'Project preview' },
-        { src: 'https://example.com/second.png', alt: 'Second preview' },
-      ],
+      artwork: { src: 'https://example.com/artwork.png', alt: 'Project artwork' },
     };
 
     const metadata = seoService.getProjectMetadata(project);
 
-    expect(seoService.getProjectImage(project)).toBe('https://example.com/project.png');
     expect(metadata.alternates).toEqual({
       canonical: `/project/${project.id}`,
     });
     expect(metadata.title).toBe(`${project.displayName} | Miguel Bogota`);
-    expect(metadata.twitter).toMatchObject({
-      card: 'summary',
-      images: [project.images[0]?.src],
+    expect(metadata.openGraph).toMatchObject({
+      images: [
+        {
+          url: project.artwork.src,
+          width: 1200,
+          height: 630,
+          alt: project.artwork.alt,
+        },
+      ],
     });
-  });
-
-  it('should use the fallback image when a project has no artwork', () => {
-    const project = { ...projectFixture, images: [] };
-
-    expect(seoService.getProjectImage(project)).toBe(DEFAULT_SOCIAL_IMAGE);
+    expect(metadata.twitter).toMatchObject({
+      card: 'summary_large_image',
+      images: [project.artwork.src],
+    });
   });
 });
