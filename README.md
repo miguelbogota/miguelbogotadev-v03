@@ -1,48 +1,26 @@
-# MiguelBogotaDev V03
+# MiguelBogotaDev
 
-My personal portfolio, built with Next.js 16, React 19, TypeScript, and an arguably unreasonable amount of care for a website whose primary job is to say, “Hello, I write software.”
+My personal engineering portfolio, built with Next.js 16, React 19, TypeScript, and an entirely reasonable amount of care for a website whose main job is to say, “Hi, I build software.”
 
 [Visit miguelbogota.dev](https://miguelbogota.dev)
 
-## What is this?
+## What is here?
 
-This repository contains the frontend for my portfolio. It introduces who I am, presents selected projects, provides searchable and paginated work history, and includes an interactive cat because every serious engineering portfolio needs at least one completely serious WebGL cat.
+The portfolio introduces who I am, presents selected projects, and lets visitors explore full case studies through a drawer or a directly shareable project page.
 
-The application uses the Next.js 16 App Router at the repository root. It replaced the previous Vite/Nitro build without replacing the personality, which was apparently considered production-critical.
+It includes:
 
-## Highlights
+- searchable and paginated project work;
+- server-loaded and cached project metadata;
+- progressively loaded Markdown case studies;
+- light, dark, and system themes;
+- project-specific SEO and social previews;
+- privacy-limited Firebase Analytics;
+- an interactive Three.js cat, because technical credibility has limits.
 
-- Next.js 16 App Router with Cache Components.
-- Server-loaded project metadata with a 15-minute revalidation window.
-- Client-loaded Markdown when project details are opened.
-- Light, dark, and system themes persisted with a cookie.
-- Searchable and paginated project cards.
-- Drawer-based project navigation with canonical project URLs.
-- Canonical metadata, sitemap, robots, manifest, and 1200×630 social previews.
-- Privacy-limited Firebase Analytics with an informational notice and privacy page.
-- Responsive layouts for desktop and mobile.
-- Interactive Three.js cat model. This is a feature, not a cry for help.
-- Modular architecture with documentation close to the code it explains.
-- ESLint, Prettier, TypeScript, Vitest, and Husky guarding the doors.
+## Run it locally
 
-## Tech stack
-
-| Area           | Technology                     |
-| -------------- | ------------------------------ |
-| Framework      | Next.js 16                     |
-| UI             | React 19                       |
-| Language       | TypeScript                     |
-| Styling        | SCSS                           |
-| 3D             | Three.js and React Three Fiber |
-| Content        | Remote JSON and Markdown       |
-| Analytics      | Firebase Analytics (GA4)       |
-| Testing        | Vitest and Testing Library     |
-| Quality        | ESLint, Prettier, and Husky    |
-| Hosting target | Firebase App Hosting           |
-
-## Getting started
-
-You need Node.js 22 or newer. The repository currently recommends Node.js 24 through `.nvmrc`.
+Use Node.js 22 or newer. The recommended version is stored in `.nvmrc`.
 
 ```bash
 nvm use
@@ -50,80 +28,65 @@ npm ci
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). If the page works on the first try, please remain calm; this is known to happen occasionally.
+Open [http://localhost:3000](http://localhost:3000).
 
-Project metadata and Markdown are loaded from the companion [`miguelbogotadev-api`](https://github.com/miguelbogota/miguelbogotadev-api) repository. The portfolio still runs without local environment variables; Firebase Analytics stays disabled until the documented `NEXT_PUBLIC_FIREBASE_*` values are provided. The shared site URL uses localhost in development and the public domain in production without additional configuration. Copy `.env.example` to `.env.local` when configuring Firebase.
+Project metadata, Markdown, images, the résumé, and the cat models come from the companion [`miguelbogotadev-api`](https://github.com/miguelbogota/miguelbogotadev-api) repository.
 
-## Deployment
+Firebase Analytics is optional. Without its public environment configuration, the portfolio continues to work and analytics remains disabled.
 
-The production target is Firebase App Hosting. It detects the Next.js application from `package.json`, so this repository intentionally has no generated `.apphosting` bundle or custom `apphosting.yaml`. Build with `npm run build`; configure the public Analytics values in the hosting environment when analytics is required.
+## Commands
 
-## Available commands
-
-| Command             | Purpose                                                  |
-| ------------------- | -------------------------------------------------------- |
-| `npm run dev`       | Start the Next.js development server.                    |
-| `npm run build`     | Create the production build with webpack.                |
-| `npm run start`     | Run the production build locally.                        |
-| `npm run typecheck` | Generate route types and check TypeScript.               |
-| `npm test`          | Run the complete Vitest suite once.                      |
-| `npm run lint`      | Run ESLint with zero warnings allowed. It has standards. |
-| `npm run format`    | Format the repository with Prettier.                     |
-
-## Project structure
-
-The application lives at the repository root; there is intentionally no `src` directory.
-
-```text
-app/                  Next.js routes and layouts
-modules/
-  analytics/          Firebase Analytics, typed events, and notice
-  profile/            Introduction and interactive cat model
-  project/            Project domain, data services, drawer, and details
-  seo/                Canonical search and social metadata
-  shared/             Reusable UI, state, hooks, configuration, and errors
-  social/             Contact copy and social links
-  theme/              Theme persistence and picker
-  work/               Search, pagination, and project-card presentation
-styles/               Global tokens, reset, and base styles
-tests/                Shared test renderer and fixtures
-public/               Static assets
-docs/                 Migration and project documentation
+```bash
+npm run dev        # Start the development server
+npm run lint       # Run ESLint
+npm run typecheck  # Generate route types and check TypeScript
+npm run build      # Create a production build
+npm test           # Run the Vitest suite
+npm run format     # Format the repository
 ```
 
-Each module exposes a small public API through its root `index.ts` and includes a README describing its responsibilities and files. Components own their styles and tests inside their component folders. In other words, files are encouraged to live near their friends instead of wandering the repository alone at night.
-
-## How project content works
-
-The home route loads project metadata on the server and caches it through Next.js. The project service also keeps an in-memory copy for the lifetime of the current runtime to avoid unnecessary requests.
-
-Long-form Markdown is intentionally fetched in the browser only when a project is opened. This keeps the home response focused and lets both the drawer and canonical project page show the loading skeleton immediately.
-
-Request failures use a shared `RequestError`, allowing the UI to distinguish missing content from temporary service failures without consulting a crystal ball or comparing error-message punctuation.
-
-## Analytics and privacy
-
-Firebase Analytics records sanitized navigation paths and a small allowlist of project, navigation, link, search-use, theme, and exception events. Query strings, fragments, search terms, raw errors, full outbound URLs, and user-entered values are excluded. The notice is informational: **OK** dismisses it but is not a consent switch. The `/privacy` page describes the theme cookie, notice storage, analytics, and App Hosting diagnostics.
-
-The GA4 web stream must keep Enhanced Measurement disabled for outbound clicks, site search, and form interactions so automatic collection cannot bypass the application allowlist. Analytics configuration and event details live in `modules/analytics/README.md`.
-
-## Quality checks
-
-Before opening a pull request, run:
+The complete local quality gate is:
 
 ```bash
 npm run lint
+npm run typecheck
 npm run build
 npm test
 ```
 
-Husky runs the same lint, build, and test sequence before commits. GitHub Actions runs lint, build, and tests as three independent checks when a pull request is opened or reopened against any branch, then once more after it is merged. Ordinary branch pushes do not start the workflow. It is less a guard dog and more a very polite bouncer that knows TypeScript.
+## Structure
 
-## Migration status
+The application lives at the repository root. There is intentionally no `src` directory.
 
-The Next.js migration is complete in this branch. The original baseline remains under `docs/migration/baseline` as evidence, archaeology, and a warning to future civilizations.
+```text
+app/       Next.js routes, layouts, metadata routes, and internal API
+modules/   Product and shared modules
+styles/    Global Sass tokens, reset, and base rules
+tests/     Shared test renderer and fixtures
+public/    Static assets
+```
 
-## Find me around the web
+Route files stay thin. Feature behavior belongs to singular modules with small public APIs, colocated components, styles, tests, and module-level documentation.
+
+## Documentation
+
+- [PRODUCT.md](./PRODUCT.md) — who the portfolio is for and what it should accomplish.
+- [CONTEXT.md](./CONTEXT.md) — architecture, routes, data flow, privacy, SEO, testing, and deployment.
+- [DESIGN.md](./DESIGN.md) — visual system, interaction patterns, components, and responsive rules.
+- [AGENTS.md](./AGENTS.md) — repository conventions, module boundaries, JSDoc, TDD, and delivery rules.
+- Module `README.md` files — the responsibility, public API, and files owned by each module.
+
+If you need the full story, start with `PRODUCT.md`, continue with `CONTEXT.md`, and then read `DESIGN.md`. If you only want to run the project, this README has already done enough talking.
+
+## Deployment
+
+The production target is Firebase App Hosting. It detects the Next.js application from `package.json`, so the repository does not include generated hosting bundles or unnecessary hosting configuration.
+
+## Explore
+
+Feel free to explore the code, learn from it, or borrow an idea. Personal content, project material, and branding still belong to their respective owners. If you find an undocumented feature, it may be a bug wearing business casual.
+
+### Find me around the web
 
 <p>
   <a href="https://miguelbogota.dev" target="_blank">
@@ -140,4 +103,4 @@ The Next.js migration is complete in this branch. The original baseline remains 
   </a>&nbsp;&nbsp;
 </p>
 
-Feel free to explore the repository, borrow an idea, report a bug, or say hello. If you find an undocumented feature, congratulations: it may be a bug wearing business casual.
+Feel free to explore the repositories or reach out if something resonates.

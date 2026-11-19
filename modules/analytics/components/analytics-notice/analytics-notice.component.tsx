@@ -13,12 +13,21 @@ export function AnalyticsNotice() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    setIsVisible(window.localStorage.getItem(ANALYTICS_NOTICE_STORAGE_KEY) !== 'true');
+    try {
+      setIsVisible(window.localStorage.getItem(ANALYTICS_NOTICE_STORAGE_KEY) !== 'true');
+    } catch {
+      setIsVisible(true);
+    }
   }, []);
 
   /** Records that the visitor has seen the notice; it does not represent consent. */
   const handleDismiss = () => {
-    window.localStorage.setItem(ANALYTICS_NOTICE_STORAGE_KEY, 'true');
+    try {
+      window.localStorage.setItem(ANALYTICS_NOTICE_STORAGE_KEY, 'true');
+    } catch {
+      // Storage is optional; the notice can still be dismissed for the current render.
+    }
+
     setIsVisible(false);
   };
 

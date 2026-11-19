@@ -60,7 +60,6 @@ The voice is confident enough to brag about strong work without inventing claims
 - Personal portrait used by the profile and social preview.
 - Public résumé and social profiles linked from the application.
 - Interactive Three.js cat in `modules/profile/components/cat-model`.
-- Migration baseline screenshots and notes under `docs/migration/baseline`.
 - Current UI implementation, module READMEs, tests, and accessibility behavior in this repository.
 
 No testimonials, client endorsements, press coverage, or additional performance claims are established by this repository. Future work must not fabricate them.

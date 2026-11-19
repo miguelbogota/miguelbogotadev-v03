@@ -10,19 +10,32 @@ export function useDrawerNavigation() {
   const { setIsDrawerOpen, setCurrentProjectId } = useAppState();
 
   return (url: string) => {
-    window.history.pushState({}, '', url);
-
     if (url.includes('/project/')) {
-      setIsDrawerOpen(true);
-
       const projectId = url.split('/').pop();
+      const state = { drawerProjectId: projectId };
+
+      if (window.history.state?.drawerProjectId) {
+        window.history.replaceState(state, '', url);
+      } else {
+        window.history.pushState(state, '', url);
+      }
+
+      setIsDrawerOpen(true);
 
       if (projectId) {
         setCurrentProjectId(projectId);
       }
-    } else {
-      setIsDrawerOpen(false);
-      setCurrentProjectId(null);
+
+      return;
     }
+
+    if (window.history.state?.drawerProjectId) {
+      window.history.back();
+    } else {
+      window.history.replaceState({}, '', url);
+    }
+
+    setIsDrawerOpen(false);
+    setCurrentProjectId(null);
   };
 }

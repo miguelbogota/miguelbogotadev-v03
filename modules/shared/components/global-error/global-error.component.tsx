@@ -4,7 +4,7 @@ import './global-error.styles.scss';
 
 import { useEffect } from 'react';
 
-import { analyticsService } from '@/modules/analytics/services/analytics.service';
+import { analyticsService } from '@/modules/analytics';
 
 import { ErrorPage } from '../error-page';
 

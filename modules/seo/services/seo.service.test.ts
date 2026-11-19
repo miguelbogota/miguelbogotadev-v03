@@ -1,4 +1,4 @@
-import { SITE_URL } from '@/modules/shared/config/constants';
+import { SITE_URL } from '@/modules/shared';
 import { projectFixture } from '@/testing';
 
 import { DEFAULT_SOCIAL_IMAGE } from '../config/constants';

@@ -1,7 +1,7 @@
 import { type Metadata, type MetadataRoute } from 'next';
 
-import { type Project } from '@/modules/project/types/project.type';
-import { SITE_URL } from '@/modules/shared/config/constants';
+import { type Project } from '@/modules/project';
+import { SITE_URL } from '@/modules/shared';
 
 import { DEFAULT_SOCIAL_IMAGE, SITE_DESCRIPTION, SITE_NAME } from '../config/constants';
 

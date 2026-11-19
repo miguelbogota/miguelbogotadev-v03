@@ -9,7 +9,7 @@
   color: var(--text-primary);
   background-color: color-mix(in srgb, var(--background-main) 92%, transparent);
   border: 1px solid var(--background-border);
-  box-shadow: 0 5px 25px color-mix(in srgb, var(--black) 10%, transparent);
+  box-shadow: 0 5px 25px color-mix(in srgb, var(--background-border) 10%, transparent);
   backdrop-filter: blur(6px);
 
   & > div {

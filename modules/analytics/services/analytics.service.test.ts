@@ -1,4 +1,4 @@
-import { SITE_URL } from '@/modules/shared/config/constants';
+import { SITE_URL } from '@/modules/shared';
 
 import { analyticsService, sanitizeAnalyticsPath } from './analytics.service';
 

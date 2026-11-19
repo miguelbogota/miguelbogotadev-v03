@@ -47,4 +47,25 @@ describe('components / AnalyticsNotice', () => {
 
     expect(screen.queryByLabelText('Analytics notice')).not.toBeInTheDocument();
   });
+
+  it('should remain usable when browser storage cannot be read', () => {
+    vi.spyOn(window.localStorage, 'getItem').mockImplementation(() => {
+      throw new DOMException('Storage is unavailable.', 'SecurityError');
+    });
+
+    render(<AnalyticsNotice />);
+
+    expect(screen.getByLabelText('Analytics notice')).toBeInTheDocument();
+  });
+
+  it('should dismiss in memory when browser storage cannot be written', () => {
+    vi.spyOn(window.localStorage, 'setItem').mockImplementation(() => {
+      throw new DOMException('Storage is unavailable.', 'SecurityError');
+    });
+
+    render(<AnalyticsNotice />);
+    fireEvent.click(screen.getByRole('button', { name: 'OK' }));
+
+    expect(screen.queryByLabelText('Analytics notice')).not.toBeInTheDocument();
+  });
 });

@@ -1,6 +1,6 @@
 import './profile.styles.scss';
 
-import { API_URL } from '@/modules/shared/config/constants';
+import { API_URL } from '@/modules/shared';
 
 import { CatModel } from '../cat-model';
 

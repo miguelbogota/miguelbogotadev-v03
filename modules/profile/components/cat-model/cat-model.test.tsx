@@ -5,11 +5,18 @@ import { act, fireEvent, render, screen } from '@/testing';
 
 import { CatModel } from './cat-model.component';
 
+/** Captured frame callback used to verify automatic rotation behavior. */
+const frameState = vi.hoisted(() => ({
+  callback: undefined as ((state: unknown, delta: number) => void) | undefined,
+}));
+
 vi.mock('@react-three/fiber', () => ({
   Canvas: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="cat-canvas">{children}</div>
   ),
-  useFrame: vi.fn(),
+  useFrame: vi.fn((callback: (state: unknown, delta: number) => void) => {
+    frameState.callback = callback;
+  }),
   useLoader: vi.fn(() => ({ scene: {} })),
 }));
 
@@ -26,6 +33,7 @@ describe('components / CatModel', () => {
     vi.mocked(useLoader).mockReset();
     vi.mocked(useLoader).mockReturnValue({ scene: {} } as never);
     vi.restoreAllMocks();
+    vi.unstubAllGlobals();
   });
 
   it('should load one cat after mount', async () => {
@@ -105,5 +113,36 @@ describe('components / CatModel', () => {
     vi.setSystemTime(1200);
     fireEvent.pointerDown(viewer, { pointerType: 'touch', pointerId: 2 });
     expect(viewer).toHaveAttribute('data-touch-enabled', 'true');
+  });
+
+  it('should disable idle rotation when reduced motion is requested', async () => {
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => ({
+        matches: true,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      })),
+    );
+    vi.setSystemTime(1000);
+
+    await act(async () => {
+      render(<CatModel />);
+    });
+
+    const group = document.querySelector('group');
+
+    if (!group) {
+      throw new Error('The cat group must be rendered.');
+    }
+
+    const rotation = { y: 0 };
+
+    Object.assign(group, { rotation });
+    vi.setSystemTime(3000);
+
+    act(() => frameState.callback?.({}, 1));
+
+    expect(rotation.y).toBe(0);
   });
 });

@@ -7,7 +7,7 @@ Owns the portfolio project domain, project-index access, and browser Markdown lo
 - `Project` is the single project data shape used throughout the application.
 - `getCachedProjects()` returns the published index through the named Next.js cache profile.
 - `getCachedProject(id)` returns one cached project and throws `RequestError` when it is not published.
-- `projectClient.getContent(project)` loads Markdown in the browser and removes YAML frontmatter.
+- `projectClient.getContent(project)` loads sanitized Markdown through the internal browser API.
 
 ```ts
 import { projectClient } from '@/modules/project/services/project.client';
@@ -23,12 +23,13 @@ Server project-index access and browser Markdown loading use separate boundaries
 - `index.ts`: public drawer, project presentation, and project type exports.
 - `components/drawer/*`: client drawer and browser-history navigation retained after the intercepted-route experiment was removed.
 - `components/project-info/*`: shared drawer and canonical-route project presentation.
-- `config/constants.ts`: upstream API location imported only by the server service.
 - `services/project.client.ts`: browser-only access to the internal project-content API.
 - `services/project.client.test.ts`: client request and failure-mapping tests.
 - `services/project.service.ts`: server project-index instance and shared cached lookup functions.
 - `services/project.service.test.ts`: server request, cache-profile, and lookup tests.
 - `types/project.type.ts`: published project metadata contract.
+
+The server service reuses the shared `API_URL`; the client never imports or receives that upstream location.
 
 ## Canonical route
 

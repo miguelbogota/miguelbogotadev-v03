@@ -6,22 +6,26 @@ import { useAppState } from '@/modules/shared';
 
 /** Subscribes the project drawer to browser back and forward navigation. */
 export function useDrawerRouting() {
-  const { isDrawerOpen, setIsDrawerOpen } = useAppState();
+  const { setCurrentProjectId, setIsDrawerOpen } = useAppState();
 
   /**
    * Handles the popstate event when the user navigates back or forward.
    */
   useEffect(() => {
     const handlePopState = () => {
-      if (isDrawerOpen) {
-        setIsDrawerOpen(false);
+      const match = window.location.pathname.match(/^\/project\/([^/]+)\/?$/);
+
+      if (match?.[1]) {
+        setCurrentProjectId(decodeURIComponent(match[1]));
+        setIsDrawerOpen(true);
         return;
       }
 
-      window.location.href = window.location.href;
+      setCurrentProjectId(null);
+      setIsDrawerOpen(false);
     };
 
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, [isDrawerOpen, setIsDrawerOpen]);
+  }, [setCurrentProjectId, setIsDrawerOpen]);
 }
