@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
-import { analyticsService } from '@/modules/analytics/services/analytics.service';
+import { analyticsService } from '@/modules/analytics';
 import { Container, Footer, RequestError } from '@/modules/shared';
 
 import { projectClient } from '../../services/project.client';

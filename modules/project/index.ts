@@ -1,11 +1,8 @@
 /** Project drawer and its lightweight browser-history navigation. */
-export { Drawer, useDrawerNavigation, useDrawerRouting } from './components/drawer';
+export { Drawer, useDrawerNavigation } from './components/drawer';
 
 /** Project detail presentation shared by the drawer and canonical route. */
-export { ProjectInfo, type ProjectInfoProps } from './components/project-info';
-
-/** Project route failure presentation. */
-export { ProjectError, type ProjectErrorProps } from './components/project-error';
+export { ProjectInfo } from './components/project-info';
 
 /** Project metadata contract. */
 export type { Project } from './types/project.type';

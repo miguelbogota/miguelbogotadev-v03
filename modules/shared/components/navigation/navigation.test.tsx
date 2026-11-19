@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { API_URL } from '@/modules/shared/config/constants';
 import { render, screen } from '@/testing';
 
+import { API_URL } from '../../config/constants';
 import { Navigation } from './navigation.component';
 
 describe('components / Navigation', () => {

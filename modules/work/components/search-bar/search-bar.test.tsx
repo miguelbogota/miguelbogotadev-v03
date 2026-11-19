@@ -1,4 +1,4 @@
-import { analyticsService } from '@/modules/analytics/services/analytics.service';
+import { analyticsService } from '@/modules/analytics';
 import { fireEvent, render, screen } from '@/testing';
 
 import { SearchBar } from './search-bar.component';

@@ -5,7 +5,7 @@ import './project-card.styles.scss';
 import Link from 'next/link';
 import { type CSSProperties } from 'react';
 
-import { analyticsService } from '@/modules/analytics/services/analytics.service';
+import { analyticsService } from '@/modules/analytics';
 import { type Project, useDrawerNavigation } from '@/modules/project';
 
 /** Props for the ProjectCard component. */
@@ -36,6 +36,10 @@ export function ProjectCard(props: ProjectCardProps) {
   const navigate = useDrawerNavigation();
 
   const handleCardClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+      return;
+    }
+
     e.preventDefault();
     analyticsService.trackProject(id);
     navigate(`/project/${id}`);

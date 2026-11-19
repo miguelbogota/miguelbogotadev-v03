@@ -1,8 +1,7 @@
 import { cacheLife } from 'next/cache';
 
-import { RequestError } from '@/modules/shared';
+import { API_URL, RequestError } from '@/modules/shared';
 
-import { PROJECTS_API_BASE_URL } from '../config/constants';
 import { type Project } from '../types/project.type';
 
 /** Provides server-only access to the published project index. */
@@ -16,7 +15,7 @@ class ProjectService {
    */
   async getProjects(): Promise<Project[]> {
     try {
-      const response = await fetch(`${PROJECTS_API_BASE_URL}/index.json`);
+      const response = await fetch(`${API_URL}/index.json`);
 
       if (!response.ok) {
         throw new RequestError({
@@ -48,7 +47,7 @@ class ProjectService {
   async getContent(project: Pick<Project, 'id'>): Promise<string> {
     try {
       const projectId = encodeURIComponent(project.id);
-      const response = await fetch(`${PROJECTS_API_BASE_URL}/projects/${projectId}.md`);
+      const response = await fetch(`${API_URL}/projects/${projectId}.md`);
 
       if (response.status === 404) {
         throw new RequestError({

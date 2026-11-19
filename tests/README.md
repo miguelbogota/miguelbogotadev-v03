@@ -11,6 +11,8 @@ Vitest and Testing Library cover module interfaces, interactive behavior, and se
 
 Tests live beside the module implementation they verify. The `app` directory stays limited to thin Next.js routing files, while route-independent behavior is tested through its owning module. Use fixtures instead of inline mock application state, mock network boundaries in service tests, and prefer accessible queries such as roles and labels.
 
+Do not add tests for thin pages, layouts, or metadata route wrappers. Move meaningful logic into its owning module and test it there.
+
 ## Commands
 
 ```bash

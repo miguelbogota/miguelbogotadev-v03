@@ -9,7 +9,7 @@ import { type Theme } from '@/modules/theme';
 export type InitialState = {
   /** Current theme of the application. */
   theme: Theme;
-  /** Projects available to legacy drawer routing until Phase 5. */
+  /** Projects available to the client-side drawer. */
   projects: Project[];
 };
 
@@ -42,7 +42,7 @@ export type StateProviderProps = PropsWithChildren<{
 }>;
 
 /**
- * Provides initial server state and temporary interactive drawer state to client components.
+ * Provides initial server state and interactive drawer state to client components.
  *
  * @param props - Initial state and descendant components.
  * @returns The application state context provider.

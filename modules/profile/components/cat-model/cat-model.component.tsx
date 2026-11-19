@@ -43,12 +43,21 @@ interface CatSceneProps {
   yawRef: RefObject<number>;
   draggingRef: RefObject<boolean>;
   lastInteractionRef: RefObject<number>;
+  shouldAutoRotateRef: RefObject<boolean>;
   idleDelayMs: number;
 }
 
 /** Load the GLB and rotate its parent only around the world up axis. */
 function CatMesh(props: CatSceneProps) {
-  const { url, onLoaded, yawRef, draggingRef, lastInteractionRef, idleDelayMs } = props;
+  const {
+    url,
+    onLoaded,
+    yawRef,
+    draggingRef,
+    lastInteractionRef,
+    shouldAutoRotateRef,
+    idleDelayMs,
+  } = props;
 
   const gltf = useLoader(GLTFLoader, url);
   const groupRef = useRef<Group | null>(null);
@@ -62,7 +71,11 @@ function CatMesh(props: CatSceneProps) {
       return;
     }
 
-    if (!draggingRef.current && Date.now() - lastInteractionRef.current >= idleDelayMs) {
+    if (
+      shouldAutoRotateRef.current &&
+      !draggingRef.current &&
+      Date.now() - lastInteractionRef.current >= idleDelayMs
+    ) {
       yawRef.current += delta * 0.35;
     }
 
@@ -85,6 +98,7 @@ export function CatModel() {
   const yawRef = useRef(0);
   const lastInteractionRef = useRef(0);
   const draggingRef = useRef(false);
+  const shouldAutoRotateRef = useRef(true);
   const pointerIdRef = useRef<number | null>(null);
   const previousXRef = useRef(0);
   const lastTouchTapRef = useRef<number | null>(null);
@@ -96,6 +110,22 @@ export function CatModel() {
 
     setModel(catPicked);
     lastInteractionRef.current = Date.now();
+  }, []);
+
+  useEffect(() => {
+    if (typeof window.matchMedia !== 'function') {
+      return undefined;
+    }
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updateMotionPreference = () => {
+      shouldAutoRotateRef.current = !reducedMotion.matches;
+    };
+
+    updateMotionPreference();
+    reducedMotion.addEventListener('change', updateMotionPreference);
+
+    return () => reducedMotion.removeEventListener('change', updateMotionPreference);
   }, []);
 
   /** Begin mouse drag immediately; require a double tap for touch drag. */
@@ -190,6 +220,7 @@ export function CatModel() {
                 yawRef={yawRef}
                 draggingRef={draggingRef}
                 lastInteractionRef={lastInteractionRef}
+                shouldAutoRotateRef={shouldAutoRotateRef}
                 idleDelayMs={IDLE_DELAY_MS}
               />
             </Suspense>

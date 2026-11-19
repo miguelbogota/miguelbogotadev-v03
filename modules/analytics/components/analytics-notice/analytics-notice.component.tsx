@@ -13,12 +13,21 @@ export function AnalyticsNotice() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    setIsVisible(window.localStorage.getItem(ANALYTICS_NOTICE_STORAGE_KEY) !== 'true');
+    try {
+      setIsVisible(window.localStorage.getItem(ANALYTICS_NOTICE_STORAGE_KEY) !== 'true');
+    } catch {
+      setIsVisible(true);
+    }
   }, []);
 
   /** Records that the visitor has seen the notice; it does not represent consent. */
   const handleDismiss = () => {
-    window.localStorage.setItem(ANALYTICS_NOTICE_STORAGE_KEY, 'true');
+    try {
+      window.localStorage.setItem(ANALYTICS_NOTICE_STORAGE_KEY, 'true');
+    } catch {
+      // Storage is optional; the notice can still be dismissed for the current render.
+    }
+
     setIsVisible(false);
   };
 
@@ -27,17 +36,19 @@ export function AnalyticsNotice() {
   }
 
   return (
-    <aside className="analytics-notice" aria-label="Analytics notice">
-      <p>
-        This site uses pseudonymous analytics to understand navigation, interactions, and basic
-        errors. Search text and personal information are not collected.{' '}
-        <Link href="/privacy" onClick={() => analyticsService.trackLink('privacy', 'notice')}>
-          Privacy details
-        </Link>
-      </p>
-      <button type="button" onClick={handleDismiss}>
-        OK
-      </button>
+    <aside className="analytics-notice" aria-label="Analytics notice" role="status">
+      <div>
+        <p>
+          This site uses pseudonymous analytics to understand navigation, interactions, and basic
+          errors. Search text and personal information are not collected.{' '}
+          <Link href="/privacy" onClick={() => analyticsService.trackLink('privacy', 'notice')}>
+            Privacy details
+          </Link>
+        </p>
+        <button type="button" onClick={handleDismiss}>
+          OK
+        </button>
+      </div>
     </aside>
   );
 }

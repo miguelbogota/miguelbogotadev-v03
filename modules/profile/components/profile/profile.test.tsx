@@ -1,4 +1,4 @@
-import { API_URL } from '@/modules/shared/config/constants';
+import { API_URL } from '@/modules/shared';
 import { render, screen } from '@/testing';
 
 import { ProfileSection } from './profile.component';

@@ -1,11 +1,11 @@
 import { render, screen } from '@/testing';
 
-import { ProjectError } from './project-error.component';
+import { ErrorPage } from './error-page.component';
 
-describe('projects / ProjectError', () => {
-  it('should render recovery copy and the portfolio link', () => {
+describe('components / ErrorPage', () => {
+  it('should render recovery copy and actions', () => {
     render(
-      <ProjectError
+      <ErrorPage
         title="Project not found"
         message="This project is not available."
         action={<button>Try again</button>}

@@ -5,7 +5,7 @@ import './theme-picker.styles.scss';
 import clsx from 'clsx';
 import { Fragment, useEffect, useRef, useState } from 'react';
 
-import { analyticsService } from '@/modules/analytics/services/analytics.service';
+import { analyticsService } from '@/modules/analytics';
 import { useAppState } from '@/modules/shared';
 
 import { themeService } from '../../services/theme.service';
@@ -104,8 +104,7 @@ export function ThemePicker() {
                 <Fragment key={option.value}>
                   <li>
                     <button
-                      role="option"
-                      aria-selected={currentTheme === option.value}
+                      aria-pressed={currentTheme === option.value}
                       aria-label={option.ariaLabel}
                       onClick={() => handleThemeChange(option.value)}
                     >

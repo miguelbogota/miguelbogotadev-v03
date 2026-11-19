@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react';
 
 import { useAppState } from '@/modules/shared';
 
@@ -9,25 +9,39 @@ vi.mock('@/modules/shared', () => ({
 }));
 
 describe('useDrawerRouting', () => {
-  it('should leave scroll restoration to the Next.js router and browser', () => {
+  const setCurrentProjectId = vi.fn();
+  const setIsDrawerOpen = vi.fn();
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    window.history.replaceState({}, '', '/');
     vi.mocked(useAppState).mockReturnValue({
       projects: [],
       currentProjectId: null,
-      setCurrentProjectId: vi.fn(),
+      setCurrentProjectId,
       currentTheme: 'system',
       setCurrentTheme: vi.fn(),
       isDrawerOpen: false,
-      setIsDrawerOpen: vi.fn(),
+      setIsDrawerOpen,
     });
+  });
 
-    const scrollTo = vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
-
-    window.sessionStorage.setItem('scroll-position', '1200');
-
+  it('should open the matching project when browser history moves to a project route', () => {
     renderHook(() => useDrawerRouting());
-    window.dispatchEvent(new Event('load'));
+    window.history.pushState({}, '', '/project/portfolio-project');
 
-    expect(scrollTo).not.toHaveBeenCalled();
-    scrollTo.mockRestore();
+    act(() => window.dispatchEvent(new PopStateEvent('popstate')));
+
+    expect(setCurrentProjectId).toHaveBeenCalledWith('portfolio-project');
+    expect(setIsDrawerOpen).toHaveBeenCalledWith(true);
+  });
+
+  it('should close the drawer when browser history returns home', () => {
+    renderHook(() => useDrawerRouting());
+
+    act(() => window.dispatchEvent(new PopStateEvent('popstate')));
+
+    expect(setCurrentProjectId).toHaveBeenCalledWith(null);
+    expect(setIsDrawerOpen).toHaveBeenCalledWith(false);
   });
 });

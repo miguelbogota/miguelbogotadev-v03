@@ -2,7 +2,7 @@ import './search-bar.styles.scss';
 
 import { useRef } from 'react';
 
-import { analyticsService } from '@/modules/analytics/services/analytics.service';
+import { analyticsService } from '@/modules/analytics';
 
 /** Props for the SearchBar component. */
 export interface SearchBarProps {

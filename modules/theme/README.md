@@ -1,6 +1,6 @@
 # Theme module
 
-Owns the supported theme values, theme validation, cookie persistence, and theme picker UI.
+Owns the supported theme values, cookie persistence, and theme picker UI.
 
 ## Interface
 

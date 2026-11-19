@@ -34,14 +34,14 @@ export function Drawer() {
   // Handles `ESC` key to close the drawer.
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      if (isDrawerOpen && event.key === 'Escape') {
         handleClose();
       }
     };
 
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
-  }, [handleClose]);
+  }, [handleClose, isDrawerOpen]);
 
   // Focus trap for accessibility
   useEffect(() => {
@@ -89,7 +89,46 @@ export function Drawer() {
   }, [isDrawerOpen]);
 
   useEffect(() => {
-    document.body.style.overflow = isDrawerOpen ? 'hidden' : 'auto';
+    if (!isDrawerOpen) {
+      return undefined;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isDrawerOpen]);
+
+  useEffect(() => {
+    const dialogElement = dialogRef.current;
+    const backdropElement = backdropRef.current;
+
+    if (!isDrawerOpen || !dialogElement || !backdropElement) {
+      return undefined;
+    }
+
+    const siblings = Array.from(dialogElement.parentElement?.children ?? []).filter(
+      (element): element is HTMLElement =>
+        element instanceof HTMLElement &&
+        element !== dialogElement &&
+        element !== backdropElement,
+    );
+    const previousInertState = new Map(
+      siblings.map((element) => [element, element.hasAttribute('inert')]),
+    );
+
+    siblings.forEach((element) => element.setAttribute('inert', ''));
+
+    return () => {
+      previousInertState.forEach((wasInert, element) => {
+        if (!wasInert) {
+          element.removeAttribute('inert');
+        }
+      });
+    };
   }, [isDrawerOpen]);
 
   return (
@@ -98,6 +137,7 @@ export function Drawer() {
         ref={dialogRef}
         className="drawer"
         role="dialog"
+        aria-modal={isDrawerOpen ? 'true' : undefined}
         aria-labelledby="drawer-title"
         aria-describedby="drawer-description"
         data-open={isDrawerOpen}

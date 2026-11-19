@@ -1,7 +1,7 @@
-import { projectClient } from '@/modules/project/services/project.client';
 import { RequestError } from '@/modules/shared';
 import { act, projectFixture, render, screen } from '@/testing';
 
+import { projectClient } from '../../services/project.client';
 import { ProjectInfo } from './project-info.component';
 
 vi.mock('@/modules/project/services/project.client', () => ({

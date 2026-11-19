@@ -29,9 +29,9 @@ describe('components / ThemePicker', () => {
 
     fireEvent.mouseEnter(mainButton);
 
-    expect(screen.getByRole('option', { name: /light/i })).toBeTruthy();
-    expect(screen.getByRole('option', { name: /dark/i })).toBeTruthy();
-    expect(screen.getByRole('option', { name: /system/i })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /light/i })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /dark/i })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /system/i })).toBeTruthy();
   });
 
   it('should hide dropdown menu on mouse leave after a short delay', () => {
@@ -45,7 +45,7 @@ describe('components / ThemePicker', () => {
     // Wait for the timeout to trigger
     act(() => vi.runAllTimers());
 
-    expect(screen.queryByRole('option', { name: /light/i })).toBeFalsy();
+    expect(screen.queryByRole('button', { name: /light/i })).toBeFalsy();
   });
 
   it('should set data-theme to light when light option is clicked', () => {
@@ -55,7 +55,7 @@ describe('components / ThemePicker', () => {
 
     fireEvent.mouseEnter(mainButton);
 
-    const lightOption = screen.getByRole('option', { name: /light/i });
+    const lightOption = screen.getByRole('button', { name: /light/i });
 
     fireEvent.click(lightOption);
 
@@ -69,7 +69,7 @@ describe('components / ThemePicker', () => {
 
     fireEvent.mouseEnter(mainButton);
 
-    const darkOption = screen.getByRole('option', { name: /dark/i });
+    const darkOption = screen.getByRole('button', { name: /dark/i });
 
     fireEvent.click(darkOption);
 
@@ -83,7 +83,7 @@ describe('components / ThemePicker', () => {
 
     fireEvent.mouseEnter(mainButton);
 
-    const systemOption = screen.getByRole('option', { name: /system/i });
+    const systemOption = screen.getByRole('button', { name: /system/i });
 
     fireEvent.click(systemOption);
 
@@ -97,7 +97,7 @@ describe('components / ThemePicker', () => {
 
     fireEvent.mouseEnter(mainButton);
 
-    const lightOption = screen.getByRole('option', { name: /light/i });
+    const lightOption = screen.getByRole('button', { name: /light/i });
 
     fireEvent.click(lightOption);
 
@@ -112,15 +112,15 @@ describe('components / ThemePicker', () => {
 
     fireEvent.mouseEnter(mainButton);
 
-    const lightOption = screen.getByRole('option', { name: /light/i });
+    const lightOption = screen.getByRole('button', { name: /light/i });
 
     fireEvent.click(lightOption);
 
     fireEvent.mouseEnter(mainButton);
 
-    const activeOption = screen.getByRole('option', { name: /light/i });
+    const activeOption = screen.getByRole('button', { name: /light/i });
 
-    expect(activeOption).toHaveAttribute('aria-selected', 'true');
+    expect(activeOption).toHaveAttribute('aria-pressed', 'true');
   });
 
   it('should unmark other theme options as inactive', () => {
@@ -130,15 +130,15 @@ describe('components / ThemePicker', () => {
 
     fireEvent.mouseEnter(mainButton);
 
-    const lightOption = screen.getByRole('option', { name: /light/i });
+    const lightOption = screen.getByRole('button', { name: /light/i });
 
     fireEvent.click(lightOption);
 
     fireEvent.mouseEnter(mainButton);
 
-    const darkOption = screen.getByRole('option', { name: /dark/i });
+    const darkOption = screen.getByRole('button', { name: /dark/i });
 
-    expect(darkOption).toHaveAttribute('aria-selected', 'false');
+    expect(darkOption).toHaveAttribute('aria-pressed', 'false');
   });
 
   it('should close dropdown after selecting an option', () => {
@@ -148,11 +148,11 @@ describe('components / ThemePicker', () => {
 
     fireEvent.mouseEnter(mainButton);
 
-    const lightOption = screen.getByRole('option', { name: /light/i });
+    const lightOption = screen.getByRole('button', { name: /light/i });
 
     fireEvent.click(lightOption);
 
-    expect(screen.queryByRole('option', { name: /dark/i })).toBeFalsy();
+    expect(screen.queryByRole('button', { name: /dark/i })).toBeFalsy();
   });
 
   it('should save the theme as a cookie', () => {
@@ -162,7 +162,7 @@ describe('components / ThemePicker', () => {
 
     fireEvent.mouseEnter(mainButton);
 
-    const darkOption = screen.getByRole('option', { name: /dark/i });
+    const darkOption = screen.getByRole('button', { name: /dark/i });
 
     fireEvent.click(darkOption);
 
@@ -184,15 +184,15 @@ describe('components / ThemePicker', () => {
     const mainButton = screen.getByRole('button', { name: /theme selector/i });
 
     // Initially closed
-    expect(screen.queryByRole('option', { name: /light/i })).toBeFalsy();
+    expect(screen.queryByRole('button', { name: /light/i })).toBeFalsy();
 
     // Click to open
     fireEvent.click(mainButton);
-    expect(screen.getByRole('option', { name: /light/i })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /light/i })).toBeTruthy();
 
     // Click to close
     fireEvent.click(mainButton);
-    expect(screen.queryByRole('option', { name: /light/i })).toBeFalsy();
+    expect(screen.queryByRole('button', { name: /light/i })).toBeFalsy();
   });
 
   it('should show divider before system option', () => {
@@ -202,9 +202,24 @@ describe('components / ThemePicker', () => {
 
     fireEvent.mouseEnter(mainButton);
 
-    const dropdown = screen.getByRole('option', { name: /light/i }).closest('.dropdown');
+    const dropdown = screen.getByRole('button', { name: /light/i }).closest('.dropdown');
     const divider = dropdown?.querySelector('.divider');
 
     expect(divider).toBeTruthy();
+  });
+
+  it('should expose theme choices as pressed buttons', () => {
+    render(<ThemePicker />, { state: { theme: 'dark' } });
+
+    fireEvent.click(screen.getByRole('button', { name: /theme selector/i }));
+
+    expect(screen.getByRole('button', { name: 'Dark mode' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+    expect(screen.getByRole('button', { name: 'Light mode' })).toHaveAttribute(
+      'aria-pressed',
+      'false',
+    );
   });
 });

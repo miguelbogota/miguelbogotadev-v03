@@ -2,7 +2,7 @@
 
 import './social.styles.scss';
 
-import { analyticsService } from '@/modules/analytics/services/analytics.service';
+import { analyticsService } from '@/modules/analytics';
 
 /** Section renders the social information. */
 type SocialLink = {

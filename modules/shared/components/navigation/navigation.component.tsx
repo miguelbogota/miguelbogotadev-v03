@@ -6,10 +6,10 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { Fragment } from 'react';
 
-import { analyticsService } from '@/modules/analytics/services/analytics.service';
-import { API_URL } from '@/modules/shared/config/constants';
+import { analyticsService } from '@/modules/analytics';
 import { ThemePicker } from '@/modules/theme';
 
+import { API_URL } from '../../config/constants';
 import { Container } from '../container';
 import { useActiveIndicator } from './use-active-indicator.hook';
 

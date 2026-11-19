@@ -1,4 +1,4 @@
-import { projectFixture, render, screen } from '@/testing';
+import { fireEvent, projectFixture, render, screen } from '@/testing';
 
 import { ProjectCard } from './project-card.component';
 
@@ -25,5 +25,14 @@ describe('ProjectCard image fallback', () => {
 
     expect(container.querySelector('.project-artwork')).not.toBeInTheDocument();
     expect(screen.getByRole('img', { name: project.images[0]?.alt })).toBeInTheDocument();
+  });
+
+  it('should preserve modified clicks for native browser navigation', () => {
+    render(<ProjectCard project={projectFixture} />);
+
+    const projectLink = screen.getByRole('link');
+
+    expect(fireEvent.click(projectLink, { ctrlKey: true })).toBe(true);
+    expect(fireEvent.click(projectLink, { metaKey: true })).toBe(true);
   });
 });
