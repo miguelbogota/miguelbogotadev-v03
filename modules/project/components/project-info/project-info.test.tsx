@@ -1,5 +1,5 @@
 import { RequestError } from '@/modules/shared';
-import { act, projectFixture, render, screen } from '@/testing';
+import { act, fireEvent, projectFixture, render, screen } from '@/testing';
 
 import { projectClient } from '../../services/project.client';
 import { ProjectInfo } from './project-info.component';
@@ -18,6 +18,13 @@ vi.mock('@/modules/analytics/services/analytics.service', () => ({
 }));
 
 const getProjectContentMock = vi.mocked(projectClient.getContent);
+const projectContent = {
+  overview: '## Architecture\n\nBuilt with **server-driven UI**.\n\n- Go backend\n- React frontend',
+  initiatives: projectFixture.initiatives.map((initiative) => ({
+    id: initiative.id,
+    markdown: `## ${initiative.displayName} details\n\nComplete ${initiative.id} case study.`,
+  })),
+};
 
 describe('ProjectInfo', () => {
   beforeEach(() => {
@@ -106,7 +113,11 @@ describe('ProjectInfo', () => {
 
     render(<ProjectInfo project={projectFixture} />);
 
-    expect(screen.getByRole('status', { name: 'Loading project details' })).toBeInTheDocument();
+    const skeleton = screen.getByRole('status', { name: 'Loading project details' });
+
+    expect(skeleton).toBeInTheDocument();
+    expect(skeleton.querySelectorAll('span')).toHaveLength(18);
+    expect(skeleton.querySelectorAll('.media')).toHaveLength(2);
     expect(screen.getByText(projectFixture.displayName)).toBeInTheDocument();
     expect(screen.getByText(projectFixture.summary)).toBeInTheDocument();
   });
@@ -114,9 +125,7 @@ describe('ProjectInfo', () => {
   it('should render the Markdown project content without its frontmatter', async () => {
     const mockProject = projectFixture;
 
-    getProjectContentMock.mockResolvedValue(
-      '## Architecture\n\nBuilt with **server-driven UI**.\n\n- Go backend\n- React frontend',
-    );
+    getProjectContentMock.mockResolvedValue(projectContent);
 
     render(<ProjectInfo project={mockProject} />);
 
@@ -131,10 +140,31 @@ describe('ProjectInfo', () => {
     expect(screen.queryByText('id:')).not.toBeInTheDocument();
   });
 
+  it('should reveal preloaded initiatives without showing another skeleton', async () => {
+    getProjectContentMock.mockResolvedValue(projectContent);
+
+    render(<ProjectInfo project={projectFixture} />);
+    await act(async () => {
+      await getProjectContentMock.mock.results[0]?.value;
+    });
+
+    const initiativeButton = screen.getByRole('button', {
+      name: new RegExp(projectFixture.initiatives[0]?.displayName ?? ''),
+    });
+
+    expect(screen.queryByRole('status', { name: 'Loading project details' })).not.toBeInTheDocument();
+
+    fireEvent.click(initiativeButton);
+
+    expect(screen.queryByRole('status', { name: 'Loading project details' })).not.toBeInTheDocument();
+    expect(screen.getByText('Complete architecture case study.')).toBeInTheDocument();
+  });
+
   it('should not render raw HTML from project Markdown', async () => {
-    getProjectContentMock.mockResolvedValue(
-      'Safe content\n\n<script data-project-script>window.projectScript = true;</script>',
-    );
+    getProjectContentMock.mockResolvedValue({
+      overview: 'Safe content\n\n<script data-project-script>window.projectScript = true;</script>',
+      initiatives: [],
+    });
 
     render(<ProjectInfo project={projectFixture} />);
     await act(async () => {
@@ -169,34 +199,6 @@ describe('ProjectInfo', () => {
     });
 
     expect(screen.getByText('Project details are temporarily unavailable.')).toBeInTheDocument();
-  });
-
-  it('should render project images', () => {
-    const mockProject = projectFixture;
-    const heroImage = mockProject.images[0];
-
-    if (!heroImage) {
-      throw new Error('The project fixture must include a hero image.');
-    }
-
-    render(<ProjectInfo project={mockProject} />);
-
-    const [gallery, thumbnail] = screen.getAllByAltText(heroImage.alt);
-
-    expect(gallery).toBeInTheDocument();
-    expect(gallery).toHaveAttribute('src', heroImage.src);
-
-    expect(thumbnail).toBeInTheDocument();
-    expect(thumbnail).toHaveAttribute('src', heroImage.src);
-  });
-
-  it('renders project details without an image gallery when no screenshots exist', () => {
-    const project = { ...projectFixture, images: [] };
-
-    render(<ProjectInfo project={project} />);
-
-    expect(screen.getByText(project.displayName)).toBeInTheDocument();
-    expect(document.querySelector('.images')).not.toBeInTheDocument();
   });
 
   it('should render action buttons when provided', () => {

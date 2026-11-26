@@ -62,18 +62,33 @@ describe('projects / server service', () => {
     );
   });
 
-  it('should load Markdown and remove its YAML frontmatter', async () => {
-    vi.mocked(fetch).mockResolvedValue(
-      new Response('---\nid: portfolio-project\ntitle: Portfolio\n---\n\n# Architecture'),
-    );
+  it('should preload overview and initiative Markdown without frontmatter', async () => {
+    vi.mocked(fetch).mockImplementation(async (input) => {
+      const url = input.toString();
 
-    await expect(projectService.getContent(projectFixture)).resolves.toBe('# Architecture');
+      if (url.endsWith('/overview.md')) {
+        return new Response('---\nid: portfolio-project\n---\n\n# Experience');
+      }
+
+      const initiative = projectFixture.initiatives.find((item) => url.endsWith(`/${item.id}.md`));
+
+      return new Response(`---\nid: ${initiative?.id}\n---\n\n# ${initiative?.displayName}`);
+    });
+
+    await expect(projectService.getContent(projectFixture)).resolves.toEqual({
+      overview: '# Experience',
+      initiatives: projectFixture.initiatives.map((initiative) => ({
+        id: initiative.id,
+        markdown: `# ${initiative.displayName}`,
+      })),
+    });
+    expect(fetch).toHaveBeenCalledTimes(projectFixture.initiatives.length + 1);
   });
 
   it('should encode the project id in the upstream Markdown URL', async () => {
     vi.mocked(fetch).mockResolvedValue(new Response('# Project'));
 
-    await projectService.getContent({ id: 'project/with spaces' });
+    await projectService.getContent({ id: 'project/with spaces', initiatives: [] });
 
     expect(fetch).toHaveBeenCalledWith(expect.stringContaining('project%2Fwith%20spaces.md'));
   });

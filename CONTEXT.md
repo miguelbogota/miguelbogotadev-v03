@@ -119,22 +119,23 @@ The Next.js cache is the authoritative project-index cache. Do not add a paralle
 
 ### Progressive Markdown
 
-Long-form content is intentionally absent from the home payload and server-rendered project shell. When either the drawer or canonical page mounts `ProjectInfo`:
+Long-form content is intentionally absent from the home payload and server-rendered project shell. A project may publish one overview or an overview plus initiative case studies. When either the drawer or canonical page mounts `ProjectInfo`:
 
 ```text
 ProjectInfo
   -> projectClient.getContent({ id })
   -> GET /api/project/{encoded-id}/content
-  -> projectService.getContent({ id })
-  -> upstream /projects/{encoded-id}.md
-  -> remove YAML frontmatter
-  -> return text/markdown
-  -> react-markdown renders safe Markdown
+  -> getCachedProject(id)
+  -> projectService.getContent(project)
+  -> Promise.all(overviews and initiative Markdown)
+  -> remove YAML frontmatter from every document
+  -> return one JSON content bundle
+  -> ProjectInfo reveals the overview and initiative accordion together
 ```
 
-The browser sees the internal API route but not the upstream URL construction or raw upstream error. The internal route maps missing content to a sanitized `404` message and all other failures to a sanitized unavailable response. Raw HTML is not enabled in `react-markdown`.
+Standalone projects load `/projects/{id}.md`. Experiences load `/projects/{id}/overview.md` and every `/projects/{id}/{initiativeId}.md` document concurrently. The browser sees only the internal API route, not upstream URL construction or raw upstream errors. The internal route maps missing content to a sanitized `404` message and all other failures to a sanitized unavailable response. Raw HTML is not enabled in `react-markdown`.
 
-`ProjectInfo` resets its image and content state when the project ID changes. While Markdown loads it shows a local skeleton matching the reading measure. Missing and temporary failures use different, short user-facing messages. This local progressive state is distinct from a Next.js route `loading.tsx` boundary.
+`ProjectInfo` resets its content state when the project ID changes. One long-form skeleton, including media placeholders, remains visible until the overview and every initiative body have loaded; accordion interaction never starts another request or loading state. The accordion keeps at most one initiative open. When a visitor switches directly between open initiatives, the newly opened heading moves below the fixed navigation so reading resumes from its beginning. Missing and temporary failures use different, short user-facing messages. This local progressive state is distinct from a Next.js route `loading.tsx` boundary.
 
 ## Navigation and state
 
@@ -186,7 +187,7 @@ Do not expose upstream response bodies, paths, error messages, stacks, or user-e
 - Robots allow public crawling and publish the canonical sitemap and host.
 - Manifest colors are a white background and black theme, matching the core monochrome identity.
 
-When project data changes, verify its ID, summary, tags, required 3:2 thumbnail, required 1200:630 artwork, gallery images, alternatives, and dates; all of them affect routing, presentation, discovery, or social previews. The thumbnail belongs to project cards, artwork belongs to SEO and the details banner, and gallery images remain independent.
+When project data changes, verify its ID, summary, tags, required 3:2 thumbnail, required 1200:630 artwork, initiative metadata, inline Markdown image alternatives, and dates; all of them affect routing, presentation, discovery, or social previews. The thumbnail belongs to project cards, artwork belongs to SEO and the details banner, and supporting case-study images belong inline in Markdown.
 
 ## Analytics and privacy boundary
 

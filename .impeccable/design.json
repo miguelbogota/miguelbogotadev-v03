@@ -378,7 +378,7 @@
       {
         "name": "skeleton-progress",
         "value": "1.4s ease-in-out infinite",
-        "purpose": "Progressive Markdown loading indicator; disabled for reduced motion."
+        "purpose": "Combined overview and initiative Markdown loading indicator; disabled for reduced motion."
       }
     ],
     "breakpoints": [
@@ -416,6 +416,14 @@
       "description": "Flat asymmetric content band led by the required project thumbnail, with generated artwork during loading and image errors.",
       "html": "<a class=\"ds-project-card\" href=\"#\"><span class=\"ds-project-media\"><span class=\"ds-project-artwork\" aria-hidden=\"true\"></span><img src=\"project-thumbnail.jpg\" alt=\"Project interface preview\"></span><span class=\"ds-project-copy\"><small>ENGINEERING — 2026</small><strong>PROJECT NAME</strong><span>Evidence-led project summary.</span><b>VIEW DETAILS</b></span></a>",
       "css": ".ds-project-card { display: grid; grid-template-columns: 60fr 40fr; gap: 2rem; color: #212121; text-decoration: none; border-radius: 0; overflow: hidden; transition: background-color .2s ease; } .ds-project-media { position: relative; min-height: 220px; overflow: hidden; background: #f6f6f6; } .ds-project-media img, .ds-project-artwork { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; } .ds-project-artwork { background: linear-gradient(135deg, #f4d7a1, #a75468 58%, #244d60); } .ds-project-copy { display: flex; flex-direction: column; gap: .9rem; padding: 2rem; font-family: Barlow, 'Segoe UI', sans-serif; } .ds-project-copy small { letter-spacing: .03rem; } .ds-project-copy strong { font-size: 2rem; line-height: 1.1; } .ds-project-copy b { margin-top: auto; letter-spacing: .1rem; } .ds-project-card:hover { background: #f6f6f6; } .ds-project-card:hover img { transform: scale(1.05); } .ds-project-card:hover b { color: #daa520; text-decoration: underline; } .ds-project-card:focus-visible { outline: 2px solid #daa520; outline-offset: 2px; }"
+    },
+    {
+      "name": "Initiative Accordion",
+      "kind": "custom",
+      "refersTo": "initiative-accordion",
+      "description": "Single-open editorial disclosure list shown after a professional-experience overview; all initiative content is already loaded before interaction begins.",
+      "html": "<section class=\"ds-initiatives\"><h2>Work I’m Proud Of</h2><p>Selected projects and initiatives from my time here.</p><article data-open=\"true\"><h3><button type=\"button\" aria-expanded=\"true\"><span>Platform Architecture</span><small>Senior Software Engineer</small><span>Evidence-led initiative summary.</span></button></h3><div role=\"region\">Initiative case study</div></article></section>",
+      "css": ".ds-initiatives { display: grid; gap: 0; font-family: Barlow, 'Segoe UI', sans-serif; } .ds-initiatives h2 { margin: 0; color: #212121; font-size: 2rem; line-height: 1.1; } .ds-initiatives button { display: grid; width: 100%; min-height: 44px; gap: .9rem; padding: 1.25rem 0; color: #212121; background: transparent; border: 0; text-align: left; cursor: pointer; scroll-margin-top: 78px; } .ds-initiatives button:hover, .ds-initiatives button:focus-visible, .ds-initiatives article[data-open='true'] button { color: #daa520; } .ds-initiatives button:focus-visible { outline: 2px solid #daa520; outline-offset: 2px; } .ds-initiatives small { color: #7f7f7f; font-size: .875rem; } .ds-initiatives [role='region'] { padding: 0 0 3.3rem; color: #7f7f7f; font-size: 1rem; line-height: 1.75; } .ds-initiatives [role='region'] h4 { font-size: 1.36rem; } .ds-initiatives [role='region'] h5 { font-size: .96rem; } .ds-initiatives [role='region'] h6 { font-size: .72rem; }"
     },
     {
       "name": "Portfolio Navigation",

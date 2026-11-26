@@ -2,7 +2,7 @@
 
 import { RequestError } from '@/modules/shared';
 
-import { type Project } from '../types/project.type';
+import { type Project, type ProjectContent } from '../types/project.type';
 
 /** Loads progressive project content through the internal application API. */
 class ProjectClient {
@@ -10,10 +10,10 @@ class ProjectClient {
    * Loads project Markdown through the internal application API.
    *
    * @param project - Project reference containing the Markdown identifier.
-   * @returns The Markdown body.
-   * @throws {RequestError} When the Markdown document cannot be loaded.
+   * @returns The preloaded overview and initiative Markdown bundle.
+   * @throws {RequestError} When the project content bundle cannot be loaded.
    */
-  async getContent(project: Pick<Project, 'id'>): Promise<string> {
+  async getContent(project: Pick<Project, 'id'>): Promise<ProjectContent> {
     try {
       const projectId = encodeURIComponent(project.id);
       const response = await fetch(`/api/project/${projectId}/content`);
@@ -32,7 +32,7 @@ class ProjectClient {
         });
       }
 
-      return response.text();
+      return (await response.json()) as ProjectContent;
     } catch (error) {
       if (error instanceof RequestError) {
         throw error;

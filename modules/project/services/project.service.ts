@@ -2,7 +2,7 @@ import { cacheLife } from 'next/cache';
 
 import { API_URL, RequestError } from '@/modules/shared';
 
-import { type Project } from '../types/project.type';
+import { type Project, type ProjectContent } from '../types/project.type';
 
 /** Provides server-only access to the published project index. */
 class ProjectService {
@@ -38,28 +38,60 @@ class ProjectService {
   }
 
   /**
-   * Fetches a project Markdown document and removes its YAML frontmatter.
+   * Preloads a project overview and all initiative Markdown documents.
    *
-   * @param project - Project reference containing the Markdown identifier.
-   * @returns The Markdown body.
+   * @param project - Project reference containing its identifier and initiatives.
+   * @returns The complete long-form project content bundle.
+   * @throws {RequestError} When any required Markdown document cannot be loaded.
+   */
+  async getContent(project: Pick<Project, 'id' | 'initiatives'>): Promise<ProjectContent> {
+    const { id, initiatives } = project;
+    const overviewPath = initiatives.length > 0 ? [id, 'overview'] : [id];
+    const markdownRequests = [
+      this.getMarkdown({ projectId: id, contentPath: overviewPath }),
+      ...initiatives.map((initiative) =>
+        this.getMarkdown({ projectId: id, contentPath: [id, initiative.id] }),
+      ),
+    ];
+    const [overview, ...initiativeMarkdown] = await Promise.all(markdownRequests);
+
+    return {
+      overview,
+      initiatives: initiatives.map((initiative, index) => ({
+        id: initiative.id,
+        markdown: initiativeMarkdown[index] ?? '',
+      })),
+    };
+  }
+
+  /**
+   * Fetches one published Markdown document and removes its YAML frontmatter.
+   *
+   * @param input - Project identity and relative published content path.
+   * @returns Markdown without frontmatter.
    * @throws {RequestError} When the Markdown document cannot be loaded.
    */
-  async getContent(project: Pick<Project, 'id'>): Promise<string> {
+  private async getMarkdown(input: {
+    projectId: string;
+    contentPath: string[];
+  }): Promise<string> {
+    const { projectId, contentPath } = input;
+
     try {
-      const projectId = encodeURIComponent(project.id);
-      const response = await fetch(`${API_URL}/projects/${projectId}.md`);
+      const encodedPath = contentPath.map(encodeURIComponent).join('/');
+      const response = await fetch(`${API_URL}/projects/${encodedPath}.md`);
 
       if (response.status === 404) {
         throw new RequestError({
           code: response.status,
-          message: `Project content for "${project.id}" was not found.`,
+          message: `Project content for "${projectId}" was not found.`,
         });
       }
 
       if (!response.ok) {
         throw new RequestError({
           code: response.status,
-          message: `Project content for "${project.id}" failed with status ${response.status}.`,
+          message: `Project content for "${projectId}" failed with status ${response.status}.`,
         });
       }
 
@@ -71,7 +103,7 @@ class ProjectService {
 
       throw new RequestError({
         code: 500,
-        message: `Project content for "${project.id}" could not be loaded.`,
+        message: `Project content for "${projectId}" could not be loaded.`,
       });
     }
   }

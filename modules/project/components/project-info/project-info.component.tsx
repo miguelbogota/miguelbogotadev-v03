@@ -2,18 +2,38 @@
 
 import './project-info.styles.scss';
 
-import clsx from 'clsx';
 import { useEffect, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
 
 import { analyticsService } from '@/modules/analytics';
 import { seoService } from '@/modules/seo';
 import { Container, Footer, RequestError, SITE_NAME } from '@/modules/shared';
 
 import { projectClient } from '../../services/project.client';
-import { type Project } from '../../types/project.type';
+import { type Project, type ProjectContent } from '../../types/project.type';
+import { InitiativeAccordion } from '../initiative-accordion';
+import { ProjectMarkdown } from '../project-markdown';
 
-const SKELETON_LINES = ['heading', 'long', 'medium', 'long', 'short', 'heading', 'long'] as const;
+/** Ordered placeholder shapes representing a long project case study. */
+const SKELETON_LINES = [
+  'heading',
+  'long',
+  'medium',
+  'long',
+  'short',
+  'media',
+  'heading',
+  'long',
+  'long',
+  'medium',
+  'short',
+  'heading',
+  'long',
+  'medium',
+  'long',
+  'short',
+  'media',
+  'long',
+] as const;
 
 /** Placeholder matching the shape of the Markdown content while it loads. */
 function ProjectContentSkeleton() {
@@ -51,17 +71,11 @@ export type ProjectInfoProps = {
  */
 export function ProjectInfo(props: ProjectInfoProps) {
   const { project, backButton, closeButton, manageDocumentTitle = true } = props;
-  const { id, displayName, summary, industry, startedAt, role, tags, artwork, images, links } =
+  const { id, displayName, summary, industry, startedAt, role, tags, artwork, links, initiatives } =
     project;
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [content, setContent] = useState<string | null>(null);
+  const [content, setContent] = useState<ProjectContent | null>(null);
   const [contentError, setContentError] = useState<RequestError | null>(null);
   const [isLoadingContent, setIsLoadingContent] = useState(true);
-  const selectedImage = images[selectedImageIndex];
-
-  const handleThumbnailClick = (index: number) => {
-    setSelectedImageIndex(index);
-  };
 
   // Set document title when component mounts and clean up on unmount.
   useEffect(() => {
@@ -82,7 +96,6 @@ export function ProjectInfo(props: ProjectInfoProps) {
     setContent(null);
     setContentError(null);
     setIsLoadingContent(true);
-    setSelectedImageIndex(0);
 
     projectClient
       .getContent({ id })
@@ -171,9 +184,12 @@ export function ProjectInfo(props: ProjectInfoProps) {
         {isLoadingContent ? (
           <ProjectContentSkeleton />
         ) : content ? (
-          <article className="markdown">
-            <ReactMarkdown>{content}</ReactMarkdown>
-          </article>
+          <>
+            <article>
+              <ProjectMarkdown markdown={content.overview} />
+            </article>
+            <InitiativeAccordion initiatives={initiatives} content={content.initiatives} />
+          </>
         ) : contentError?.code === 404 ? (
           <p className="content-status">Project details were not found.</p>
         ) : contentError ? (
@@ -182,35 +198,6 @@ export function ProjectInfo(props: ProjectInfoProps) {
           <p className="content-status">Project details are unavailable.</p>
         )}
 
-        {/* Images section */}
-        {selectedImage ? (
-          <div className="images">
-            {/* Main image */}
-            <div className="main-image">
-              {/* Project media uses remote URLs that are not configured for Next image optimization yet. */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={selectedImage.src} alt={selectedImage.alt} loading="lazy" />
-            </div>
-
-            {/* Thumbnail gallery */}
-            {images.length > 1 && (
-              <div className="thumbnails">
-                {images.map((image, index) => (
-                  <button
-                    key={index}
-                    className={clsx('thumbnail', index === selectedImageIndex && 'active')}
-                    onClick={() => handleThumbnailClick(index)}
-                    aria-label={`View image ${index + 1}`}
-                  >
-                    {/* Thumbnails use the same unconfigured remote image source as the gallery. */}
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={image.src} alt={image.alt} loading="lazy" />
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        ) : null}
       </Container>
       <Footer />
     </div>

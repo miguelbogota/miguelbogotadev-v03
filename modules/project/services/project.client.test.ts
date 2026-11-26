@@ -11,15 +11,21 @@ describe('projects / client service', () => {
     vi.unstubAllGlobals();
   });
 
-  it('should return Markdown from the internal project API', async () => {
-    vi.mocked(fetch).mockResolvedValue(new Response('# Architecture'));
+  it('should return the complete content bundle from the internal project API', async () => {
+    const content = {
+      overview: '# Architecture',
+      initiatives: [{ id: 'platform', markdown: '# Platform' }],
+    };
 
-    await expect(projectClient.getContent(projectFixture)).resolves.toBe('# Architecture');
+    vi.mocked(fetch).mockResolvedValue(Response.json(content));
+
+    await expect(projectClient.getContent(projectFixture)).resolves.toEqual(content);
+
     expect(fetch).toHaveBeenCalledWith(`/api/project/${projectFixture.id}/content`);
   });
 
   it('should encode the project id in the internal API URL', async () => {
-    vi.mocked(fetch).mockResolvedValue(new Response('# Project'));
+    vi.mocked(fetch).mockResolvedValue(Response.json({ overview: '# Project', initiatives: [] }));
 
     await projectClient.getContent({ id: 'project/with spaces' });
 

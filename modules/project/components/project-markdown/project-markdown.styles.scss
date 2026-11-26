@@ -1,0 +1,237 @@
+.project-info .project-markdown {
+  width: 100%;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.75;
+  letter-spacing: 0.01rem;
+  overflow-wrap: anywhere;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--text-primary);
+    font-weight: 600;
+    text-align: left;
+    text-transform: none;
+    letter-spacing: 0.01rem;
+    text-wrap: balance;
+    scroll-margin-top: calc(var(--navigation-height) + var(--space-2));
+  }
+
+  h1 {
+    margin: var(--space-4) 0 var(--space-2);
+    font-size: 1.6rem;
+    line-height: 1.2;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  h2 {
+    margin: var(--space-4) 0 var(--space-2);
+    font-size: clamp(1.3rem, 2.3vw, 1.36rem);
+    line-height: 1.25;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  h3 {
+    margin: var(--space-3) 0 var(--space-1);
+    font-size: clamp(1.4rem, 1.5vw, 0.96rem);
+    line-height: 1.35;
+  }
+
+  h4 {
+    margin: var(--space-2) 0 var(--space-1);
+    font-size: 1.3rem;
+    line-height: 1.45;
+  }
+
+  h5 {
+    margin: var(--space-2) 0 var(--space-1);
+    font-size: 1.1rem;
+    line-height: 1.45;
+  }
+
+  h6 {
+    margin: var(--space-2) 0 var(--space-1);
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+
+  &[data-heading-offset='2'] {
+    h4 {
+      margin: var(--space-4) 0 var(--space-2);
+      font-size: clamp(1.3rem, 2.3vw, 1.36rem);
+      line-height: 1.25;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    h5 {
+      margin: var(--space-3) 0 var(--space-1);
+      font-size: clamp(1.1rem, 1.5vw, 0.96rem);
+      line-height: 1.35;
+    }
+
+    h6 {
+      margin: var(--space-2) 0 var(--space-1);
+      font-size: 1rem;
+      line-height: 1.45;
+    }
+  }
+
+  p,
+  ul,
+  ol,
+  blockquote,
+  pre,
+  table {
+    margin: 0 0 var(--space-3);
+    font-size: inherit;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ul,
+  ol {
+    padding-left: var(--space-4);
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  li {
+    padding-left: var(--space-1);
+
+    &::marker {
+      color: var(--primary);
+      font-weight: 600;
+    }
+  }
+
+  li + li {
+    margin-top: var(--space-1);
+  }
+
+  strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  a {
+    color: var(--primary);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--text-primary);
+    }
+  }
+
+  blockquote {
+    padding: var(--space-2) var(--space-3);
+    border-left: 3px solid var(--primary);
+    color: var(--text-primary);
+    background-color: var(--background-sheet);
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  code {
+    padding: 0.1em 0.35em;
+    border-radius: calc(var(--space-1) / 2);
+    color: var(--text-primary);
+    background-color: var(--background-sheet);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.9em;
+  }
+
+  pre {
+    max-width: 100%;
+    padding: var(--space-3);
+    overflow-x: auto;
+    border-radius: var(--space-1);
+    background-color: var(--background-sheet);
+
+    code {
+      padding: 0;
+      background: none;
+    }
+  }
+
+  hr {
+    margin: var(--space-5) 0;
+    border: 0;
+  }
+
+  table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: var(--space-1) var(--space-2);
+    border-bottom: 1px solid var(--background-border);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: var(--space-4) 0;
+    border-radius: var(--space-2);
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 750px) {
+    font-size: 1rem;
+    line-height: 1.7;
+
+    h2 {
+      margin-top: var(--space-3);
+    }
+
+    &[data-heading-offset='2'] h4 {
+      margin-top: var(--space-3);
+    }
+
+    ul,
+    ol {
+      padding-left: var(--space-3);
+    }
+  }
+}

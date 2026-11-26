@@ -130,7 +130,7 @@ The palette is ink, paper, and graphite, punctuated by a warm amber annotation. 
 
 ### Primary
 
-- **Signature Amber:** The sole brand accent across light, dark, and system themes. Use it for active navigation, links, focus, selected gallery thumbnails, list markers, and decisive hover feedback. Its warmth keeps the monochrome system human without becoming decorative.
+- **Signature Amber:** The sole brand accent across light, dark, and system themes. Use it for active navigation, links, focus, open disclosures, list markers, and decisive hover feedback. Its warmth keeps the monochrome system human without becoming decorative.
 
 ### Secondary
 
@@ -186,7 +186,7 @@ Amber, rose, and teal artwork colors belong only to the generated layer shown wh
 - **Project Headline** (600–800, fluid according to surface): Project cards use uppercase 1.4rem–2.2rem titles; project details use a heavier 800 title to anchor the case study.
 - **Section Title** (600, fluid 1.4rem–1.6rem): Uppercase section labels with compact line height and modest tracking.
 - **Body** (200, fluid 1.1rem–1.26rem, fluid 1.55rem–1.85rem line height): Introductory and supporting prose. Overlines are limited to 52 characters and end with large vertical space.
-- **Case-study Body** (300, 1rem, 1.75 line height): Long-form Markdown favors reading density and uses normal case headings smaller than the portfolio headline hierarchy.
+- **Case-study Body** (300, 1rem, 1.75 line height): Long-form Markdown favors reading density and uses normal-case headings at 80% of the previous case-study heading scale, keeping every `h1`–`h6` below the portfolio headline hierarchy.
 - **Label** (500–600, 0.75rem–1.05rem): Navigation, search labels, project metadata, tags, and action language. Uppercase labels use deliberate tracking.
 
 Do not bold body copy to compensate for weak hierarchy. Use the appropriate semantic heading, spacing, or primary text color first. Long reading surfaces should remain around 58–72 characters where the layout supports it.
@@ -214,7 +214,7 @@ The spacing system is nonlinear and intentionally generous: 0, 0.45rem, 0.9rem, 
 
 ### Project composition
 
-The canonical page and drawer share a 900px details container. Action controls sit in a full-width row above it. The header is a two-column grid: date, title, and role on the left; external project links on the right. Summary and technology tags form a two-column row before the progressive Markdown and image gallery.
+The canonical page and drawer share a 1000px details container. Action controls sit in a full-width row above it. The header is a two-column grid: date, title, and role on the left; external project links on the right. Summary and technology tags form a two-column row before the progressive Markdown. Experience entries continue into a single-open initiative accordion after their overview.
 
 The drawer begins 10 dynamic viewport units below the safe-area top, fills the remaining viewport, and uses the sheet background. The canonical route uses the same content without the overlay. This shared composition is essential: opening a drawer and following a shared project URL should reveal the same project story.
 
@@ -231,7 +231,7 @@ At 750px and below:
 - project cards become a single column with media before copy and a 300px minimum media height;
 - project summary and tags stack;
 - details padding drops to the smallest spacing step;
-- gallery thumbnails shrink from 80px to 60px;
+- initiative headings stack their title and role while the disclosure control remains at least 44px tall;
 - error actions stack vertically and the error content moves toward the top.
 
 At 600px and below, the analytics notice stacks its copy and button, with the button aligned to the right. Coarse pointers replace the cat's drag hint with touch-specific instructions.
@@ -273,7 +273,7 @@ Rounding communicates one of three specific ideas:
 - **Compact control:** Search input, icon actions, code, images, and thumbnails use subtle radii from 0.375rem to 0.9rem to soften small hit targets or clipped media.
 - **Spatial sheet:** The drawer alone uses pronounced 20px top corners because it visibly rises from the bottom edge.
 
-Borders are normally one neutral pixel. The active gallery thumbnail uses two amber pixels. Error and secondary actions often use a bottom border instead of a containing box. Avoid pills; the system has no pill-shaped tags or actions.
+Borders are normally one neutral pixel. Open initiative controls use amber text rather than a heavier container. Error and secondary actions often use a bottom border instead of a containing box. Avoid pills; the system has no pill-shaped tags or actions.
 
 The generated project artwork is a rectangular frame containing organic blurred forms. It is visible only while the required thumbnail loads or after that image request fails.
 
@@ -321,9 +321,13 @@ The drawer enters from below with opacity and translation over 700ms and exits t
 
 ### Project details and Markdown
 
-The required 1200:630 artwork opens the project surface inside a shallow 4:1 desktop banner and a 3:2 mobile banner. `object-fit: cover` with centered positioning balances the crop across the top and bottom instead of anchoring it to one edge. The project header then uses italic date, heavy title, role, and compact icon links. Summary and technology tags establish context before long-form content. Markdown uses a 1rem reading size, 1.75 line height, mixed-case headings, amber links and list markers, sheet-backed blockquotes/code, bordered code blocks, and horizontally contained tables. Gallery images are centered and subtly rounded.
+The required 1200:630 artwork opens the project surface inside a shallow 4:1 desktop banner and a 3:2 mobile banner. `object-fit: cover` with centered positioning balances the crop across the top and bottom instead of anchoring it to one edge. The project header then uses italic date, heavy title, role, and compact icon links. Summary and technology tags establish context before long-form content. Markdown uses a 1rem reading size, 1.75 line height, a compact `h1`–`h6` scale reduced by 20%, amber links and list markers, sheet-backed blockquotes and code blocks, horizontally contained tables, and full-width inline evidence images with a 0.9rem radius.
 
-The content skeleton is a 72-character measure of neutral bars with a 1.4s shimmer. It is announced as a polite loading status and becomes static under reduced motion. Content failures replace only this region. The gallery uses a square main image and centered thumbnails; hover scales thumbnails to 1.05 and active/hover borders turn amber.
+The content skeleton is a long 72-character reading measure of neutral bars and two 3:2 media placeholders with a 1.4s opacity pulse. It is announced as a polite loading status and becomes static under reduced motion. One skeleton covers the overview and every initiative request; once it disappears, accordion interaction is immediate. Content failures replace only this region.
+
+### Initiative accordion
+
+Experience overviews end with the compact heading “Work I’m Proud Of” and a one-line explanation. Initiatives appear as full-width editorial disclosure rows rather than detached cards. Each row keeps its title, role, and summary visible; a CSS-drawn plus/minus marker and amber text communicate the open state. Expanded industry and tags repeat the main overview’s typographic hierarchy. Native buttons expose `aria-expanded` and control a labelled region. At most one initiative is open, and opening or closing never starts another request. Switching directly between initiatives scrolls the new disclosure heading below the fixed navigation so the reader starts at the top. The rows stay square and flat so the case-study evidence—not the control chrome—remains dominant.
 
 ### Error pages
 

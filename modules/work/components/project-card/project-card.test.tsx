@@ -3,15 +3,13 @@ import { fireEvent, projectFixture, render, screen } from '@/testing';
 import { ProjectCard } from './project-card.component';
 
 describe('ProjectCard', () => {
-  it('should render the required project thumbnail independently from gallery images', () => {
-    const project = { ...projectFixture, images: [] };
+  it('should render the required project thumbnail', () => {
+    render(<ProjectCard project={projectFixture} />);
 
-    render(<ProjectCard project={project} />);
-
-    expect(screen.getByRole('link')).toHaveAttribute('href', `/project/${project.id}`);
-    expect(screen.getByRole('img', { name: project.thumbnail.alt })).toHaveAttribute(
+    expect(screen.getByRole('link')).toHaveAttribute('href', `/project/${projectFixture.id}`);
+    expect(screen.getByRole('img', { name: projectFixture.thumbnail.alt })).toHaveAttribute(
       'src',
-      project.thumbnail.src,
+      projectFixture.thumbnail.src,
     );
   });
 

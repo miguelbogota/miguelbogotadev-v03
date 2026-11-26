@@ -1,9 +1,53 @@
 /** Image asset used by a portfolio project. */
-export type ProjectMedia = {
+type ProjectMedia = {
   /** Image file path or URL. */
   src: string;
   /** Accessible text describing the image. */
   alt: string;
+};
+
+/** External resource associated with a project or initiative. */
+type ProjectLink = {
+  /** Display text and accessible name for the link. */
+  label: string;
+  /** Boxicons class names for the external resource. */
+  icon: string;
+  /** URL to the external resource. */
+  url: string;
+};
+
+/** A focused body of work completed within a larger experience. */
+export type ProjectInitiative = {
+  /** Identifier matching the initiative Markdown filename. */
+  id: string;
+  /** User-facing initiative title. */
+  displayName: string;
+  /** Short preview shown before expanding the initiative. */
+  summary: string;
+  /** Position held while contributing to the initiative. */
+  role: string;
+  /** Initiative industry or product domain. */
+  industry: string;
+  /** Technologies and relevant keywords. */
+  tags: string[];
+  /** External resources specific to the initiative. */
+  links: ProjectLink[];
+};
+
+/** Markdown loaded for one initiative. */
+export type ProjectInitiativeContent = {
+  /** Initiative identifier matching published metadata. */
+  id: string;
+  /** Initiative Markdown without YAML frontmatter. */
+  markdown: string;
+};
+
+/** Complete long-form content loaded before project details are revealed. */
+export type ProjectContent = {
+  /** Main project or experience Markdown without YAML frontmatter. */
+  overview: string;
+  /** Preloaded initiative Markdown in published display order. */
+  initiatives: ProjectInitiativeContent[];
 };
 
 /**
@@ -21,8 +65,6 @@ export type Project = {
   isCurrent: boolean;
   /** Indicates if the project is archived. */
   isArchived: boolean;
-  /** Indicates if the project is an aggregate of multiple related projects. */
-  aggregate: boolean;
   /** Project title. */
   displayName: string;
   /** Brief overview of what the project does. */
@@ -35,19 +77,12 @@ export type Project = {
   industry: string;
   /** Technology stack and relevant keywords. */
   tags: string[];
-  /** Compact image used by project cards. */
+  /** Compact 3:2 image used by project cards. */
   thumbnail: ProjectMedia;
-  /** Wide project artwork used by social previews and the details banner. */
+  /** Wide 1200:630 artwork used by social previews and project details. */
   artwork: ProjectMedia;
-  /** Project showcase images. */
-  images: ProjectMedia[];
   /** External resources related to the project. */
-  links: {
-    /** Display text and accessible name for the link. */
-    label: string;
-    /** Boxicons class names for the external resource. */
-    icon: string;
-    /** URL to the external resource. */
-    url: string;
-  }[];
+  links: ProjectLink[];
+  /** Initiative previews loaded from the project's folder. */
+  initiatives: ProjectInitiative[];
 };

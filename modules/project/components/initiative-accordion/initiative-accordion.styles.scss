@@ -1,0 +1,203 @@
+.project-info > .initiative-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-0);
+  margin-top: calc(var(--space-4) * -1);
+
+  > .introduction {
+    max-width: 72ch;
+
+    > h2 {
+      margin: 0 0 var(--space-2);
+      color: var(--text-primary);
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      font-weight: 700;
+      line-height: 1.1;
+      text-wrap: balance;
+    }
+
+    > p {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: 1rem;
+      line-height: 1.6;
+      text-wrap: pretty;
+    }
+  }
+
+  > .items {
+    display: flex;
+    flex-direction: column;
+
+    > article {
+      & + article {
+        margin-top: var(--space-2);
+      }
+
+      > h3 {
+        margin: 0;
+
+        > button {
+          position: relative;
+          display: grid;
+          width: 100%;
+          min-height: 44px;
+          grid-template-columns: minmax(0, 1fr) var(--space-4);
+          gap: var(--space-2) var(--space-4);
+          padding: var(--space-3) 0;
+          scroll-margin-top: calc(var(--navigation-height) + var(--space-2));
+          color: var(--text-primary);
+          text-align: left;
+          cursor: pointer;
+          touch-action: manipulation;
+          transition: color 0.2s ease;
+
+          &:hover {
+            color: var(--primary);
+          }
+
+          > .heading {
+            display: flex;
+            min-width: 0;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: var(--space-3);
+
+            > span:first-child {
+              font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+              font-weight: 700;
+              line-height: 1.2;
+              text-wrap: balance;
+            }
+
+            > span:last-child {
+              flex: 0 0 auto;
+              color: var(--text-secondary);
+              font-size: 0.875rem;
+              font-weight: 500;
+            }
+          }
+
+          > .summary {
+            max-width: 72ch;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 300;
+            line-height: 1.6;
+            text-wrap: pretty;
+          }
+
+          > .indicator {
+            position: relative;
+            grid-column: 2;
+            grid-row: 1 / 3;
+            width: var(--space-3);
+            height: var(--space-3);
+            align-self: center;
+            justify-self: end;
+
+            &::before,
+            &::after {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              width: 14px;
+              height: 2px;
+              background-color: currentcolor;
+              content: '';
+              transition: transform 0.2s ease;
+              transform: translate(-50%, -50%);
+            }
+
+            &::after {
+              transform: translate(-50%, -50%) rotate(90deg);
+            }
+          }
+        }
+      }
+
+      &[data-open='true'] {
+        > h3 > button {
+          color: var(--primary);
+
+          > .indicator::after {
+            transform: translate(-50%, -50%) rotate(0deg);
+          }
+        }
+      }
+
+      > .panel {
+        padding: 0 0 var(--space-5);
+
+        > .metadata {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          > h4 {
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+          }
+
+          > .links {
+            > a {
+              display: inline-flex;
+              width: 44px;
+              height: 44px;
+              align-items: center;
+              justify-content: center;
+              color: var(--text-primary);
+              font-size: 1.4rem;
+              transition: color 0.2s ease;
+
+              &:hover {
+                color: var(--primary);
+              }
+            }
+          }
+        }
+
+        > .tags {
+          max-width: 72ch;
+          color: var(--text-secondary);
+          font-size: 0.875rem;
+          line-height: 1.5rem;
+          margin-bottom: var(--space-4);
+        }
+      }
+    }
+  }
+
+  @media (max-width: 750px) {
+    > .items > article {
+      > h3 > button {
+        grid-template-columns: minmax(0, 1fr) var(--space-3);
+        gap: var(--space-2);
+
+        > .heading {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: var(--space-1);
+
+          > span:last-child {
+            flex: auto;
+          }
+        }
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    > .items > article {
+      > h3 > button,
+      > h3 > button > .indicator::before,
+      > h3 > button > .indicator::after,
+      > .panel > .metadata > div > a {
+        transition: none;
+      }
+    }
+  }
+}

@@ -1,4 +1,7 @@
-import { projectService } from '@/modules/project/services/project.service';
+import {
+  getCachedProject,
+  projectService,
+} from '@/modules/project/services/project.service';
 import { RequestError } from '@/modules/shared';
 
 /** Route context containing the requested project identifier. */
@@ -7,11 +10,11 @@ type ProjectContentRouteContext = {
 };
 
 /**
- * Proxies progressive project Markdown without exposing the upstream endpoint to the browser.
+ * Proxies the complete project content bundle without exposing upstream endpoints.
  *
  * @param request - Incoming internal API request.
  * @param context - Route parameters supplied by Next.js.
- * @returns Markdown content or a sanitized JSON failure.
+ * @returns The preloaded project-content bundle or a sanitized JSON failure.
  */
 export async function GET(
   request: Request,
@@ -23,12 +26,10 @@ export async function GET(
   const { projectId } = await params;
 
   try {
-    const content = await projectService.getContent({ id: projectId });
+    const project = await getCachedProject(projectId);
+    const content = await projectService.getContent(project);
 
-    return new Response(content, {
-      status: 200,
-      headers: { 'Content-Type': 'text/markdown; charset=utf-8' },
-    });
+    return Response.json(content);
   } catch (error) {
     const code = error instanceof RequestError ? error.code : 500;
     const message =
