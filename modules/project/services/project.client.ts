@@ -4,19 +4,31 @@ import { RequestError } from '@/modules/shared';
 
 import { type Project, type ProjectContent } from '../types/project.type';
 
+/** Options controlling one browser project-content request. */
+type ProjectContentRequestOptions = {
+  signal?: AbortSignal;
+};
+
 /** Loads progressive project content through the internal application API. */
 class ProjectClient {
   /**
    * Loads project Markdown through the internal application API.
    *
    * @param project - Project reference containing the Markdown identifier.
+   * @param options - Optional browser request controls.
    * @returns The preloaded overview and initiative Markdown bundle.
    * @throws {RequestError} When the project content bundle cannot be loaded.
    */
-  async getContent(project: Pick<Project, 'id'>): Promise<ProjectContent> {
+  async getContent(
+    project: Pick<Project, 'id'>,
+    options?: ProjectContentRequestOptions,
+  ): Promise<ProjectContent> {
     try {
       const projectId = encodeURIComponent(project.id);
-      const response = await fetch(`/api/project/${projectId}/content`);
+      const contentUrl = `/api/project/${projectId}/content`;
+      const response = options?.signal
+        ? await fetch(contentUrl, { signal: options.signal })
+        : await fetch(contentUrl);
 
       if (response.status === 404) {
         throw new RequestError({

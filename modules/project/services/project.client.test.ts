@@ -32,6 +32,18 @@ describe('projects / client service', () => {
     expect(fetch).toHaveBeenCalledWith('/api/project/project%2Fwith%20spaces/content');
   });
 
+  it('should pass a cancellation signal to the project-content request', async () => {
+    const controller = new AbortController();
+
+    vi.mocked(fetch).mockResolvedValue(Response.json({ overview: '# Project', initiatives: [] }));
+
+    await projectClient.getContent(projectFixture, { signal: controller.signal });
+
+    expect(fetch).toHaveBeenCalledWith(`/api/project/${projectFixture.id}/content`, {
+      signal: controller.signal,
+    });
+  });
+
   it('should reject with a not-found request error when Markdown is missing', async () => {
     vi.mocked(fetch).mockResolvedValue(new Response(null, { status: 404 }));
 

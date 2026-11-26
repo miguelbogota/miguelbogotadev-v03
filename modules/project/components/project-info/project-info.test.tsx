@@ -129,11 +129,14 @@ describe('ProjectInfo', () => {
 
     render(<ProjectInfo project={mockProject} />);
 
-    expect(getProjectContentMock).toHaveBeenCalledWith({ id: mockProject.id });
     await act(async () => {
       await getProjectContentMock.mock.results[0]?.value;
     });
 
+    expect(getProjectContentMock).toHaveBeenCalledWith(
+      { id: mockProject.id },
+      { signal: expect.any(AbortSignal) },
+    );
     expect(screen.getByRole('heading', { name: 'Architecture' })).toBeInTheDocument();
     expect(screen.getByText('server-driven UI')).toHaveProperty('tagName', 'STRONG');
     expect(screen.getByText('Go backend')).toBeInTheDocument();

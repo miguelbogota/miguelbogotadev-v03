@@ -44,9 +44,11 @@ class ProjectService {
    * @returns The complete long-form project content bundle.
    * @throws {RequestError} When any required Markdown document cannot be loaded.
    */
-  async getContent(project: Pick<Project, 'id' | 'initiatives'>): Promise<ProjectContent> {
-    const { id, initiatives } = project;
-    const overviewPath = initiatives.length > 0 ? [id, 'overview'] : [id];
+  async getContent(
+    project: Pick<Project, 'id' | 'contentLayout' | 'initiatives'>,
+  ): Promise<ProjectContent> {
+    const { id, contentLayout, initiatives } = project;
+    const overviewPath = contentLayout === 'overview' ? [id, 'overview'] : [id];
     const markdownRequests = [
       this.getMarkdown({ projectId: id, contentPath: overviewPath }),
       ...initiatives.map((initiative) =>
@@ -71,10 +73,7 @@ class ProjectService {
    * @returns Markdown without frontmatter.
    * @throws {RequestError} When the Markdown document cannot be loaded.
    */
-  private async getMarkdown(input: {
-    projectId: string;
-    contentPath: string[];
-  }): Promise<string> {
+  private async getMarkdown(input: { projectId: string; contentPath: string[] }): Promise<string> {
     const { projectId, contentPath } = input;
 
     try {

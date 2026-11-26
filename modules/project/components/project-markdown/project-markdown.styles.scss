@@ -24,7 +24,7 @@
 
   h1 {
     margin: var(--space-4) 0 var(--space-2);
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     line-height: 1.2;
 
     &:first-child {
@@ -34,7 +34,7 @@
 
   h2 {
     margin: var(--space-4) 0 var(--space-2);
-    font-size: clamp(1.3rem, 2.3vw, 1.36rem);
+    font-size: clamp(1.25rem, 2.3vw, 1.36rem);
     line-height: 1.25;
 
     &:first-child {
@@ -44,19 +44,19 @@
 
   h3 {
     margin: var(--space-3) 0 var(--space-1);
-    font-size: clamp(1.4rem, 1.5vw, 0.96rem);
+    font-size: clamp(1.18rem, 1.5vw, 0.96rem);
     line-height: 1.35;
   }
 
   h4 {
     margin: var(--space-2) 0 var(--space-1);
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     line-height: 1.45;
   }
 
   h5 {
     margin: var(--space-2) 0 var(--space-1);
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     line-height: 1.45;
   }
 
@@ -69,7 +69,7 @@
   &[data-heading-offset='2'] {
     h4 {
       margin: var(--space-4) 0 var(--space-2);
-      font-size: clamp(1.3rem, 2.3vw, 1.36rem);
+      font-size: clamp(1.1rem, 2.3vw, 1.36rem);
       line-height: 1.25;
 
       &:first-child {
@@ -79,7 +79,7 @@
 
     h5 {
       margin: var(--space-3) 0 var(--space-1);
-      font-size: clamp(1.1rem, 1.5vw, 0.96rem);
+      font-size: clamp(1.05rem, 1.5vw, 0.96rem);
       line-height: 1.35;
     }
 

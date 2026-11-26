@@ -2,14 +2,14 @@
 
 import './project-info.styles.scss';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { analyticsService } from '@/modules/analytics';
 import { seoService } from '@/modules/seo';
-import { Container, Footer, RequestError, SITE_NAME } from '@/modules/shared';
+import { Container, Footer, SITE_NAME } from '@/modules/shared';
 
-import { projectClient } from '../../services/project.client';
-import { type Project, type ProjectContent } from '../../types/project.type';
+import { useProjectContent } from '../../hooks/use-project-content';
+import { type Project } from '../../types/project.type';
 import { InitiativeAccordion } from '../initiative-accordion';
 import { ProjectMarkdown } from '../project-markdown';
 
@@ -71,11 +71,9 @@ export type ProjectInfoProps = {
  */
 export function ProjectInfo(props: ProjectInfoProps) {
   const { project, backButton, closeButton, manageDocumentTitle = true } = props;
-  const { id, displayName, summary, industry, startedAt, role, tags, artwork, links, initiatives } =
+  const { displayName, summary, industry, startedAt, role, tags, artwork, links, initiatives } =
     project;
-  const [content, setContent] = useState<ProjectContent | null>(null);
-  const [contentError, setContentError] = useState<RequestError | null>(null);
-  const [isLoadingContent, setIsLoadingContent] = useState(true);
+  const { content, contentError, isLoadingContent } = useProjectContent(project);
 
   // Set document title when component mounts and clean up on unmount.
   useEffect(() => {
@@ -88,44 +86,6 @@ export function ProjectInfo(props: ProjectInfoProps) {
       document.title = SITE_NAME;
     };
   }, [project, manageDocumentTitle]);
-
-  // Project metadata is rendered immediately; the long-form content is always loaded in-browser.
-  useEffect(() => {
-    let isCurrent = true;
-
-    setContent(null);
-    setContentError(null);
-    setIsLoadingContent(true);
-
-    projectClient
-      .getContent({ id })
-      .then((markdown) => {
-        if (isCurrent) {
-          setContent(markdown);
-        }
-      })
-      .catch((error: unknown) => {
-        if (!isCurrent) {
-          return;
-        }
-
-        setContentError(
-          error instanceof RequestError
-            ? error
-            : new RequestError({ code: 500, message: 'Project details could not be loaded.' }),
-        );
-        analyticsService.trackException('project_content');
-      })
-      .finally(() => {
-        if (isCurrent) {
-          setIsLoadingContent(false);
-        }
-      });
-
-    return () => {
-      isCurrent = false;
-    };
-  }, [id]);
 
   return (
     <div>

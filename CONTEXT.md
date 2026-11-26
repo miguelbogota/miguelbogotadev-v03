@@ -133,9 +133,11 @@ ProjectInfo
   -> ProjectInfo reveals the overview and initiative accordion together
 ```
 
-Standalone projects load `/projects/{id}.md`. Experiences load `/projects/{id}/overview.md` and every `/projects/{id}/{initiativeId}.md` document concurrently. The browser sees only the internal API route, not upstream URL construction or raw upstream errors. The internal route maps missing content to a sanitized `404` message and all other failures to a sanitized unavailable response. Raw HTML is not enabled in `react-markdown`.
+Projects with `contentLayout: 'standalone'` load `/projects/{id}.md`. Projects with `contentLayout: 'overview'` load `/projects/{id}/overview.md`, even when their initiative collection is empty, and load every `/projects/{id}/{initiativeId}.md` document concurrently when initiatives exist. The browser sees only the internal API route, not upstream URL construction or raw upstream errors. The internal route maps missing content to a sanitized `404` message and all other failures to a sanitized unavailable response. Raw HTML is not enabled in `react-markdown`.
 
 `ProjectInfo` resets its content state when the project ID changes. One long-form skeleton, including media placeholders, remains visible until the overview and every initiative body have loaded; accordion interaction never starts another request or loading state. The accordion keeps at most one initiative open. When a visitor switches directly between open initiatives, the newly opened heading moves below the fixed navigation so reading resumes from its beginning. Missing and temporary failures use different, short user-facing messages. This local progressive state is distinct from a Next.js route `loading.tsx` boundary.
+
+`useProjectContent` owns that progressive browser state. It passes an `AbortSignal` through `projectClient`, cancels the request when the project changes or the details component unmounts, and ignores cancellation as a normal lifecycle event rather than reporting it as a content failure.
 
 ## Navigation and state
 

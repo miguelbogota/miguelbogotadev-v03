@@ -17,6 +17,7 @@ export const projectFixture: Project = {
   endedAt: null,
   isCurrent: true,
   isArchived: false,
+  contentLayout: 'overview',
   displayName: 'Portfolio Project',
   summary: 'A representative portfolio project used by tests.',
   role: 'Software Engineer',

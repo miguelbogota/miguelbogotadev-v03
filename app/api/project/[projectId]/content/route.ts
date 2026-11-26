@@ -1,7 +1,4 @@
-import {
-  getCachedProject,
-  projectService,
-} from '@/modules/project/services/project.service';
+import { getCachedProject, projectService } from '@/modules/project/services/project.service';
 import { RequestError } from '@/modules/shared';
 
 /** Route context containing the requested project identifier. */

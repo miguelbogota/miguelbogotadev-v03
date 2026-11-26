@@ -5,11 +5,13 @@ Owns the portfolio project domain, project-index access, and browser Markdown lo
 ## Interface
 
 - `Project` is the single project data shape used throughout the application.
+- `contentLayout` identifies whether Markdown is published as a standalone file or from an `overview.md` folder, independently from initiative count.
 - `thumbnail` is the required 3:2 project-card image and `artwork` is the required 1200:630 details and social image.
 - `initiatives` contains metadata previews for focused case studies within one professional experience.
 - `getCachedProjects()` returns the published index through the named Next.js cache profile.
 - `getCachedProject(id)` returns one cached project and throws `RequestError` when it is not published.
 - `projectClient.getContent(project)` loads one sanitized overview-and-initiatives bundle through the internal browser API.
+- `useProjectContent(project)` owns progressive loading state and aborts obsolete requests when the project changes or unmounts.
 
 ```ts
 import { projectClient } from '@/modules/project/services/project.client';
@@ -18,7 +20,7 @@ import { getCachedProject } from '@/modules/project/services/project.service';
 
 ## Behavior
 
-Server project-index access and browser Markdown loading use separate boundaries. `projectService` performs upstream requests, while `getCachedProjects()` owns the 15-minute Next.js cache profile and is shared by the home and canonical project routes. `projectClient` is marked as client code and requests content only through `app/api/project/[projectId]/content`. The internal route resolves project metadata, loads the overview and every initiative concurrently, sanitizes failures, and keeps upstream content URLs out of the browser bundle. Request failures use the shared `RequestError`; the upstream API base URL remains a server implementation detail.
+Server project-index access and browser Markdown loading use separate boundaries. `projectService` performs upstream requests, while `getCachedProjects()` owns the 15-minute Next.js cache profile and is shared by the home and canonical project routes. `projectClient` is marked as client code and requests content only through `app/api/project/[projectId]/content`. `useProjectContent` owns the browser request lifecycle, resets progressive state for a new project, and passes an `AbortSignal` so obsolete work is cancelled. The internal route resolves project metadata, uses `contentLayout` to select either the standalone Markdown file or `overview.md`, loads every initiative concurrently, sanitizes failures, and keeps upstream content URLs out of the browser bundle. Request failures use the shared `RequestError`; the upstream API base URL remains a server implementation detail.
 
 ## Files
 
@@ -27,6 +29,7 @@ Server project-index access and browser Markdown loading use separate boundaries
 - `components/initiative-accordion/*`: accessible single-open disclosure list for fully loaded initiative case studies.
 - `components/project-info/*`: shared drawer and canonical-route project presentation.
 - `components/project-markdown/*`: safe shared Markdown rendering and inline image defaults.
+- `hooks/use-project-content/*`: local export, progressive project-content state, and stale-request cancellation coverage.
 - `services/project.client.ts`: browser-only access to the internal project-content API.
 - `services/project.client.test.ts`: client request and failure-mapping tests.
 - `services/project.service.ts`: server project-index instance and shared cached lookup functions.

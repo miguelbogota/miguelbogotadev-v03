@@ -65,6 +65,8 @@ export type Project = {
   isCurrent: boolean;
   /** Indicates if the project is archived. */
   isArchived: boolean;
+  /** Published Markdown layout derived from the API source structure. */
+  contentLayout: 'standalone' | 'overview';
   /** Project title. */
   displayName: string;
   /** Brief overview of what the project does. */

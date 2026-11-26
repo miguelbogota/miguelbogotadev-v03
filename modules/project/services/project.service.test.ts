@@ -88,9 +88,23 @@ describe('projects / server service', () => {
   it('should encode the project id in the upstream Markdown URL', async () => {
     vi.mocked(fetch).mockResolvedValue(new Response('# Project'));
 
-    await projectService.getContent({ id: 'project/with spaces', initiatives: [] });
+    await projectService.getContent({
+      id: 'project/with spaces',
+      contentLayout: 'standalone',
+      initiatives: [],
+    });
 
     expect(fetch).toHaveBeenCalledWith(expect.stringContaining('project%2Fwith%20spaces.md'));
+  });
+
+  it('should load an overview-only experience from its folder', async () => {
+    const experience = { id: 'on-watch-us', contentLayout: 'overview' as const, initiatives: [] };
+
+    vi.mocked(fetch).mockResolvedValue(new Response('# Experience'));
+
+    await projectService.getContent(experience);
+
+    expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/on-watch-us/overview.md'));
   });
 
   it('should reject when upstream Markdown is missing', async () => {
