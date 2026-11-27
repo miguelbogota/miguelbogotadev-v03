@@ -37,14 +37,11 @@ export function InitiativeAccordion(props: InitiativeAccordionProps) {
   const sectionId = useId();
   const [openInitiativeId, setOpenInitiativeId] = useState<string | null>(null);
   const initiativeButtons = useRef(new Map<string, HTMLButtonElement>());
-  const shouldReposition = useRef(false);
 
   useEffect(() => {
-    if (!openInitiativeId || !shouldReposition.current) {
+    if (!openInitiativeId) {
       return;
     }
-
-    shouldReposition.current = false;
 
     const button = initiativeButtons.current.get(openInitiativeId);
 
@@ -63,8 +60,6 @@ export function InitiativeAccordion(props: InitiativeAccordionProps) {
 
   const handleToggle = (initiativeId: string) => {
     const isOpen = openInitiativeId === initiativeId;
-
-    shouldReposition.current = openInitiativeId !== null && !isOpen;
 
     setOpenInitiativeId(isOpen ? null : initiativeId);
   };
